@@ -1,0 +1,49 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
+
+    defaultConfig {
+        applicationId "com.brianegan.betterreads"
+        minSdkVersion 15
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+    }
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+        test.java.srcDirs += 'src/test/kotlin'
+    }
+}
+
+repositories {
+    mavenLocal()
+}
+
+buildscript {
+    ext.kotlin_version = '1.0.0-beta-3594'
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+dependencies {
+    kapt 'com.squareup.dagger:dagger-compiler:1.2.2'
+    compile project(":rx-redux")
+
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.assertj:assertj-core:1.7.1'
+    compile 'co.trikita:anvil-sdk15:+'
+    compile 'com.squareup.dagger:dagger:1.2.2'
+    compile 'io.reactivex:rxjava:1.0.16'
+    compile 'io.reactivex:rxandroid:1.0.1'
+    compile 'com.android.support:design:23.1.1'
+}
+
