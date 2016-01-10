@@ -12,22 +12,28 @@ import rx.subscriptions.Subscriptions
 import trikita.anvil.Anvil
 import trikita.anvil.DSL.*
 import trikita.anvil.RenderableView
+import java.util.*
 
 public class RootView(c: Context, val store: Store<ApplicationState, Action>) : RenderableView(c) {
     override fun view() {
-        template(buildPresentationModel())
+        linearLayout {
+            orientation(LinearLayout.VERTICAL)
+
+            store.getState().counters.keys.forEach { id ->
+                template(buildPresentationModel(id))
+            }
+        }
     }
 
-    val increment = View.OnClickListener {
-        store.dispatch(CounterActions.INCREMENT)
-    }
+    private fun buildPresentationModel(id: UUID): ViewModel {
+        val counter = store.getState().counters[id]!!
+        val increment = View.OnClickListener {
+            store.dispatch(INCREMENT(id))
+        }
 
-    val decrement = View.OnClickListener {
-        store.dispatch(CounterActions.DECREMENT)
-    }
-
-    private fun buildPresentationModel(): ViewModel {
-        val counter = store.getState().counter
+        val decrement = View.OnClickListener {
+            store.dispatch(DECREMENT(id))
+        }
 
         return ViewModel(counter, increment, decrement)
     }

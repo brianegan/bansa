@@ -1,1 +1,3 @@
-include ':examples:counter', 'rx-redux'
+include 'rx-redux'
+include ':examples:counter'
+include ':examples:counterPair'
