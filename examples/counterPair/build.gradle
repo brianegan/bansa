@@ -37,8 +37,6 @@ dependencies {
 
     compile project(":rx-redux")
 
-    compile "org.functionaljava:functionaljava:4.4"
-
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile 'co.trikita:anvil-sdk15:+'
     compile 'com.squareup.dagger:dagger:1.2.2'
