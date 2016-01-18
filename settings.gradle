@@ -1,3 +1,5 @@
 include 'rx-redux'
 include ':examples:counter'
 include ':examples:counterPair'
+include ':examples:listOfCounters'
+include ':examples:listOfCountersVariant'

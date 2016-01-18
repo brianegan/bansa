@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">Redux Counter Example</string>
+    <string name="app_name">Pair of Counters Example</string>
     <string name="title_activity_main">MainActivity</string>
 </resources>

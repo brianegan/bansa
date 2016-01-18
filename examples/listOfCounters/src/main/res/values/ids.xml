@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="counter_text" type="id" />
+    <item name="counter_increment" type="id" />
+    <item name="counter_decrement" type="id" />
+</resources>

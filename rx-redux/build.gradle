@@ -2,22 +2,26 @@ apply plugin: 'java'
 apply plugin: 'kotlin'
 
 repositories {
-    mavenCentral()
+  mavenCentral()
+  maven {
+    url "http://repository.jetbrains.com/all"
+  }
 }
 
 buildscript {
-    ext.kotlin_version = '1.0.0-beta-3594'
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-    }
+  ext.kotlin_version = '1.0.0-beta-4584'
+  repositories {
+    mavenCentral()
+  }
+  dependencies {
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+  }
 }
 
 dependencies {
-    compile 'io.reactivex:rxjava:1.0.16'
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+  compile 'io.reactivex:rxjava:1.0.16'
+  compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
-    testCompile 'junit:junit:4.12'
+  testCompile "org.jetbrains.spek:spek:0.1.188"
+  testCompile 'org.assertj:assertj-core:1.7.1'
 }
