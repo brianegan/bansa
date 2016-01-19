@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">List of Counters Variant</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="counter_value">County: %s</string>
+    <string name="increment">+</string>
+    <string name="decrement">-</string>
+    <string name="remove_counter">remove</string>
 </resources>

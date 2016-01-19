@@ -6,7 +6,7 @@ android {
   buildToolsVersion '23.0.2'
 
   defaultConfig {
-    applicationId "com.brianegan.listOfCountersVariant"
+    applicationId "com.brianegan.rxredux.listOfCountersVariant"
     minSdkVersion 15
     targetSdkVersion 23
     versionCode 1
@@ -53,7 +53,6 @@ dependencies {
   compile 'com.jakewharton.rxbinding:rxbinding:0.3.0'
   compile 'com.jakewharton.rxbinding:rxbinding-support-v4:0.3.0'
 
-  testCompile 'junit:junit:4.12'
   testCompile 'org.assertj:assertj-core:1.7.0'
   testCompile "org.functionaljava:functionaljava-quickcheck:4.4"
   testCompile "org.jetbrains.spek:spek:0.1.188"

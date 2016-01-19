@@ -6,7 +6,7 @@ android {
     buildToolsVersion '23.0.2'
 
     defaultConfig {
-        applicationId "com.brianegan.listOfCounters"
+        applicationId "com.brianegan.rxredux.listOfCounters"
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 1
@@ -20,10 +20,13 @@ android {
 
 repositories {
     mavenCentral()
+    maven {
+        url "http://repository.jetbrains.com/all"
+    }
 }
 
 buildscript {
-    ext.kotlin_version = '1.0.0-beta-3594'
+    ext.kotlin_version = '1.0.0-beta-4584'
     repositories {
         mavenCentral()
     }
@@ -47,8 +50,7 @@ dependencies {
     compile 'com.jakewharton.rxbinding:rxbinding:0.3.0'
     compile 'com.jakewharton.rxbinding:rxbinding-support-v4:0.3.0'
 
-    testCompile 'junit:junit:4.12'
+    testCompile "org.jetbrains.spek:spek:0.1.188"
     testCompile 'org.assertj:assertj-core:1.7.0'
-    testCompile "org.functionaljava:functionaljava-quickcheck:4.4"
 }
 
