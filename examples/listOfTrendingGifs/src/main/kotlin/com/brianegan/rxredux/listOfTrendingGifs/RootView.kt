@@ -25,7 +25,7 @@ public class RootView(c: Context, val store: Store<ApplicationState, Action>) : 
     val identity = { it: Gif -> it }
 
     val adapter: ReduxAdapter<Gif, Gif> = ReduxAdapter(
-            listOf(),
+            store.getState().gifs,
             identity,
             RenderableAdapter.Item { i, vm -> gifView(vm) }
     )

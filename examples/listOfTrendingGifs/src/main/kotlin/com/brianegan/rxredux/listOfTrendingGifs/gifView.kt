@@ -2,11 +2,11 @@ package com.brianegan.rxredux.listOfCounters
 
 import android.content.Context
 import android.graphics.Point
-import android.net.Uri
 import android.view.View
 import android.view.WindowManager
-import android.widget.VideoView
 import com.brianegan.rxredux.listOfTrendingGifs.Gif
+import com.brianegan.rxredux.listOfTrendingGifs.LoadImage.loadImage
+import com.brianegan.rxredux.listOfTrendingGifs.R
 import trikita.anvil.Anvil
 import trikita.anvil.DSL.*
 
@@ -19,15 +19,10 @@ fun gifView(model: Gif) {
         size(deviceMetrics.x, height.toFloat().times(widthRatio).toInt())
         margin(0, 0, 0, dip(20))
 
-        videoView {
-            size(FILL, WRAP)
-            Anvil.currentView<VideoView>().stopPlayback()
-            videoURI(Uri.parse(videoUrl))
-
-            onPrepared {
-                it.start()
-                it.isLooping = true
-            }
+        imageView {
+            size(dip(500), dip(500))
+            loadImage(videoUrl)
+            backgroundColor(R.color.abc_primary_text_material_dark)
         }
     }
 }
