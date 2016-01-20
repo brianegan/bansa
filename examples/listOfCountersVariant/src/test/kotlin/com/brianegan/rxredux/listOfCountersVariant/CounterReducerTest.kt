@@ -2,7 +2,6 @@ package com.brianegan.rxredux.listOfCountersVariant
 
 import com.brianegan.RxRedux.Store
 import com.brianegan.RxRedux.createStore
-import com.github.andrewoma.dexx.kollection.immutableListOf
 import org.assertj.core.api.Assertions.assertThat
 import org.jetbrains.spek.api.Spek
 import rx.schedulers.Schedulers
@@ -23,7 +22,7 @@ class CounterListVariantReducerTest: Spek() { init {
 
     given("an app with one counter") {
         val counter = Counter(value = 0)
-        val initialState = ApplicationState(immutableListOf(counter))
+        val initialState = ApplicationState(listOf(counter))
         val store = createTestStore(initialState)
 
         on("app firing the increment action on a counter") {
@@ -37,7 +36,7 @@ class CounterListVariantReducerTest: Spek() { init {
 
     given("an app with one counter") {
         val counter = Counter(value = 0)
-        val initialState = ApplicationState(immutableListOf(counter))
+        val initialState = ApplicationState(listOf(counter))
         val store = createTestStore(initialState)
 
         on("app firing the decrement action on a counter") {
@@ -54,7 +53,7 @@ class CounterListVariantReducerTest: Spek() { init {
         val counter2 = Counter()
         val counter3 = Counter()
         val initialState = ApplicationState(
-                immutableListOf(counter1, counter2, counter3))
+                listOf(counter1, counter2, counter3))
         val store = createTestStore(initialState)
 
         on("app firing the add counter action") {
@@ -73,7 +72,7 @@ class CounterListVariantReducerTest: Spek() { init {
         val counter2 = Counter()
         val counter3 = Counter()
         val initialState = ApplicationState(
-                immutableListOf(counter1, counter2, counter3))
+                listOf(counter1, counter2, counter3))
         val store = createTestStore(initialState)
 
         on("app firing the remove counter action") {

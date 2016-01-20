@@ -1,10 +1,9 @@
 package com.brianegan.rxredux.listOfCountersVariant
 
-import com.github.andrewoma.dexx.kollection.immutableListOf
 import trikita.anvil.RenderableAdapter
 
 class ReduxAdapter<M, VM>(val mapModelToViewModel: (M) -> VM, val r: (VM) -> Unit) : RenderableAdapter() {
-    var models: List<M> = immutableListOf()
+    var models: List<M> = listOf()
 
     override fun getCount(): Int {
         return models.size

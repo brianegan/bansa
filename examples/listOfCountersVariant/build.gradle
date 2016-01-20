@@ -43,9 +43,8 @@ dependencies {
   compile 'com.facebook.rebound:rebound:0.3.8'
   compile 'com.tumblr:backboard:0.1.0'
 
-  compile 'com.github.andrewoma.dexx:kollection:0.3.1'
   compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-  compile 'co.trikita:anvil-sdk15:+'
+  compile 'co.trikita:anvil-sdk15:0.2.0'
   compile 'com.squareup.dagger:dagger:1.2.2'
   compile 'io.reactivex:rxjava:1.0.16'
   compile 'io.reactivex:rxandroid:1.0.1'
@@ -53,8 +52,7 @@ dependencies {
   compile 'com.jakewharton.rxbinding:rxbinding:0.3.0'
   compile 'com.jakewharton.rxbinding:rxbinding-support-v4:0.3.0'
 
-  testCompile 'org.assertj:assertj-core:1.7.0'
-  testCompile "org.functionaljava:functionaljava-quickcheck:4.4"
+  testCompile 'org.assertj:assertj-core:1.7.1'
   testCompile "org.jetbrains.spek:spek:0.1.188"
 }
 

@@ -5,7 +5,6 @@ import android.view.View
 import android.widget.LinearLayout
 import com.brianegan.RxRedux.Action
 import com.brianegan.RxRedux.Store
-import com.github.andrewoma.dexx.kollection.immutableListOf
 import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
 import rx.functions.Action1
@@ -23,7 +22,7 @@ public class RootView(c: Context, val store: Store<ApplicationState, Action>) : 
     val mapCounterToViewModel = buildMapCounterToCounterViewModel(store)
 
     val adapter: ReduxAdapter<Counter, CounterViewModel> = ReduxAdapter(
-            immutableListOf(),
+            listOf(),
             mapCounterToViewModel,
             RenderableAdapter.Item { i, vm -> counterView(vm) }
     )
