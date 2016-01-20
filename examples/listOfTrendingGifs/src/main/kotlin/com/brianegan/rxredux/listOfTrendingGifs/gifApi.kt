@@ -29,7 +29,7 @@ data class TrendingGifs(val gifs: List<Gif>, val pagination: NextPage)
 data class ApiTrendingGifs(val data: List<ApiGif>, val pagination: NextPage)
 data class ApiGif(val images: ApiGifSizes)
 data class ApiGifSizes(val original: ApiGifLinks)
-data class ApiGifLinks(val mp4: String)
+data class ApiGifLinks(val mp4: String, val width: Int, val height: Int)
 data class NextPage(val count: Int, val offset: Int)
 
 val toTrendingGifs = Func1<Response, TrendingGifs> {
@@ -42,7 +42,8 @@ val toTrendingGifs = Func1<Response, TrendingGifs> {
 
 fun toGifs(apiGifs: List<ApiGif>): List<Gif> {
     return apiGifs.map {
-        Gif(it.images.original.mp4)
+        val original = it.images.original
+        Gif(original.mp4, original.width, original.height)
     }
 }
 

@@ -10,4 +10,4 @@ data class ApplicationState(val isFetching: Boolean = true,
                             val currentRequest: Subscription = Subscriptions.empty(),
                             val nextPageRequest: Request = Request.Builder().url("http://www.google.com").build()) : State
 
-data class Gif(val videoUrl: String = "")
+data class Gif(val videoUrl: String = "", val width: Int = 0, val height: Int = 0)
