@@ -1,27 +1,48 @@
 package com.brianegan.rxredux.listOfCounters
 
-import android.net.Uri
-import android.widget.VideoView
+import android.graphics.SurfaceTexture
+import android.media.AudioManager
+import android.media.MediaPlayer
+import android.view.Surface
+import android.view.TextureView
 import com.brianegan.rxredux.listOfTrendingGifs.Gif
-import trikita.anvil.Anvil
-import trikita.anvil.DSL.*
+import com.brianegan.rxredux.listOfTrendingGifs.view.attrs.embedVideo
 
 fun gifView(model: Gif) {
     val (videoUrl) = model
 
-    relativeLayout {
-        size(FILL, dip(1000))
+    println(model)
 
-        videoView {
-            val videoView = Anvil.currentView() as VideoView
-            size(FILL, WRAP)
-            videoView.stopPlayback()
-            videoURI(Uri.parse(videoUrl))
+    textureView {
+        size(FILL, dip(300))
+        margin(0, 0, 0, dip(20))
+        embedVideo(videoUrl)
+    }
+}
 
-            onPrepared {
-                it.start()
-                it.isLooping = true
-            }
+fun getListener(url : String): TextureView.SurfaceTextureListener {
+    return object : TextureView.SurfaceTextureListener {
+        override fun onSurfaceTextureUpdated(surface: SurfaceTexture?) {
+        }
+
+        override fun onSurfaceTextureSizeChanged(surface: SurfaceTexture?, width: Int, height: Int) {
+        }
+
+        override fun onSurfaceTextureDestroyed(surface: SurfaceTexture?): Boolean {
+            println("Surface Texture Destroyed")
+            return false
+        }
+
+        override fun onSurfaceTextureAvailable(surface: SurfaceTexture?, width: Int, height: Int) {
+            val s = Surface(surface);
+            val mediaPlayer = MediaPlayer()
+
+            mediaPlayer.setDataSource(url)
+            mediaPlayer.setSurface(s)
+            mediaPlayer.prepare()
+            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC)
+            mediaPlayer.isLooping = true
+            mediaPlayer.start()
         }
     }
 }
