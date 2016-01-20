@@ -7,7 +7,7 @@ import okhttp3.Response
 import rx.Observable
 import rx.functions.Func1
 
-fun fetchTrendingGifs(): Observable<TrendingGifs> {
+fun fetchTrendingGifs(offset: Int = 0, count: Int = 25): Observable<TrendingGifs> {
     val url = HttpUrl.Builder()
             .scheme("http")
             .host("api.giphy.com")
@@ -15,6 +15,8 @@ fun fetchTrendingGifs(): Observable<TrendingGifs> {
             .addPathSegment("gifs")
             .addPathSegment("trending")
             .addQueryParameter("api_key", "dc6zaTOxFJmzC")
+            .addQueryParameter("offset", offset.toString())
+            .addQueryParameter("count", count.toString())
             .build()
 
     val request = Request.Builder()
@@ -28,9 +30,9 @@ fun fetchTrendingGifs(): Observable<TrendingGifs> {
 data class TrendingGifs(val gifs: List<Gif>, val pagination: NextPage)
 data class ApiTrendingGifs(val data: List<ApiGif>, val pagination: NextPage)
 data class ApiGif(val images: ApiGifSizes)
-data class ApiGifSizes(val original: ApiGifLinks)
-data class ApiGifLinks(val mp4: String, val width: Int, val height: Int)
-data class NextPage(val count: Int, val offset: Int)
+data class ApiGifSizes(val original_still: ApiGifLinks)
+data class ApiGifLinks(val url: String, val width: Int, val height: Int)
+data class NextPage(val count: Int = 25, val offset: Int = 0)
 
 val toTrendingGifs = Func1<Response, TrendingGifs> {
     val moshi = Moshi.Builder().build()
@@ -42,8 +44,8 @@ val toTrendingGifs = Func1<Response, TrendingGifs> {
 
 fun toGifs(apiGifs: List<ApiGif>): List<Gif> {
     return apiGifs.map {
-        val original = it.images.original
-        Gif(original.mp4, original.width, original.height)
+        val original = it.images.original_still
+        Gif(original.url, original.width, original.height)
     }
 }
 

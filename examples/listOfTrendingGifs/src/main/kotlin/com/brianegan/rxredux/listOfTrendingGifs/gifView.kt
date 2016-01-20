@@ -6,12 +6,11 @@ import android.view.View
 import android.view.WindowManager
 import com.brianegan.rxredux.listOfTrendingGifs.Gif
 import com.brianegan.rxredux.listOfTrendingGifs.LoadImage.loadImage
-import com.brianegan.rxredux.listOfTrendingGifs.R
 import trikita.anvil.Anvil
 import trikita.anvil.DSL.*
 
 fun gifView(model: Gif) {
-    val (videoUrl, width, height) = model
+    val (url, width, height) = model
     val deviceMetrics = measureDevice(Anvil.currentView<View>().context)
     val widthRatio = deviceMetrics.x.toFloat().div(width)
 
@@ -21,8 +20,7 @@ fun gifView(model: Gif) {
 
         imageView {
             size(dip(500), dip(500))
-            loadImage(videoUrl)
-            backgroundColor(R.color.abc_primary_text_material_dark)
+            loadImage(url)
         }
     }
 }

@@ -2,7 +2,7 @@ package com.brianegan.rxredux.listOfTrendingGifs;
 
 import static trikita.anvil.BaseDSL.attr;
 
-import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 import trikita.anvil.Anvil;
 
 import android.view.View;
@@ -15,11 +15,12 @@ public class LoadImage {
 
     private final static class LoadImageFunc implements Anvil.AttrFunc<String> {
         private final static LoadImageFunc instance = new LoadImageFunc();
-        public void apply(View v, String newUrl, String oldUrl) {
-            if (v instanceof ImageView && !newUrl.equals(oldUrl)) {
-                Glide.with(v.getContext())
+
+        public void apply(View view, String newUrl, String oldUrl) {
+            if (view instanceof ImageView && !newUrl.equals(oldUrl)) {
+                Picasso.with(view.getContext())
                         .load(newUrl)
-                        .into((ImageView) v);
+                        .into((ImageView) view);
             }
         }
     }

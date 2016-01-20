@@ -14,12 +14,13 @@ val applicationReducer = { state: ApplicationState, action: Action ->
 
         is FETCH_COMPLETED -> state.copy(
                 isFetching = false,
-                gifs = action.gifs.gifs,
+                gifs = state.gifs.plus(action.payload.gifs),
+                pagination = NextPage(
+                        offset = action.payload.pagination.offset
+                                .plus(action.payload.pagination.count)),
                 currentRequest = Subscriptions.empty())
 
-        is FETCH_NEXT_PAGE_STARTED -> state.copy(
-                isFetching = true,
-                currentRequest = action.subscription)
+        is FETCH_NEXT_PAGE_STARTED -> state.copy(isFetching = true)
 
         else -> state
     }

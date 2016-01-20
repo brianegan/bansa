@@ -1,6 +1,7 @@
 package com.brianegan.rxredux.listOfTrendingGifs
 
 import android.content.Context
+import android.widget.AbsListView
 import com.brianegan.RxRedux.Action
 import com.brianegan.RxRedux.Store
 import com.brianegan.rxredux.listOfCounters.ReduxAdapter
@@ -19,6 +20,18 @@ public class RootView(c: Context, val store: Store<ApplicationState, Action>) : 
         listView {
             size(FILL, FILL)
             adapter(adapter.update(store.getState().gifs))
+            onScroll(object : AbsListView.OnScrollListener {
+                override fun onScrollStateChanged(view: AbsListView?, scrollState: Int) {
+
+                }
+
+                override fun onScroll(view: AbsListView?, firstVisibleItem: Int, visibleItemCount: Int, totalItemCount: Int) {
+                    val lastVisibleItem = firstVisibleItem.plus(visibleItemCount);
+                    if (store.getState().isFetching.not() && lastVisibleItem == totalItemCount) {
+                        store.dispatch(FETCH_NEXT_PAGE)
+                    }
+                }
+            })
         }
     }
 

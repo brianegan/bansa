@@ -51,6 +51,7 @@ dependencies {
   compile 'com.android.support:design:23.1.1'
   compile 'com.jakewharton.rxbinding:rxbinding:0.3.0'
   compile 'com.jakewharton.rxbinding:rxbinding-support-v4:0.3.0'
+  compile 'com.squareup.picasso:picasso:2.5.2'
 
   testCompile 'org.assertj:assertj-core:1.7.1'
   testCompile "org.jetbrains.spek:spek:0.1.188"
