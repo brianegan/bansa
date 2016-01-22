@@ -53,6 +53,7 @@ Actions describe the fact that something happened, but don’t specify how the a
  
 Let's see some code and we'll chat about it afterwards:
 
+```kotlin
 val reducer = { state: ApplicationState, action: CounterAction ->
     when (action) {
         is CounterActions.INIT -> ApplicationState()
@@ -61,6 +62,7 @@ val reducer = { state: ApplicationState, action: CounterAction ->
         else -> state
     }
 }
+```
 
 So what's happening here? A reducer is a function that takes two arguments: the current state of the application, and the action that was fired. It returns an updated version of the state.
 
