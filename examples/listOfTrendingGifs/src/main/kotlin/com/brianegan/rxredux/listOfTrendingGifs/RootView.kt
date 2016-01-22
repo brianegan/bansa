@@ -12,10 +12,11 @@ import rx.functions.Action1
 import rx.subscriptions.Subscriptions
 import trikita.anvil.Anvil
 import trikita.anvil.DSL.*
-import trikita.anvil.RenderableAdapter
 import trikita.anvil.RenderableView
 
 public class RootView(c: Context, val store: Store<ApplicationState, Action>) : RenderableView(c) {
+    val FETCH_THRESHOLD = 10
+
     override fun view() {
         listView {
             size(FILL, FILL)
@@ -27,7 +28,7 @@ public class RootView(c: Context, val store: Store<ApplicationState, Action>) : 
 
                 override fun onScroll(view: AbsListView?, firstVisibleItem: Int, visibleItemCount: Int, totalItemCount: Int) {
                     val lastVisibleItem = firstVisibleItem.plus(visibleItemCount);
-                    if (store.getState().isFetching.not() && lastVisibleItem == totalItemCount) {
+                    if (store.getState().isFetching.not() && lastVisibleItem == totalItemCount.minus(FETCH_THRESHOLD)) {
                         store.dispatch(FETCH_NEXT_PAGE)
                     }
                 }
@@ -40,7 +41,7 @@ public class RootView(c: Context, val store: Store<ApplicationState, Action>) : 
     val adapter: ReduxAdapter<Gif, Gif> = ReduxAdapter(
             store.getState().gifs,
             identity,
-            RenderableAdapter.Item { i, vm -> gifView(vm) }
+            ::gifView
     )
 
     var subscription: Subscription = Subscriptions.empty()

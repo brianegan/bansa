@@ -37,6 +37,3 @@ val toRandomGifUrl = Func1<Response, String> {
 
     jsonAdapter.fromJson(it.body().string()).data.videoUrl
 }
-
-
-

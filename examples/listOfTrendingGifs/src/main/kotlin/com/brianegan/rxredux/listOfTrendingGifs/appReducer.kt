@@ -1,6 +1,7 @@
 package com.brianegan.rxredux.listOfTrendingGifs
 
 import com.brianegan.RxRedux.Action
+import com.brianegan.rxredux.listOfTrendingGifs.api.NextPage
 import rx.subscriptions.Subscriptions
 
 val applicationReducer = { state: ApplicationState, action: Action ->

@@ -25,7 +25,7 @@ public class ReduxModule {
                 Schedulers.newThread()
         );
 
-        final Function1<Store<ApplicationState, Action>, Store<ApplicationState, Action>> applyMiddlewareToStore = ApplyMiddlewareKt.applyMiddleware(GifMiddlewareKt.getGifMiddleware());
+        final Function1<Store<ApplicationState, Action>, Store<ApplicationState, Action>> applyMiddlewareToStore = ApplyMiddlewareKt.applyMiddleware(ApiMiddlewareKt.getGifMiddleware());
 
         return applyMiddlewareToStore.invoke(store);
     }

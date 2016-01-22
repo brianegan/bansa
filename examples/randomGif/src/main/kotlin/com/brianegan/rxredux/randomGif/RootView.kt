@@ -50,7 +50,7 @@ public class RootView(c: Context, val store: Store<ApplicationState, Action>) : 
                 gravity(CENTER)
 
                 videoView {
-                    val currentView = Anvil.currentView() as VideoView
+                    val currentView = Anvil.currentView<View>() as VideoView
                     size(FILL, FILL)
                     videoURI(Uri.parse(videoUrl))
 

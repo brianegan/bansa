@@ -1,4 +1,4 @@
-package com.brianegan.rxredux.listOfTrendingGifs
+package com.brianegan.rxredux.listOfTrendingGifs.api
 
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -11,11 +11,11 @@ import java.io.IOException
 
 fun fetch(request: Request, scheduler: Scheduler = Schedulers.io()): Observable<Response> {
     return Observable.create<Response>(object : Observable.OnSubscribe<Response> {
-        var client = OkHttpClient()
+        var httpClient = OkHttpClient()
 
         override fun call(subscriber: Subscriber<in Response>) {
             try {
-                val response = client.newCall(request).execute()
+                val response = httpClient.newCall(request).execute()
 
                 if (!response.isSuccessful)
                     throw IOException("${response.code()}: ${response.message()}")

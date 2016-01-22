@@ -12,6 +12,6 @@ public open class RootActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Application.getObjectGraph()?.inject(this)
-        setContentView(RootView(this, store)) // Set the root view
+        setContentView(RootView(this, store))
     }
 }

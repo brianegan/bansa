@@ -2,7 +2,7 @@ package com.brianegan.rxredux.listOfCounters
 
 import trikita.anvil.RenderableAdapter
 
-class ReduxAdapter<M, VM>(var models: List<M>, val mapModelToViewModel: (M) -> VM, val r: RenderableAdapter.Item<VM>) : RenderableAdapter() {
+class ReduxAdapter<M, VM>(var models: List<M>, val mapModelToViewModel: (M) -> VM, val r: (VM) -> Unit) : RenderableAdapter() {
     override fun getCount(): Int {
         return models.size
     }
@@ -12,7 +12,7 @@ class ReduxAdapter<M, VM>(var models: List<M>, val mapModelToViewModel: (M) -> V
     }
 
     override fun view(pos: Int) {
-        r.view(pos, this.getItem(pos));
+        r(this.getItem(pos));
     }
 
     fun update(newModels: List<M>): ReduxAdapter<M, VM> {

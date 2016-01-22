@@ -2,6 +2,7 @@ package com.brianegan.rxredux.listOfTrendingGifs
 
 import com.brianegan.RxRedux.Action
 import com.brianegan.RxRedux.Store
+import com.brianegan.rxredux.listOfTrendingGifs.api.fetchTrendingGifs
 
 val gifMiddleware = { store: Store<ApplicationState, Action> ->
     { next: (Action) -> Action ->

@@ -1,5 +1,7 @@
-package com.brianegan.rxredux.listOfTrendingGifs
+package com.brianegan.rxredux.listOfTrendingGifs.api
 
+import com.brianegan.rxredux.listOfTrendingGifs.Gif
+import com.brianegan.rxredux.listOfTrendingGifs.TrendingGifs
 import com.squareup.moshi.Moshi
 import okhttp3.HttpUrl
 import okhttp3.Request
@@ -7,7 +9,11 @@ import okhttp3.Response
 import rx.Observable
 import rx.functions.Func1
 
-fun fetchTrendingGifs(offset: Int = 0, count: Int = 25): Observable<TrendingGifs> {
+fun fetchTrendingGifs(
+        offset: Int = 0,
+        count: Int = 25)
+        : Observable<TrendingGifs> {
+
     val url = HttpUrl.Builder()
             .scheme("http")
             .host("api.giphy.com")
@@ -27,16 +33,16 @@ fun fetchTrendingGifs(offset: Int = 0, count: Int = 25): Observable<TrendingGifs
     return fetch(request).map(toTrendingGifs)
 }
 
-data class TrendingGifs(val gifs: List<Gif>, val pagination: NextPage)
 data class ApiTrendingGifs(val data: List<ApiGif>, val pagination: NextPage)
 data class ApiGif(val images: ApiGifSizes)
 data class ApiGifSizes(val original_still: ApiGifLinks)
 data class ApiGifLinks(val url: String, val width: Int, val height: Int)
 data class NextPage(val count: Int = 25, val offset: Int = 0)
 
+val moshi = Moshi.Builder().build()
+val jsonAdapter = moshi.adapter(ApiTrendingGifs::class.javaObjectType)
+
 val toTrendingGifs = Func1<Response, TrendingGifs> {
-    val moshi = Moshi.Builder().build()
-    val jsonAdapter = moshi.adapter(ApiTrendingGifs::class.javaObjectType)
     val (data, pagination) = jsonAdapter.fromJson(it.body().string())
 
     TrendingGifs(toGifs(data), pagination)
