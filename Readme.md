@@ -68,9 +68,9 @@ So what's happening here? A reducer is a function that takes two arguments: the 
 
 In this example, when the "INIT" action is fired, we want to initialize the state of our application. Therefore, we return a new instance.
 
-When the "INCREMENT" action is fired, we want to simply increase the counter by 1.
+When the `INCREMENT` action is fired, we want to simply increase the counter by 1.
 
-If "DECREMENT" is fired, we'll need to decrease the counter by 1.
+If `DECREMENT` is fired, we'll need to decrease the counter by 1.
 
 And that's all there is to it: We're simply describing how the state should change in response to an action.
 
