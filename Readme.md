@@ -116,7 +116,7 @@ I know what you're saying: "Bri, I've seen all this before. It's called an EVENT
 
 ### Hooking it up to Anvil
 
-Ok, so now we have to chat about Anvil. It's a simple way to write UIs in Java & Kotlin, and they're magic. You simply describe your UI in Java / Kotlin code (not XML -- give it a few minutes, I think you'll fall in love), update the state, and call `Anvil.render()`. Then everything just updates! We've done it! We've achieved the goal set out in the opening paragraphs!!!
+Ok, so now we have to chat about Anvil. It's a simple way to write UIs in Java & Kotlin, and it's magic. You simply describe your UI in Java / Kotlin code (not XML -- give it a few minutes, I think you'll fall in love), update the state, and call `Anvil.render()`. Then everything just updates! We've done it! We've achieved the goal set out in the opening paragraphs!!!
 
 So here's an example view. It's job is to create a linearLayout with three child views: A text view to display the current count, an plus button, and a minus button.
 
@@ -157,7 +157,7 @@ counterStore.subscribe({
 
 That's right: When a user clicks "+", the increment action will be fired, the reducer will update the state, and our UI will auto-render with the new info. WHAAAAAAAAAAT.
 
-Check the examples for way more!
+PROOF:
 
 ## More docs -- public shameful note for Brian
 
@@ -167,6 +167,13 @@ Write sections for:
   * Middleware
   * Combining reducers
   * Breaking down apps into smaller parts
+  
+## Big problems to solve
+
+  * Memory usage: Is this a problem? Haven't used this in a large app yet. What's the memory profile, how can it be kept to a minimum?
+  * How views should asynchronously request / remove data from the store upon instantiation and disposal if it's safe.
+  * What is the role of the database? First go to memory, then database, then internet fallback pattern?
+  * Could views describe their data requirements as queries, similar to Falcor or GraphQL?
 
 ## The tech setup
 

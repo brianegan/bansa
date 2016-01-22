@@ -15,7 +15,7 @@ fun counterView(model: CounterViewModel) {
         size(FILL, WRAP)
         orientation(LinearLayout.HORIZONTAL)
         margin(0, dip(10))
-        val parent = Anvil.currentView()
+        val parent = Anvil.currentView<View>()
 
         textView {
             size(0, WRAP)
@@ -43,7 +43,7 @@ fun counterView(model: CounterViewModel) {
             size(WRAP, WRAP)
             padding(dip(5))
             text(R().getString(R.string.remove_counter))
-            onClick(remove(parent))
+            onClick(remove)
         }
     }
 }
@@ -60,12 +60,10 @@ fun buildMapCounterToCounterViewModel(store: Store<ApplicationState, Action>): (
                 decrement = View.OnClickListener {
                     store.dispatch(DECREMENT(id))
                 },
-                remove = { parent ->
-                    View.OnClickListener { view ->
-                        store.dispatch(REMOVE(id))
-                    }
+                remove = View.OnClickListener { view ->
+                    store.dispatch(REMOVE(id))
                 })
     }
 }
 
-data class CounterViewModel(val counter: Int, val increment: View.OnClickListener, val decrement: View.OnClickListener, val remove: (View) -> View.OnClickListener)
+data class CounterViewModel(val counter: Int, val increment: View.OnClickListener, val decrement: View.OnClickListener, val remove: View.OnClickListener)
