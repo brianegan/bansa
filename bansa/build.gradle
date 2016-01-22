@@ -1,0 +1,36 @@
+apply plugin: 'java'
+apply plugin: 'kotlin'
+
+repositories {
+  mavenCentral()
+  maven {
+    url "http://repository.jetbrains.com/all"
+  }
+}
+
+buildscript {
+  ext.kotlin_version = '1.0.0-beta-4584'
+  repositories {
+    mavenCentral()
+  }
+  dependencies {
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+  }
+}
+
+dependencies {
+  compile 'io.reactivex:rxjava:1.0.16'
+  compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+  testCompile "org.jetbrains.spek:spek:0.1.188"
+  testCompile 'org.assertj:assertj-core:1.7.1'
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+  classifier = 'sources'
+  from sourceSets.main.allSource
+}
+
+artifacts {
+  archives sourcesJar
+}

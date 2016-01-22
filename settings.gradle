@@ -1,4 +1,4 @@
-include 'rx-redux'
+include 'bansa'
 include ':examples:counter'
 include ':examples:counterPair'
 include ':examples:listOfCounters'

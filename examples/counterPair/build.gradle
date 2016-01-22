@@ -6,7 +6,7 @@ android {
     buildToolsVersion '23.0.2'
 
     defaultConfig {
-        applicationId "com.brianegan.rxredux.counterPair"
+        applicationId "com.brianegan.bansa.counterPair"
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 1
@@ -35,7 +35,7 @@ buildscript {
 dependencies {
     kapt 'com.squareup.dagger:dagger-compiler:1.2.2'
 
-    compile project(":rx-redux")
+    compile project(':bansa')
 
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile 'co.trikita:anvil-sdk15:0.2.0'
