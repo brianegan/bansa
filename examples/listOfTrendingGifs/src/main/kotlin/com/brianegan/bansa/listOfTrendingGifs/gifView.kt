@@ -2,7 +2,6 @@ package com.brianegan.bansa.listOfCounters
 
 import android.content.Context
 import android.graphics.Point
-import android.net.Uri.parse
 import android.view.MotionEvent.ACTION_CANCEL
 import android.view.MotionEvent.ACTION_DOWN
 import android.view.View
@@ -14,6 +13,7 @@ import com.brianegan.bansa.listOfTrendingGifs.ApplicationState
 import com.brianegan.bansa.listOfTrendingGifs.Gif
 import com.brianegan.bansa.listOfTrendingGifs.PLAY_GIF
 import com.brianegan.bansa.listOfTrendingGifs.STOP_GIF
+import com.brianegan.bansa.listOfTrendingGifs.ui.embedVideo
 import com.brianegan.bansa.listOfTrendingGifs.ui.src
 import trikita.anvil.Anvil
 import trikita.anvil.DSL.*
@@ -30,13 +30,13 @@ fun gifView(model: GifViewModel) {
 
     frameLayout {
         val currentView = Anvil.currentView<FrameLayout>()
-        currentView.setTag(com.brianegan.bansa.listOfTrendingGifs.R.id.touchStart, onTouchStart)
-        currentView.setTag(com.brianegan.bansa.listOfTrendingGifs.R.id.touchEnd, onTouchEnd)
+        currentView.setTag(com.brianegan.bansa.listOfTrendingGifs.R.id.on_touch_start, onTouchStart)
+        currentView.setTag(com.brianegan.bansa.listOfTrendingGifs.R.id.on_touch_end, onTouchEnd)
 
         init {
             onTouch(View.OnTouchListener { view, motionEvent ->
-                val onTouchStart = currentView.getTag(com.brianegan.bansa.listOfTrendingGifs.R.id.touchStart) as () -> Action
-                val onTouchEnd = currentView.getTag(com.brianegan.bansa.listOfTrendingGifs.R.id.touchEnd) as () -> Action
+                val onTouchStart = currentView.getTag(com.brianegan.bansa.listOfTrendingGifs.R.id.on_touch_start) as () -> Action
+                val onTouchEnd = currentView.getTag(com.brianegan.bansa.listOfTrendingGifs.R.id.on_touch_end) as () -> Action
 
                 when (motionEvent.action) {
                     ACTION_DOWN -> {
@@ -61,8 +61,7 @@ fun gifView(model: GifViewModel) {
 
         if (isFetching.or(isPlaying)) {
             textureView {
-                size(FILL, dip(300))
-                margin(0, 0, 0, dip(20))
+                size(FILL, FILL)
                 embedVideo(videoUrl)
             }
         }

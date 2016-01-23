@@ -4,6 +4,7 @@
     <item name="counter_increment" type="id" />
     <item name="counter_decrement" type="id" />
 
-    <item name="touchStart" type="id" />
-    <item name="touchEnd" type="id" />
+    <item name="on_touch_start" type="id" />
+    <item name="on_touch_end" type="id" />
+    <item name="video_controller" type="id" />
 </resources>
