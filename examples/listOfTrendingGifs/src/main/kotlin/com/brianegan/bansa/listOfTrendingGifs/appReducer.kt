@@ -1,7 +1,6 @@
 package com.brianegan.bansa.listOfTrendingGifs
 
 import com.brianegan.bansa.Action
-import com.brianegan.bansa.listOfTrendingGifs.api.NextPage
 import rx.subscriptions.Subscriptions
 
 val applicationReducer = { state: ApplicationState, action: Action ->
@@ -22,6 +21,25 @@ val applicationReducer = { state: ApplicationState, action: Action ->
                 currentRequest = Subscriptions.empty())
 
         is FETCH_NEXT_PAGE_STARTED -> state.copy(isFetching = true)
+
+        is PLAY_GIF -> state.copy(
+                activeGif = ActiveGif(
+                        id = action.id,
+                        isPlaying = false,
+                        isFetching = true))
+
+        is STOP_GIF -> state.copy(
+                activeGif = ActiveGif(
+                        id = "",
+                        isPlaying = false,
+                        isFetching = false))
+
+        is VIDEO_STARTED -> state.copy(
+                activeGif = state.activeGif.copy(
+                        isPlaying = true,
+                        isFetching = false
+                )
+        )
 
         else -> state
     }

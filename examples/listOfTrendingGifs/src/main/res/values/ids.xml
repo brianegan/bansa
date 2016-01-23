@@ -3,4 +3,7 @@
     <item name="counter_text" type="id" />
     <item name="counter_increment" type="id" />
     <item name="counter_decrement" type="id" />
+
+    <item name="touchStart" type="id" />
+    <item name="touchEnd" type="id" />
 </resources>

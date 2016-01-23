@@ -1,6 +1,21 @@
 package com.brianegan.bansa.listOfTrendingGifs
 
-import com.brianegan.bansa.listOfTrendingGifs.api.NextPage
+data class Gif(
+        val id: String = "",
+        val stillUrl: String = "",
+        val videoUrl: String = "",
+        val width: Int = 0,
+        val height: Int = 0)
 
-data class Gif(val url: String = "", val width: Int = 0, val height: Int = 0)
-data class TrendingGifs(val gifs: List<Gif>, val pagination: NextPage)
+data class TrendingGifs(
+        val gifs: List<Gif>,
+        val pagination: NextPage)
+
+data class ActiveGif(
+        val id: String = "",
+        val isPlaying: Boolean = false,
+        val isFetching: Boolean = false)
+
+data class NextPage(
+        val count: Int = 25,
+        val offset: Int = 0)

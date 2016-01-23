@@ -5,6 +5,8 @@ import android.widget.AbsListView
 import com.brianegan.bansa.Action
 import com.brianegan.bansa.Store
 import com.brianegan.bansa.listOfCounters.BansaAdapter
+import com.brianegan.bansa.listOfCounters.GifViewModel
+import com.brianegan.bansa.listOfCounters.buildMapGifToGifViewModel
 import com.brianegan.bansa.listOfCounters.gifView
 import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
@@ -20,7 +22,7 @@ public class RootView(c: Context, val store: Store<ApplicationState, Action>) : 
     override fun view() {
         listView {
             size(FILL, FILL)
-            adapter(adapter.update(store.getState().gifs))
+            adapter(adapter.update(store.getState().gifs.map(toGifViewModels)))
             onScroll(object : AbsListView.OnScrollListener {
                 override fun onScrollStateChanged(view: AbsListView?, scrollState: Int) {
 
@@ -36,10 +38,11 @@ public class RootView(c: Context, val store: Store<ApplicationState, Action>) : 
         }
     }
 
-    val identity = { it: Gif -> it }
+    val toGifViewModels = buildMapGifToGifViewModel(store)
+    val identity = { vm: GifViewModel -> vm }
 
-    val adapter: BansaAdapter<Gif, Gif> = BansaAdapter(
-            store.getState().gifs,
+    val adapter: BansaAdapter<GifViewModel, GifViewModel> = BansaAdapter(
+            store.getState().gifs.map(toGifViewModels),
             identity,
             ::gifView
     )
