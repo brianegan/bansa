@@ -4,7 +4,6 @@ import android.view.View
 import android.widget.LinearLayout
 import com.brianegan.bansa.Action
 import com.brianegan.bansa.Store
-import trikita.anvil.Anvil
 import trikita.anvil.BaseDSL.R
 import trikita.anvil.DSL.*
 
@@ -15,7 +14,6 @@ fun counterView(model: CounterViewModel) {
         size(FILL, WRAP)
         orientation(LinearLayout.HORIZONTAL)
         margin(0, dip(10))
-        val parent = Anvil.currentView<View>()
 
         textView {
             size(0, WRAP)
