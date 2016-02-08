@@ -7,21 +7,21 @@ import org.junit.Test
 import rx.schedulers.Schedulers
 
 class CounterReducerTest {
-    @Test fun shouldInitTheCounter() {
+    @Test fun `init action should initialize the counter`() {
         val store = createTestStore()
         store.dispatch(CounterActions.INIT)
 
         assertThat(store.getState()).isEqualTo(ApplicationState())
     }
 
-    @Test fun shouldIncrementTheCounter() {
+    @Test fun `should increment the counter`() {
         val store = createTestStore()
         store.dispatch(CounterActions.INCREMENT)
 
         assertThat(store.getState()).isEqualTo(ApplicationState(1))
     }
 
-    @Test fun shouldDecrementTheCounter() {
+    @Test fun `should decrement the counter`() {
         val store = createTestStore()
         store.dispatch(CounterActions.DECREMENT)
 
