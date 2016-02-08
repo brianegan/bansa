@@ -27,7 +27,7 @@ repositories {
 }
 
 buildscript {
-  ext.kotlin_version = '1.0.0-beta-4584'
+  ext.kotlin_version = '1.0.0-rc-1036'
   repositories {
     mavenCentral()
   }
@@ -51,7 +51,6 @@ dependencies {
   compile 'com.squareup.okhttp3:okhttp:3.0.1'
   compile 'com.squareup.moshi:moshi:1.1.0'
 
-  testCompile "org.jetbrains.spek:spek:0.1.188"
+  testCompile "org.jetbrains.spek:spek:0.1.194"
   testCompile 'org.assertj:assertj-core:1.7.1'
 }
-
