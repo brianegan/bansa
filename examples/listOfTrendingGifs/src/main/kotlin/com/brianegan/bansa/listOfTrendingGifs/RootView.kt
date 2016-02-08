@@ -15,7 +15,7 @@ import trikita.anvil.DSL.*
 import trikita.anvil.RenderableView
 
 public class RootView(c: Context, val store: Store<ApplicationState, Action>) : RenderableView(c) {
-    val FETCH_THRESHOLD = 10
+    val FETCH_THRESHOLD = 5
 
     override fun view() {
         listView {

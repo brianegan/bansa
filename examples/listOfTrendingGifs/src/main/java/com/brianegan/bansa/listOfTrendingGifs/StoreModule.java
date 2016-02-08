@@ -25,7 +25,10 @@ public class StoreModule {
                 Schedulers.newThread()
         );
 
-        final Function1<Store<ApplicationState, Action>, Store<ApplicationState, Action>> applyMiddlewareToStore = ApplyMiddlewareKt.applyMiddleware(ApiMiddlewareKt.getGifMiddleware());
+        final Function1<Store<ApplicationState, Action>, Store<ApplicationState, Action>> applyMiddlewareToStore =
+                ApplyMiddlewareKt.applyMiddleware(
+                        ApiMiddlewareKt.getGifMiddleware(),
+                        LoggingMiddlewareKt.getLoggingMiddleware());
 
         return applyMiddlewareToStore.invoke(store);
     }
