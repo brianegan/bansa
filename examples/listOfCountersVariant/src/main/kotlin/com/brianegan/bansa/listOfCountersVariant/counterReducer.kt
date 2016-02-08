@@ -1,5 +1,7 @@
 package com.brianegan.bansa.listOfCountersVariant
 
+import com.github.andrewoma.dexx.kollection.toImmutableList
+
 val counterReducer = { state: ApplicationState, action: CounterAction ->
     when (action) {
         is INIT -> action.state
@@ -10,6 +12,7 @@ val counterReducer = { state: ApplicationState, action: CounterAction ->
             val updatedCounters = state
                     .counters
                     .filter({ it.id.equals(action.id).not() })
+                    .toImmutableList()
 
             state.copy(counters = updatedCounters)
         }
@@ -20,7 +23,7 @@ val counterReducer = { state: ApplicationState, action: CounterAction ->
                 } else {
                     counter
                 }
-            }))
+            }).toImmutableList())
         }
         is DECREMENT -> {
             state.copy(counters = state.counters.map({ counter ->
@@ -29,7 +32,7 @@ val counterReducer = { state: ApplicationState, action: CounterAction ->
                 } else {
                     counter
                 }
-            }))
+            }).toImmutableList())
         }
         else -> state
     }
