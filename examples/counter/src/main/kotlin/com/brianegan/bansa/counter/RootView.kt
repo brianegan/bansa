@@ -13,7 +13,7 @@ import trikita.anvil.Anvil
 import trikita.anvil.DSL.*
 import trikita.anvil.RenderableView
 
-public class RootView(c: Context, val store: Store<ApplicationState, Action>) : RenderableView(c) {
+class RootView(c: Context, val store: Store<ApplicationState, Action>) : RenderableView(c) {
     override fun view() {
         template(buildPresentationModel())
     }

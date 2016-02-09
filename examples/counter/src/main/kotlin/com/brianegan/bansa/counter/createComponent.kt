@@ -12,6 +12,4 @@ fun <A : Action, S : State, VM> connect(
             view(mapStoreToViewModel(store))
         }
     }
-
-
 }

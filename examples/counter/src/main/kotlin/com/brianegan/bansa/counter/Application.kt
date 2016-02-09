@@ -1,23 +1,27 @@
 package com.brianegan.bansa.counter
 
-import com.brianegan.bansa.counter.ApplicationModule
-import com.brianegan.bansa.counter.StoreModule
-import dagger.ObjectGraph
+import com.brianegan.bansa.Action
+import com.brianegan.bansa.Store
+import com.brianegan.bansa.createStore
+import uy.kohesive.injekt.Injekt
+import uy.kohesive.injekt.InjektMain
+import uy.kohesive.injekt.api.InjektRegistrar
+import uy.kohesive.injekt.api.fullType
+import uy.kohesive.injekt.api.get
 
 class Application : android.app.Application() {
-    var objectGraph: ObjectGraph? = null
+    companion object : InjektMain() {
+        override fun InjektRegistrar.registerInjectables() {
+            addSingleton(
+                    fullType<Store<ApplicationState, Action>>(),
+                    createStore(ApplicationState(), applicationReducer));
+        }
+    }
+
+    val store = Injekt.get(fullType<Store<ApplicationState, Action>>())
 
     override fun onCreate() {
         super.onCreate()
-        instance = this
-        objectGraph = ObjectGraph.create(ApplicationModule(this), StoreModule())
-    }
-
-    companion object {
-        private var instance: Application? = null
-
-        fun getObjectGraph(): ObjectGraph? {
-            return instance?.objectGraph
-        }
+        store.dispatch(CounterActions.INIT) // Initialize the store
     }
 }

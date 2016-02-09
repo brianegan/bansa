@@ -4,15 +4,15 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.brianegan.bansa.Action
 import com.brianegan.bansa.Store
-import javax.inject.Inject
+import uy.kohesive.injekt.Injekt
+import uy.kohesive.injekt.api.fullType
+import uy.kohesive.injekt.api.get
 
-public open class RootActivity : AppCompatActivity() {
-    @Inject lateinit var store: Store<ApplicationState, Action>
+open class RootActivity : AppCompatActivity() {
+    val store: Store<ApplicationState, Action> = Injekt.get(fullType<Store<ApplicationState, Action>>())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Application.getObjectGraph()?.inject(this)
-        store.dispatch(CounterActions.INIT) // Initialize the store
-        setContentView(RootView(this, store)) // Set the root view
+        setContentView(RootView(this, store))
     }
 }
