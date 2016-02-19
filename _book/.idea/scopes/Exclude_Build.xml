@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="Exclude Build" pattern="!file:build//*" />
+</component>

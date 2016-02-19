@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/bansa.iml" filepath="$PROJECT_DIR$/bansa.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bansa/bansa-bansa.iml" filepath="$PROJECT_DIR$/bansa/bansa-bansa.iml" />
+      <module fileurl="file://$PROJECT_DIR$/examples/counter/counter.iml" filepath="$PROJECT_DIR$/examples/counter/counter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/examples/counterPair/counterPair.iml" filepath="$PROJECT_DIR$/examples/counterPair/counterPair.iml" />
+      <module fileurl="file://$PROJECT_DIR$/examples/examples.iml" filepath="$PROJECT_DIR$/examples/examples.iml" />
+      <module fileurl="file://$PROJECT_DIR$/examples/listOfCounters/listOfCounters.iml" filepath="$PROJECT_DIR$/examples/listOfCounters/listOfCounters.iml" />
+      <module fileurl="file://$PROJECT_DIR$/examples/listOfCountersVariant/listOfCountersVariant.iml" filepath="$PROJECT_DIR$/examples/listOfCountersVariant/listOfCountersVariant.iml" />
+      <module fileurl="file://$PROJECT_DIR$/examples/listOfTrendingGifs/listOfTrendingGifs.iml" filepath="$PROJECT_DIR$/examples/listOfTrendingGifs/listOfTrendingGifs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/examples/randomGif/randomGif.iml" filepath="$PROJECT_DIR$/examples/randomGif/randomGif.iml" />
+    </modules>
+  </component>
+</project>

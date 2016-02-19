@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="bansa-bansa.bansa">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/bansa/build/libs/bansa.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
