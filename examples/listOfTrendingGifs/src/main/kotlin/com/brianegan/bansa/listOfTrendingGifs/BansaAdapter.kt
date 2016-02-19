@@ -2,7 +2,7 @@ package com.brianegan.bansa.listOfCounters
 
 import trikita.anvil.RenderableAdapter
 
-class BansaAdapter<M, VM>(var models: List<M>, val mapModelToViewModel: (M) -> VM, val r: (VM) -> Unit) : RenderableAdapter() {
+class BansaAdapter<M, VM>(var models: List<M>, val mapModelToViewModel: (M) -> VM, val render: (VM) -> Unit) : RenderableAdapter() {
     override fun getCount(): Int {
         return models.size
     }
@@ -12,7 +12,7 @@ class BansaAdapter<M, VM>(var models: List<M>, val mapModelToViewModel: (M) -> V
     }
 
     override fun view(pos: Int) {
-        r(this.getItem(pos));
+        render(this.getItem(pos));
     }
 
     fun update(newModels: List<M>): BansaAdapter<M, VM> {

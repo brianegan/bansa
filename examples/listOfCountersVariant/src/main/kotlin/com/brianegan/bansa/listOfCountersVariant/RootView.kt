@@ -1,6 +1,7 @@
 package com.brianegan.bansa.listOfCountersVariant
 
 import android.content.Context
+import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.brianegan.bansa.Action
@@ -60,7 +61,7 @@ public class RootView(c: Context, val store: Store<ApplicationState, Action>) : 
             Recycler.view {
                 init {
                     layoutManager(LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false))
-                    itemAnimator(ReboundItemAnimator())
+                    itemAnimator(DefaultItemAnimator())
                     hasFixedSize(false)
                     margin(dip(0), dip(50), dip(0), dip(0))
                     size(FILL, FILL)

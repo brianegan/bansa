@@ -26,7 +26,7 @@ repositories {
 }
 
 buildscript {
-  ext.kotlin_version = '1.0.0-rc-1036'
+  ext.kotlin_version = '1.0.0'
   repositories {
     mavenCentral()
   }
@@ -36,20 +36,18 @@ buildscript {
 }
 
 dependencies {
-  kapt 'com.squareup.dagger:dagger-compiler:1.2.2'
-
   compile project(':bansa')
+
+  compile "com.android.support:appcompat-v7:23.1.1"
+  compile 'com.android.support:design:23.1.1'
 
   compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
   compile 'co.trikita:anvil-sdk15:0.2.0'
-  compile 'com.squareup.dagger:dagger:1.2.2'
+  compile "uy.kohesive.injekt:injekt-core:1.14.0"
   compile 'io.reactivex:rxjava:1.0.16'
   compile 'io.reactivex:rxandroid:1.0.1'
-  compile 'com.android.support:design:23.1.1'
-  compile 'com.jakewharton.rxbinding:rxbinding:0.3.0'
-  compile 'com.jakewharton.rxbinding:rxbinding-support-v4:0.3.0'
 
-  testCompile "org.jetbrains.spek:spek:0.1.194"
+  testCompile "org.jetbrains.spek:spek:0.1.195"
   testCompile 'org.assertj:assertj-core:1.7.1'
 }
 

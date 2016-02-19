@@ -2,29 +2,30 @@ package com.brianegan.bansa.randomGif
 
 import com.brianegan.bansa.Action
 import com.brianegan.bansa.Store
-import dagger.ObjectGraph
-import javax.inject.Inject
+import com.brianegan.bansa.applyMiddleware
+import com.brianegan.bansa.createStore
+import uy.kohesive.injekt.Injekt
+import uy.kohesive.injekt.InjektMain
+import uy.kohesive.injekt.api.InjektRegistrar
+import uy.kohesive.injekt.api.fullType
+import uy.kohesive.injekt.api.get
 
 class Application : android.app.Application() {
-    @Inject lateinit var store: Store<ApplicationState, Action>
-    var objectGraph: ObjectGraph? = null
+    companion object : InjektMain() {
+        override fun InjektRegistrar.registerInjectables() {
+            addSingleton(
+                    fullType<Store<ApplicationState, Action>>(),
+                    (applyMiddleware(gifMiddleware))(createStore(ApplicationState(), applicationReducer)));
+        }
+    }
+
+    val store = Injekt.get<Store<ApplicationState, Action>>()
 
     override fun onCreate() {
         super.onCreate()
-        instance = this
-        objectGraph = ObjectGraph.create(ApplicationModule(this), StoreModule())
-        getObjectGraph()?.inject(this)
 
         // Initialize the store and immediately fetch a random gif!
         store.dispatch(INIT)
         store.dispatch(FETCH_RANDOM_GIF)
-    }
-
-    companion object {
-        private var instance: Application? = null
-
-        fun getObjectGraph(): ObjectGraph? {
-            return instance?.objectGraph
-        }
     }
 }
