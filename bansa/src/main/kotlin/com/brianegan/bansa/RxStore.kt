@@ -16,7 +16,7 @@ class RxStore<S : State, A : Action>(
     private val dispatcher: SerializedSubject<A, A>
     private var currentState: S
 
-    val state: Observable<S>
+    override val state: Observable<S>
     var reducer: (S, A) -> S
 
     init {
