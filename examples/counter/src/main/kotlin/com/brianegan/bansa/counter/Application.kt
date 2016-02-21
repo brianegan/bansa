@@ -14,7 +14,7 @@ class Application : android.app.Application() {
         override fun InjektRegistrar.registerInjectables() {
             addSingleton(
                     fullType<Store<ApplicationState, Action>>(),
-                    createStore(ApplicationState(), applicationReducer));
+                    createStore(ApplicationState(), counterReducer));
         }
     }
 

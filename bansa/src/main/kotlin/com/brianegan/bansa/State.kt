@@ -1,5 +1,5 @@
 package com.brianegan.bansa
 
-public interface State {
+interface State {
 
 }

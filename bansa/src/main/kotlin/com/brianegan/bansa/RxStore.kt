@@ -8,20 +8,20 @@ import rx.schedulers.Schedulers
 import rx.subjects.PublishSubject
 import rx.subjects.SerializedSubject
 
-public class BaseStore<S : State, A : Action>(
+class RxStore<S : State, A : Action>(
         private val initialState: S,
         private val initialReducer: (S, A) -> S,
         private val scheduler: Scheduler = Schedulers.newThread()
 ) : Store<S, A>(initialState, initialReducer, scheduler) {
     private val dispatcher: SerializedSubject<A, A>
-    override val state: Observable<S>
     private var currentState: S
-    public var reducer: (S, A) -> S
+
+    val state: Observable<S>
+    var reducer: (S, A) -> S
 
     init {
         reducer = initialReducer
         currentState = initialState
-
         dispatcher = SerializedSubject<A, A>(PublishSubject.create<A>())
         state = dispatcher // When an action is dispatched
                 .observeOn(scheduler) // Run the scan on a given thread, by default a background thread

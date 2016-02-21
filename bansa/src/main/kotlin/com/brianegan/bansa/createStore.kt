@@ -8,4 +8,4 @@ fun <S : State, A : Action> createStore(
         reducer: (S, A) -> S,
         scheduler: Scheduler = Schedulers.newThread())
         : Store<S, A>
-        = BaseStore<S, A>(initialState, reducer, scheduler)
+        = RxStore<S, A>(initialState, reducer, scheduler)
