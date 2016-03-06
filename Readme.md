@@ -90,7 +90,7 @@ And that's it! Now you've got a store. Woohoo! So what now?
 
 ### Dispatch (Fire / Trigger) an action
 
-This will cause the reducers we previously wrote 
+The following code will dispatch an action that travels first through any middleware (we'll chat about those later), then through the reducers, generally producing a state change.
 
 ```kotlin
 counterStore.dispatch(INCREMENT)
@@ -161,7 +161,16 @@ counterStore.subscribe({
 
 That's right: When a user clicks "+", the increment action will be fired, the reducer will update the state, and our UI will auto-render with the new info. WHAAAAAAAAAAT.
 
-PROOF:
+## Examples
+
+There are a progression of examples that can be found in the "Examples" folder. If you're interested in progressing through them, the suggested order is:
+
+  1. [Counter](https://github.com/brianegan/bansa/tree/master/examples/counter)
+  2. [Counter pair](https://github.com/brianegan/bansa/tree/master/examples/counterPair)
+  3. [List of counters](https://github.com/brianegan/bansa/tree/master/examples/listOfCounters)
+  4. [List of counters variant](https://github.com/brianegan/bansa/tree/master/examples/listOfCountersVariant)
+  5. [Random gif](https://github.com/brianegan/bansa/tree/master/examples/randomGif)
+  6. [List of trending gifs](https://github.com/brianegan/bansa/tree/master/examples/listOfTrendingGifs)
 
 ## More docs -- public shameful note for Brian
 
@@ -206,4 +215,5 @@ I'd also like to add that this library is a complete , these ideas aren't new in
   * Elm
   * Redux
   * CycleJs
+  * [redux-java](http://github.com/glung/redux-java) - by my coworker and friend, Guillaume Lung
   * re-frame
