@@ -1,4 +1,4 @@
-package com.brianegan.bansa.listOfTrendingGifs
+package com.brianegan.bansa.listOfTrendingGifs.middleware
 
 import com.brianegan.bansa.Action
 import com.brianegan.bansa.State

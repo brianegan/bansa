@@ -1,4 +1,4 @@
-package com.brianegan.bansa.listOfTrendingGifs.ui
+package com.brianegan.bansa.listOfTrendingGifs.ui.utils
 
 import android.view.View
 import android.widget.ImageView

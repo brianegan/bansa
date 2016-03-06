@@ -1,7 +1,7 @@
 package com.brianegan.bansa.listOfTrendingGifs.api
 
-import com.brianegan.bansa.listOfTrendingGifs.Gif
-import com.brianegan.bansa.listOfTrendingGifs.TrendingGifs
+import com.brianegan.bansa.listOfTrendingGifs.models.Gif
+import com.brianegan.bansa.listOfTrendingGifs.models.TrendingGifs
 import com.squareup.moshi.Moshi
 import okhttp3.HttpUrl
 import okhttp3.Request

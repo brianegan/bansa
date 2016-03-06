@@ -1,4 +1,4 @@
-package com.brianegan.bansa.listOfCounters
+package com.brianegan.bansa.listOfTrendingGifs.ui.utils
 
 import trikita.anvil.RenderableAdapter
 

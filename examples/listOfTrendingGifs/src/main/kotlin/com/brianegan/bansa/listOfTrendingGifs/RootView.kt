@@ -1,11 +1,16 @@
 package com.brianegan.bansa.listOfTrendingGifs
 
 import android.content.Context
-import android.widget.AbsListView
 import com.brianegan.bansa.Action
 import com.brianegan.bansa.Store
-import com.brianegan.bansa.listOfCounters.BansaAdapter
-import com.brianegan.bansa.listOfCounters.gifView
+import com.brianegan.bansa.listOfTrendingGifs.actions.FETCH_NEXT_PAGE
+import com.brianegan.bansa.listOfTrendingGifs.actions.REFRESH
+import com.brianegan.bansa.listOfTrendingGifs.models.Gif
+import com.brianegan.bansa.listOfTrendingGifs.state.ApplicationState
+import com.brianegan.bansa.listOfTrendingGifs.ui.AnvilSwipeRefreshLayout.*
+import com.brianegan.bansa.listOfTrendingGifs.ui.gifView
+import com.brianegan.bansa.listOfTrendingGifs.ui.utils.BansaAdapter
+import com.brianegan.bansa.listOfTrendingGifs.ui.utils.OnScrolledToEndOfListListener
 import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
 import rx.functions.Action1
@@ -15,24 +20,17 @@ import trikita.anvil.DSL.*
 import trikita.anvil.RenderableView
 
 class RootView(c: Context, val store: Store<ApplicationState, Action>) : RenderableView(c) {
-    val FETCH_THRESHOLD = 5
-
     override fun view() {
-        listView {
-            size(FILL, FILL)
-            adapter(adapter.update(store.getState().gifs))
-            onScroll(object : AbsListView.OnScrollListener {
-                override fun onScrollStateChanged(view: AbsListView?, scrollState: Int) {
+        swipeRefreshLayout {
+            onRefresh { store.dispatch(REFRESH) }
+            refreshing(store.getState().isRefreshing)
 
-                }
-
-                override fun onScroll(view: AbsListView?, firstVisibleItem: Int, visibleItemCount: Int, totalItemCount: Int) {
-                    val lastVisibleItem = firstVisibleItem.plus(visibleItemCount);
-                    if (store.getState().isFetching.not() && lastVisibleItem == totalItemCount.minus(FETCH_THRESHOLD)) {
-                        store.dispatch(FETCH_NEXT_PAGE)
-                    }
-                }
-            })
+            listView {
+                size(FILL, FILL)
+                dividerHeight(0)
+                adapter(adapter.update(store.getState().gifs))
+                onScroll(fetchMoreGifsAtEndOfListListener)
+            }
         }
     }
 
@@ -43,6 +41,10 @@ class RootView(c: Context, val store: Store<ApplicationState, Action>) : Rendera
             identity,
             ::gifView
     )
+
+    val fetchMoreGifsAtEndOfListListener = OnScrolledToEndOfListListener(
+            { store.getState().isFetching.not() },
+            { store.dispatch(FETCH_NEXT_PAGE) })
 
     var subscription: Subscription = Subscriptions.empty()
 

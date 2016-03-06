@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.brianegan.bansa.Action
 import com.brianegan.bansa.Store
+import com.brianegan.bansa.listOfTrendingGifs.state.ApplicationState
 import uy.kohesive.injekt.Injekt
 import uy.kohesive.injekt.api.fullType
 import uy.kohesive.injekt.api.get

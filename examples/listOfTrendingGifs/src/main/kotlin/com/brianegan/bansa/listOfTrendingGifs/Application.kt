@@ -4,6 +4,11 @@ import com.brianegan.bansa.Action
 import com.brianegan.bansa.Store
 import com.brianegan.bansa.applyMiddleware
 import com.brianegan.bansa.createStore
+import com.brianegan.bansa.listOfTrendingGifs.actions.INIT
+import com.brianegan.bansa.listOfTrendingGifs.middleware.gifMiddleware
+import com.brianegan.bansa.listOfTrendingGifs.middleware.loggingMiddleware
+import com.brianegan.bansa.listOfTrendingGifs.reducers.applicationReducer
+import com.brianegan.bansa.listOfTrendingGifs.state.ApplicationState
 import uy.kohesive.injekt.Injekt
 import uy.kohesive.injekt.InjektMain
 import uy.kohesive.injekt.api.InjektRegistrar
