@@ -1,5 +1,4 @@
 package com.brianegan.bansa
 
-interface Action {
-}
+interface Action
 

@@ -12,7 +12,7 @@ class RxStore<S : State, A : Action>(
         private val initialState: S,
         private val initialReducer: (S, A) -> S,
         private val scheduler: Scheduler = Schedulers.newThread()
-) : Store<S, A>(initialState, initialReducer, scheduler) {
+) : Store<S, A> {
     private val dispatcher: SerializedSubject<A, A>
     private var currentState: S
 
@@ -27,8 +27,7 @@ class RxStore<S : State, A : Action>(
                 .observeOn(scheduler) // Run the scan on a given thread, by default a background thread
                 .scan(currentState, { state, action -> reducer(state, action) }) // Run the action through your reducers, producing a new state
                 .doOnNext({ newState -> currentState = newState }) // Update the state field of the instance for lazy access
-                .publish() // Turn it into a ConnectableObservable so all subscribers receive the same values
-                .refCount()
+                .share() // Share the Observable so all subscribers receive the same values
 
         state.subscribe()
     }
