@@ -1,5 +1,3 @@
 package com.brianegan.bansa
 
-interface State {
-
-}
+interface State
