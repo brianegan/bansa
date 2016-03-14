@@ -1,10 +1,9 @@
 package com.brianegan.bansa.listOfTrendingGifs.actions
 
-import com.brianegan.bansa.Action
 import com.brianegan.bansa.listOfTrendingGifs.models.TrendingGifs
 import rx.Subscription
 
-interface AppAction : Action {}
+interface AppAction
 
 object INIT : AppAction
 object REFRESH : AppAction

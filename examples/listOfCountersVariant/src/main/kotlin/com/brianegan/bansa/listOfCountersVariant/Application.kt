@@ -1,6 +1,5 @@
 package com.brianegan.bansa.listOfCountersVariant
 
-import com.brianegan.bansa.Action
 import com.brianegan.bansa.Store
 import com.brianegan.bansa.createStore
 import uy.kohesive.injekt.Injekt
@@ -13,12 +12,12 @@ class Application : android.app.Application() {
     companion object : InjektMain() {
         override fun InjektRegistrar.registerInjectables() {
             addSingleton(
-                    fullType<Store<ApplicationState, Action>>(),
+                    fullType<Store<ApplicationState, Any>>(),
                     createStore(ApplicationState(), applicationReducer));
         }
     }
 
-    val store = Injekt.get(fullType<Store<ApplicationState, Action>>())
+    val store = Injekt.get(fullType<Store<ApplicationState, Any>>())
 
     override fun onCreate() {
         super.onCreate()

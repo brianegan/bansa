@@ -3,7 +3,6 @@ package com.brianegan.bansa.listOfCounters
 import android.content.Context
 import android.view.View
 import android.widget.LinearLayout
-import com.brianegan.bansa.Action
 import com.brianegan.bansa.Store
 import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
@@ -13,7 +12,7 @@ import trikita.anvil.DSL.*
 import trikita.anvil.RenderableAdapter
 import trikita.anvil.RenderableView
 
-public class RootView(c: Context, val store: Store<ApplicationState, Action>) : RenderableView(c) {
+public class RootView(c: Context, val store: Store<ApplicationState, Any>) : RenderableView(c) {
     val stateChangeSubscription: Subscription = store
             .state
             .observeOn(AndroidSchedulers.mainThread())

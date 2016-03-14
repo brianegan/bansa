@@ -1,12 +1,10 @@
 package com.brianegan.bansa.listOfTrendingGifs.middleware
 
-import com.brianegan.bansa.Action
-import com.brianegan.bansa.listOfTrendingGifs.*
 import com.brianegan.bansa.listOfTrendingGifs.actions.*
 import com.brianegan.bansa.listOfTrendingGifs.api.fetchTrendingGifs
 import com.brianegan.bansa.listOfTrendingGifs.state.ApplicationState
 
-val gifMiddleware = createMiddleware<ApplicationState, Action> { store, next, action ->
+val gifMiddleware = createMiddleware<ApplicationState, Any> { store, next, action ->
     val state = store.getState()
 
     when (action) {

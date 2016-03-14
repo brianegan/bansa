@@ -8,7 +8,7 @@ import rx.schedulers.Schedulers
 import rx.subjects.PublishSubject
 import rx.subjects.SerializedSubject
 
-class RxStore<S, A : Action>(
+class RxStore<S, A>(
         private val initialState: S,
         private val initialReducer: (S, A) -> S,
         private val scheduler: Scheduler = Schedulers.newThread()

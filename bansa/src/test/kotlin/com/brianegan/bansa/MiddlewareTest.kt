@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit
 
 class MiddlewareTest {
     data class MyState(val state: String = "initial state")
-    data class MyAction(val type: String = "unknown") : Action
+    data class MyAction(val type: String = "unknown")
 
     @Test
     fun `actions should be run through a store's middleware`() {

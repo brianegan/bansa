@@ -3,7 +3,6 @@ package com.brianegan.bansa.counter
 import android.content.Context
 import android.view.View
 import android.widget.LinearLayout
-import com.brianegan.bansa.Action
 import com.brianegan.bansa.Store
 import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
@@ -13,7 +12,7 @@ import trikita.anvil.Anvil
 import trikita.anvil.DSL.*
 import trikita.anvil.RenderableView
 
-class RootView(c: Context, val store: Store<ApplicationState, Action>) : RenderableView(c) {
+class RootView(c: Context, val store: Store<ApplicationState, Any>) : RenderableView(c) {
     override fun view() {
         template(buildPresentationModel())
     }

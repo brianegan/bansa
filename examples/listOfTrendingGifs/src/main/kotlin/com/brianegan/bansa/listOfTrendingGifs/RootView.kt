@@ -1,7 +1,6 @@
 package com.brianegan.bansa.listOfTrendingGifs
 
 import android.content.Context
-import com.brianegan.bansa.Action
 import com.brianegan.bansa.Store
 import com.brianegan.bansa.listOfTrendingGifs.actions.FETCH_NEXT_PAGE
 import com.brianegan.bansa.listOfTrendingGifs.actions.REFRESH
@@ -19,7 +18,7 @@ import trikita.anvil.Anvil
 import trikita.anvil.DSL.*
 import trikita.anvil.RenderableView
 
-class RootView(c: Context, val store: Store<ApplicationState, Action>) : RenderableView(c) {
+class RootView(c: Context, val store: Store<ApplicationState, Any>) : RenderableView(c) {
     override fun view() {
         swipeRefreshLayout {
             onRefresh { store.dispatch(REFRESH) }

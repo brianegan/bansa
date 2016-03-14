@@ -1,8 +1,6 @@
 package com.brianegan.bansa.randomGif
 
-import com.brianegan.bansa.Action
-
-interface AppAction : Action {}
+interface AppAction
 
 object INIT : AppAction
 object FETCHING : AppAction

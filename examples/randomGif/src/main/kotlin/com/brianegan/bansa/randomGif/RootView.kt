@@ -6,7 +6,6 @@ import android.net.Uri
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.VideoView
-import com.brianegan.bansa.Action
 import com.brianegan.bansa.Store
 import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
@@ -16,7 +15,7 @@ import trikita.anvil.Anvil
 import trikita.anvil.DSL.*
 import trikita.anvil.RenderableView
 
-public class RootView(c: Context, val store: Store<ApplicationState, Action>) : RenderableView(c) {
+public class RootView(c: Context, val store: Store<ApplicationState, Any>) : RenderableView(c) {
     override fun view() {
         template(buildViewModel())
     }

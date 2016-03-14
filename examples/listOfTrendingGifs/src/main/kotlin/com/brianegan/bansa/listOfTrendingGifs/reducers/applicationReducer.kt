@@ -1,12 +1,11 @@
 package com.brianegan.bansa.listOfTrendingGifs.reducers
 
-import com.brianegan.bansa.Action
 import com.brianegan.bansa.listOfTrendingGifs.actions.*
 import com.brianegan.bansa.listOfTrendingGifs.api.NextPage
 import com.brianegan.bansa.listOfTrendingGifs.state.ApplicationState
 import rx.subscriptions.Subscriptions
 
-val applicationReducer = { state: ApplicationState, action: Action ->
+val applicationReducer = { state: ApplicationState, action: Any ->
     when (action) {
         is INIT -> ApplicationState()
 

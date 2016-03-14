@@ -1,8 +1,6 @@
 package com.brianegan.bansa.listOfCountersVariant
 
-import com.brianegan.bansa.Action
-
-val applicationReducer = { state: ApplicationState, action: Action ->
+val applicationReducer = { state: ApplicationState, action: Any ->
     when (action) {
         is CounterAction -> counterReducer(state, action)
         else -> state
