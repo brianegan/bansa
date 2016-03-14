@@ -1,6 +1,5 @@
 package com.brianegan.bansa.listOfTrendingGifs
 
-import com.brianegan.bansa.Action
 import com.brianegan.bansa.Store
 import com.brianegan.bansa.applyMiddleware
 import com.brianegan.bansa.createStore
@@ -19,12 +18,12 @@ class Application : android.app.Application() {
     companion object : InjektMain() {
         override fun InjektRegistrar.registerInjectables() {
             addSingleton(
-                    fullType<Store<ApplicationState, Action>>(),
+                    fullType<Store<ApplicationState, Any>>(),
                     applyMiddleware(gifMiddleware, loggingMiddleware)(createStore(ApplicationState(), applicationReducer)));
         }
     }
 
-    val store = Injekt.get(fullType<Store<ApplicationState, Action>>())
+    val store = Injekt.get(fullType<Store<ApplicationState, Any>>())
 
     override fun onCreate() {
         super.onCreate()

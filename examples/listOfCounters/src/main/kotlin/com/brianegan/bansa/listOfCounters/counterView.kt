@@ -2,7 +2,6 @@ package com.brianegan.bansa.listOfCounters
 
 import android.view.View
 import android.widget.LinearLayout
-import com.brianegan.bansa.Action
 import com.brianegan.bansa.Store
 import trikita.anvil.DSL.*
 
@@ -36,7 +35,7 @@ fun counterView(model: CounterViewModel) {
     }
 }
 
-fun buildMapCounterToCounterViewModel(store: Store<ApplicationState, Action>): (Counter) -> CounterViewModel {
+fun buildMapCounterToCounterViewModel(store: Store<ApplicationState, Any>): (Counter) -> CounterViewModel {
     return { counter ->
         val (id, value) = counter
         val increment = View.OnClickListener {

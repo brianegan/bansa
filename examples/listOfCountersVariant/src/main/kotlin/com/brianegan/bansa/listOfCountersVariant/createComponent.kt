@@ -1,10 +1,8 @@
 package com.brianegan.bansa.listOfCountersVariant
 
-import com.brianegan.bansa.Action
-import com.brianegan.bansa.State
 import com.brianegan.bansa.Store
 
-fun <A : Action, S : State, VM> connect(
+fun <A, S, VM> connect(
         mapStoreToViewModel: (Store<S, A>) -> VM)
         : ((VM) -> Unit) -> (Store<S, A>) -> Unit {
 

@@ -1,8 +1,6 @@
 package com.brianegan.bansa.counter
 
-import com.brianegan.bansa.Action
-
-interface CounterAction : Action {}
+interface CounterAction {}
 
 sealed class CounterActions {
     object INIT : CounterAction

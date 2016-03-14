@@ -4,7 +4,7 @@ import rx.Observable
 import rx.Subscriber
 import rx.Subscription
 
-interface Store<S : State, A : Action> {
+interface Store<S, A> {
     val state: Observable<S>
     fun getState(): S
     var dispatch: (action: A) -> A

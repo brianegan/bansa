@@ -5,8 +5,8 @@ import org.junit.Test
 import rx.observers.TestSubscriber
 
 class StoreTest {
-    data class MyState(val state: String = "initial state") : State
-    data class MyAction(val type: String = "unknown") : Action
+    data class MyState(val state: String = "initial state")
+    data class MyAction(val type: String = "unknown")
 
     @Test
     fun `when an action is fired, the corresponding reducer should be called and update the state of the application`() {

@@ -1,8 +1,6 @@
 package com.brianegan.bansa.randomGif
 
-import com.brianegan.bansa.Action
-
-val applicationReducer = { state: ApplicationState, action: Action ->
+val applicationReducer = { state: ApplicationState, action: Any ->
     when (action) {
         is INIT -> ApplicationState()
         is FETCHING -> state.copy(isFetching = true)

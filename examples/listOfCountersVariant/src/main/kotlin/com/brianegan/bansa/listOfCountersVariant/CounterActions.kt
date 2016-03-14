@@ -1,9 +1,8 @@
 package com.brianegan.bansa.listOfCountersVariant
 
-import com.brianegan.bansa.Action
 import java.util.*
 
-interface CounterAction : Action {}
+interface CounterAction
 
 data class INIT(val state : ApplicationState = ApplicationState()) : CounterAction
 data class ADD(val counter : Counter = Counter()) : CounterAction

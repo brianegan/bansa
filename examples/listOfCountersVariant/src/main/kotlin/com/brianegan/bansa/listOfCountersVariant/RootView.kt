@@ -4,7 +4,6 @@ import android.content.Context
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
-import com.brianegan.bansa.Action
 import com.brianegan.bansa.Store
 import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
@@ -15,7 +14,7 @@ import trikita.anvil.RenderableView
 import trikita.anvil.recyclerview.Recycler
 import trikita.anvil.recyclerview.Recycler.*
 
-public class RootView(c: Context, val store: Store<ApplicationState, Action>) : RenderableView(c) {
+public class RootView(c: Context, val store: Store<ApplicationState, Any>) : RenderableView(c) {
     val stateChangeSubscription: Subscription = store
             .state
             // Yay! We can easily schedule when we perform view updates as to not
