@@ -7,7 +7,7 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 
 class MiddlewareTest {
-    data class MyState(val state: String = "initial state") : State
+    data class MyState(val state: String = "initial state")
     data class MyAction(val type: String = "unknown") : Action
 
     @Test

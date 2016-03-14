@@ -1,10 +1,9 @@
 package com.brianegan.bansa.counterPair
 
 import com.brianegan.bansa.Action
-import com.brianegan.bansa.State
 import com.brianegan.bansa.Store
 
-fun <A : Action, S : State, VM> connect(
+fun <A : Action, S, VM> connect(
         mapStoreToViewModel: (Store<S, A>) -> VM)
         : ((VM) -> Unit) -> (Store<S, A>) -> Unit {
 

@@ -5,7 +5,7 @@ import org.junit.Test
 import rx.observers.TestSubscriber
 
 class StoreTest {
-    data class MyState(val state: String = "initial state") : State
+    data class MyState(val state: String = "initial state")
     data class MyAction(val type: String = "unknown") : Action
 
     @Test

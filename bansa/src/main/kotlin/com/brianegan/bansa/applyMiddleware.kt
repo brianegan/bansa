@@ -1,6 +1,6 @@
 package com.brianegan.bansa
 
-fun <S : State, A : Action> applyMiddleware(
+fun <S, A : Action> applyMiddleware(
         vararg middleware: (Store<S, A>) -> ((A) -> A) -> (A) -> A)
         : (Store<S, A>) -> Store<S, A> {
     return { store ->
