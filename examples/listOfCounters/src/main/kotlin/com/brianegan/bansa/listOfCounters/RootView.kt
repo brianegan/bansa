@@ -14,7 +14,7 @@ import trikita.anvil.RenderableView
 
 public class RootView(c: Context, val store: Store<ApplicationState, Any>) : RenderableView(c) {
     val stateChangeSubscription: Subscription = store
-            .state
+            .stateChanges
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(Action1 { Anvil.render() })
 
