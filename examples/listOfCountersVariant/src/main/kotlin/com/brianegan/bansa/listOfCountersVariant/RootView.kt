@@ -66,7 +66,7 @@ public class RootView(c: Context, val store: Store<ApplicationState, Any>) : Ren
                     size(FILL, FILL)
                 }
 
-                Recycler.adapter(adapter.update(store.getState().counters))
+                Recycler.adapter(adapter.update(store.state.counters))
             }
         }
     }

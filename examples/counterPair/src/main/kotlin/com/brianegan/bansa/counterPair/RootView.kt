@@ -18,14 +18,14 @@ public class RootView(c: Context, val store: Store<ApplicationState, Any>) : Ren
         linearLayout {
             orientation(LinearLayout.VERTICAL)
 
-            store.getState().counters.keys.forEach { id ->
+            store.state.counters.keys.forEach { id ->
                 template(buildPresentationModel(id))
             }
         }
     }
 
     private fun buildPresentationModel(id: UUID): ViewModel {
-        val counter = store.getState().counters[id]!!
+        val counter = store.state.counters[id]!!
         val increment = View.OnClickListener {
             store.dispatch(INCREMENT(id))
         }

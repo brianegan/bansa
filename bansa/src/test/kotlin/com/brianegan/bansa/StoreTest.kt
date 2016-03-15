@@ -20,7 +20,7 @@ class StoreTest {
 
         store.dispatch(MyAction(type = "to reduce"))
 
-        assertThat(store.getState().state).isEqualTo("reduced")
+        assertThat(store.state.state).isEqualTo("reduced")
     }
 
     @Test
@@ -45,9 +45,9 @@ class StoreTest {
         val store = createTestStore(MyState(), combineReducers(reducer1, reducer2))
 
         store.dispatch(MyAction(type = helloReducer1))
-        assertThat(store.getState().state).isEqualTo("oh hai")
+        assertThat(store.state.state).isEqualTo("oh hai")
         store.dispatch(MyAction(type = helloReducer2))
-        assertThat(store.getState().state).isEqualTo("mark")
+        assertThat(store.state.state).isEqualTo("mark")
     }
 
     @Test

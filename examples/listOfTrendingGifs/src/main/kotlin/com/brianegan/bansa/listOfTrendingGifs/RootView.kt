@@ -22,12 +22,12 @@ class RootView(c: Context, val store: Store<ApplicationState, Any>) : Renderable
     override fun view() {
         swipeRefreshLayout {
             onRefresh { store.dispatch(REFRESH) }
-            refreshing(store.getState().isRefreshing)
+            refreshing(store.state.isRefreshing)
 
             listView {
                 size(FILL, FILL)
                 dividerHeight(0)
-                adapter(adapter.update(store.getState().gifs))
+                adapter(adapter.update(store.state.gifs))
                 onScroll(fetchMoreGifsAtEndOfListListener)
             }
         }
@@ -36,13 +36,13 @@ class RootView(c: Context, val store: Store<ApplicationState, Any>) : Renderable
     val identity = { it: Gif -> it }
 
     val adapter: BansaAdapter<Gif, Gif> = BansaAdapter(
-            store.getState().gifs,
+            store.state.gifs,
             identity,
             ::gifView
     )
 
     val fetchMoreGifsAtEndOfListListener = OnScrolledToEndOfListListener(
-            { store.getState().isFetching.not() },
+            { store.state.isFetching.not() },
             { store.dispatch(FETCH_NEXT_PAGE) })
 
     var subscription: Subscription = Subscriptions.empty()

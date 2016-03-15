@@ -11,21 +11,21 @@ class CounterReducerTest {
         val store = createTestStore()
         store.dispatch(CounterActions.INIT)
 
-        assertThat(store.getState()).isEqualTo(ApplicationState())
+        assertThat(store.state).isEqualTo(ApplicationState())
     }
 
     @Test fun `INCREMENT action should increment the counter state`() {
         val store = createTestStore()
         store.dispatch(CounterActions.INCREMENT)
 
-        assertThat(store.getState()).isEqualTo(ApplicationState(1))
+        assertThat(store.state).isEqualTo(ApplicationState(1))
     }
 
     @Test fun `DECREMENT action should decrement the counter state`() {
         val store = createTestStore()
         store.dispatch(CounterActions.DECREMENT)
 
-        assertThat(store.getState()).isEqualTo(ApplicationState(-1))
+        assertThat(store.state).isEqualTo(ApplicationState(-1))
     }
 
     fun createTestStore(): Store<ApplicationState, CounterAction> =

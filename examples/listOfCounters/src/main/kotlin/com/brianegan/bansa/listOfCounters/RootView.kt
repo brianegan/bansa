@@ -69,7 +69,7 @@ public class RootView(c: Context, val store: Store<ApplicationState, Any>) : Ren
             listView {
                 margin(dip(0), dip(50), dip(0), dip(0))
                 size(FILL, FILL)
-                adapter(adapter.update(store.getState().counters))
+                adapter(adapter.update(store.state.counters))
             }
         }
     }

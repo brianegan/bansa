@@ -26,7 +26,7 @@ class RootView(c: Context, val store: Store<ApplicationState, Any>) : Renderable
     }
 
     private fun buildPresentationModel(): ViewModel {
-        val counter = store.getState().counter
+        val counter = store.state.counter
 
         return ViewModel(counter, increment, decrement)
     }

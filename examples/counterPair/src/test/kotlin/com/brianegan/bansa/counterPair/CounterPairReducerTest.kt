@@ -13,7 +13,7 @@ class CounterPairReducerTest {
         val store = createTestStore()
         store.dispatch(INIT(applicationState))
 
-        assertThat(store.getState()).isEqualTo(applicationState)
+        assertThat(store.state).isEqualTo(applicationState)
     }
 
     @Test fun shouldIncrementTheCounter() {
@@ -21,7 +21,7 @@ class CounterPairReducerTest {
         val store = createTestStore(createTestState(firstCounter))
         store.dispatch(INCREMENT(firstCounter.first))
 
-        assertThat(store.getState().counters[firstCounter.first]).isEqualTo(1)
+        assertThat(store.state.counters[firstCounter.first]).isEqualTo(1)
     }
 
     @Test fun shouldDecrementTheCounter() {
@@ -29,7 +29,7 @@ class CounterPairReducerTest {
         val store = createTestStore(createTestState(firstCounter))
         store.dispatch(DECREMENT(firstCounter.first))
 
-        assertThat(store.getState().counters[firstCounter.first]).isEqualTo(4)
+        assertThat(store.state.counters[firstCounter.first]).isEqualTo(4)
     }
 
     fun createTestStore(applicationState: ApplicationState = ApplicationState()): Store<ApplicationState, CounterAction> {
