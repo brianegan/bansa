@@ -24,7 +24,7 @@ class RxStore<S, A>(
         stateChanges.subscribe()
     }
 
-    override var dispatch: (action: A) -> A = { action ->
+    override val dispatch: (action: A) -> A = { action ->
         dispatcher.onNext(action)
         action
     }
