@@ -26,7 +26,7 @@ class RootView(c: Context, val store: Store<ApplicationState, Any>) : Renderable
     }
 
     private fun buildPresentationModel(): ViewModel {
-        val counter = store.getState().counter
+        val counter = store.state.counter
 
         return ViewModel(counter, increment, decrement)
     }
@@ -63,7 +63,7 @@ class RootView(c: Context, val store: Store<ApplicationState, Any>) : Renderable
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
 
-        subscription = store.state.observeOn(AndroidSchedulers.mainThread()).subscribe(Action1 {
+        subscription = store.stateChanges.observeOn(AndroidSchedulers.mainThread()).subscribe(Action1 {
             Anvil.render()
         })
     }

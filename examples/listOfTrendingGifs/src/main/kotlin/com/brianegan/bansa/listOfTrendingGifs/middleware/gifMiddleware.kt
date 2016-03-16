@@ -5,7 +5,7 @@ import com.brianegan.bansa.listOfTrendingGifs.api.fetchTrendingGifs
 import com.brianegan.bansa.listOfTrendingGifs.state.ApplicationState
 
 val gifMiddleware = createMiddleware<ApplicationState, Any> { store, next, action ->
-    val state = store.getState()
+    val state = store.state
 
     when (action) {
         is FETCH_NEXT_PAGE -> {

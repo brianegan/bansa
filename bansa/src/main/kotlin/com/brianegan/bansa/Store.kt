@@ -5,8 +5,8 @@ import rx.Subscriber
 import rx.Subscription
 
 interface Store<S, A> {
-    val state: Observable<S>
-    fun getState(): S
+    val stateChanges: Observable<S>
+    val state: S
     var dispatch: (action: A) -> A
     fun subscribe(subscriber: Subscriber<S>): Subscription
 }

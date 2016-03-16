@@ -15,7 +15,7 @@ class CounterListReducerTest : Spek() { init {
             store.dispatch(INIT(initialState))
 
             it("should initialize the app with a given state") {
-                assertThat(store.getState()).isEqualTo(initialState)
+                assertThat(store.state).isEqualTo(initialState)
             }
         }
     }
@@ -29,7 +29,7 @@ class CounterListReducerTest : Spek() { init {
             store.dispatch(INCREMENT(counter.id))
 
             it("should increase the value of the counter by 1") {
-                assertThat(store.getState().counters.first().value).isEqualTo(1)
+                assertThat(store.state.counters.first().value).isEqualTo(1)
             }
         }
     }
@@ -43,7 +43,7 @@ class CounterListReducerTest : Spek() { init {
             store.dispatch(DECREMENT(counter.id))
 
             it("should decrease the value of the counter by 1") {
-                assertThat(store.getState().counters.first().value).isEqualTo(-1)
+                assertThat(store.state.counters.first().value).isEqualTo(-1)
             }
         }
     }
@@ -61,8 +61,8 @@ class CounterListReducerTest : Spek() { init {
             store.dispatch(ADD(counter4))
 
             it("should append the counter to the end of the list") {
-                assertThat(store.getState().counters.size).isEqualTo(4)
-                assertThat(store.getState().counters.last()).isEqualTo(counter4)
+                assertThat(store.state.counters.size).isEqualTo(4)
+                assertThat(store.state.counters.last()).isEqualTo(counter4)
             }
         }
     }
@@ -79,7 +79,7 @@ class CounterListReducerTest : Spek() { init {
             store.dispatch(REMOVE)
 
             it("should remove the counter from the end of the list") {
-                assertThat(store.getState().counters.size).isEqualTo(2)
+                assertThat(store.state.counters.size).isEqualTo(2)
             }
         }
     }

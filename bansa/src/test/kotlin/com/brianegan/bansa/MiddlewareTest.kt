@@ -31,7 +31,7 @@ class MiddlewareTest {
 
         store.dispatch(MyAction(type = "hey hey!"))
 
-        assertThat(store.getState()).isEqualTo(MyState())
+        assertThat(store.state).isEqualTo(MyState())
         assertThat(counter).isEqualTo(1)
     }
 
@@ -74,7 +74,7 @@ class MiddlewareTest {
 
         store.dispatch(MyAction(type = "hey hey!"))
 
-        assertThat(store.getState()).isEqualTo(MyState("howdy!"))
+        assertThat(store.state).isEqualTo(MyState("howdy!"))
         assertThat(counter).isEqualTo(2)
         assertThat(order).isEqualTo(arrayListOf("first", "second", "third"))
     }
@@ -131,12 +131,12 @@ class MiddlewareTest {
 
         assertThat(counter).isEqualTo(3)
         assertThat(order).isEqualTo(arrayListOf("FETCHING", "CALL_API"))
-        assertThat(store.getState()).isEqualTo(MyState("FETCHING"))
+        assertThat(store.state).isEqualTo(MyState("FETCHING"))
 
         testScheduler.advanceTimeBy(2L, TimeUnit.SECONDS)
         assertThat(counter).isEqualTo(4)
         assertThat(order).isEqualTo(arrayListOf("FETCHING", "CALL_API", "FETCH_COMPLETE"))
-        assertThat(store.getState()).isEqualTo(MyState(state = "FETCH_COMPLETE"))
+        assertThat(store.state).isEqualTo(MyState(state = "FETCH_COMPLETE"))
     }
 
     @Test

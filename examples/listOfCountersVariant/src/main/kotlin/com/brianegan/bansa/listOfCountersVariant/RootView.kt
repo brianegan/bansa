@@ -16,7 +16,7 @@ import trikita.anvil.recyclerview.Recycler.*
 
 public class RootView(c: Context, val store: Store<ApplicationState, Any>) : RenderableView(c) {
     val stateChangeSubscription: Subscription = store
-            .state
+            .stateChanges
             // Yay! We can easily schedule when we perform view updates as to not
             // cause too much churn on the view layer in response to rapid state changes,
             // which could diminish app performance
@@ -66,7 +66,7 @@ public class RootView(c: Context, val store: Store<ApplicationState, Any>) : Ren
                     size(FILL, FILL)
                 }
 
-                Recycler.adapter(adapter.update(store.getState().counters))
+                Recycler.adapter(adapter.update(store.state.counters))
             }
         }
     }

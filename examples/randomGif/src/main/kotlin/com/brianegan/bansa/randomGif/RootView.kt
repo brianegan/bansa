@@ -25,7 +25,7 @@ public class RootView(c: Context, val store: Store<ApplicationState, Any>) : Ren
     }
 
     private fun buildViewModel(): ViewModel {
-        val (isFetching, videoUrl) = store.getState()
+        val (isFetching, videoUrl) = store.state
 
         return ViewModel(videoUrl, isFetching, fetchRandomGif)
     }
@@ -90,7 +90,7 @@ public class RootView(c: Context, val store: Store<ApplicationState, Any>) : Ren
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
 
-        subscription = store.state.observeOn(AndroidSchedulers.mainThread()).subscribe(Action1 {
+        subscription = store.stateChanges.observeOn(AndroidSchedulers.mainThread()).subscribe(Action1 {
             Anvil.render()
         })
     }

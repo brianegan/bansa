@@ -14,25 +14,22 @@ class RxStore<S, A>(
         private val scheduler: Scheduler = Schedulers.newThread()
 ) : Store<S, A> {
     private val dispatcher: SerializedSubject<A, A>
-    private var currentState: S
+    override var state: S = initialState
 
-    override val state: Observable<S>
+    override val stateChanges: Observable<S>
     var reducer: (S, A) -> S
 
     init {
         reducer = initialReducer
-        currentState = initialState
         dispatcher = SerializedSubject<A, A>(PublishSubject.create<A>())
-        state = dispatcher // When an action is dispatched
+        stateChanges = dispatcher // When an action is dispatched
                 .observeOn(scheduler) // Run the scan on a given thread, by default a background thread
-                .scan(currentState, { state, action -> reducer(state, action) }) // Run the action through your reducers, producing a new state
-                .doOnNext({ newState -> currentState = newState }) // Update the state field of the instance for lazy access
+                .scan(state, { state, action -> reducer(state, action) }) // Run the action through your reducers, producing a new state
+                .doOnNext({ newState -> state = newState }) // Update the state field of the instance for lazy access
                 .share() // Share the Observable so all subscribers receive the same values
 
-        state.subscribe()
+        stateChanges.subscribe()
     }
-
-    override fun getState(): S = currentState
 
     override var dispatch: (action: A) -> A = { action ->
         dispatcher.onNext(action)
@@ -40,6 +37,6 @@ class RxStore<S, A>(
     }
 
     override fun subscribe(subscriber: Subscriber<S>): Subscription {
-        return state.subscribe(subscriber)
+        return stateChanges.subscribe(subscriber)
     }
 }
