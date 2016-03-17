@@ -4,7 +4,6 @@ import com.brianegan.bansa.Store
 import com.brianegan.bansa.createStore
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
-import rx.schedulers.Schedulers
 import java.util.*
 
 class CounterPairReducerTest {
@@ -33,7 +32,7 @@ class CounterPairReducerTest {
     }
 
     fun createTestStore(applicationState: ApplicationState = ApplicationState()): Store<ApplicationState, CounterAction> {
-        return createStore(applicationState, counterReducer, Schedulers.immediate())
+        return createStore(applicationState, counterReducer)
     }
 
     fun createTestState(firstCounter: Pair<UUID, Int> = Pair(UUID.randomUUID(), 0),
