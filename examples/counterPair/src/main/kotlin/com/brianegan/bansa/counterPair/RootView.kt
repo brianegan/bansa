@@ -6,14 +6,13 @@ import android.widget.LinearLayout
 import com.brianegan.bansa.Store
 import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
-import rx.functions.Action1
 import rx.subscriptions.Subscriptions
 import trikita.anvil.Anvil
 import trikita.anvil.DSL.*
 import trikita.anvil.RenderableView
 import java.util.*
 
-public class RootView(c: Context, val store: Store<ApplicationState, Any>) : RenderableView(c) {
+class RootView(c: Context, val store: Store<ApplicationState, Any>) : RenderableView(c) {
     override fun view() {
         linearLayout {
             orientation(LinearLayout.VERTICAL)
@@ -69,9 +68,9 @@ public class RootView(c: Context, val store: Store<ApplicationState, Any>) : Ren
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
 
-        subscription = store.stateChanges.observeOn(AndroidSchedulers.mainThread()).subscribe(Action1 {
+        subscription = store.stateChanges.observeOn(AndroidSchedulers.mainThread()).subscribe {
             Anvil.render()
-        })
+        }
     }
 
     override fun onDetachedFromWindow() {
