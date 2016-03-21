@@ -27,7 +27,7 @@ class MiddlewareTest {
             state
         }
 
-        val store = applyMiddleware(middleWare)(createTestStore(MyState(), reducer))
+        val store = applyMiddleware(middleWare)(createStore(MyState(), reducer))
 
         store.dispatch(MyAction(type = "hey hey!"))
 
@@ -70,7 +70,7 @@ class MiddlewareTest {
             }
         }
 
-        val store = applyMiddleware(middleWare1, middleWare2)(createTestStore(MyState(), reducer))
+        val store = applyMiddleware(middleWare1, middleWare2)(createStore(MyState(), reducer))
 
         store.dispatch(MyAction(type = "hey hey!"))
 
@@ -125,7 +125,7 @@ class MiddlewareTest {
             }
         }
 
-        val store = applyMiddleware(fetchMiddleware, loggerMiddleware)(createTestStore(MyState(), reducer))
+        val store = applyMiddleware(fetchMiddleware, loggerMiddleware)(createStore(MyState(), reducer))
 
         store.dispatch(MyAction(type = "CALL_API"))
 
@@ -177,7 +177,7 @@ class MiddlewareTest {
             state
         }
 
-        val store = applyMiddleware(middleWare1, middleWare2)(createTestStore(MyState(), reducer))
+        val store = applyMiddleware(middleWare1, middleWare2)(createStore(MyState(), reducer))
 
         store.dispatch(MyAction(type = "around!"))
 

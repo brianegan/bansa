@@ -16,7 +16,7 @@ class StoreTest {
                 else -> state
             }
         }
-        val store = createTestStore(MyState(), reducer)
+        val store = createStore(MyState(), reducer)
 
         store.dispatch(MyAction(type = "to reduce"))
 
@@ -42,7 +42,7 @@ class StoreTest {
             }
         }
 
-        val store = createTestStore(MyState(), combineReducers(reducer1, reducer2))
+        val store = createStore(MyState(), combineReducers(reducer1, reducer2))
 
         store.dispatch(MyAction(type = helloReducer1))
         assertThat(store.state.state).isEqualTo("oh hai")
@@ -52,7 +52,7 @@ class StoreTest {
 
     @Test
     fun `subscribers should be notified when the state changes`() {
-        val store = createTestStore(MyState(), { state: MyState, action: MyAction -> MyState() })
+        val store = createStore(MyState(), { state: MyState, action: MyAction -> MyState() })
         val subscriber1 = TestSubscriber.create<MyState>()
         val subscriber2 = TestSubscriber.create<MyState>()
 
@@ -67,7 +67,7 @@ class StoreTest {
 
     @Test
     fun `the store should not notify unsubscribed objects`() {
-        val store = createTestStore(MyState(), { state: MyState, action: MyAction -> MyState() })
+        val store = createStore(MyState(), { state: MyState, action: MyAction -> MyState() })
         val subscriber1 = TestSubscriber.create<MyState>()
         val subscriber2 = TestSubscriber.create<MyState>()
 
