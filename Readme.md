@@ -25,7 +25,7 @@ The examples in this project simply show one person's vision for how we could th
  
 ## Using it 
 
-We'll demonstrate using a simple counter exampple!
+We'll demonstrate using a simple counter example!
 
 ### Define what your state should look like
 

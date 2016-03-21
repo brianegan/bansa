@@ -4,7 +4,6 @@ import com.brianegan.bansa.Store
 import com.brianegan.bansa.createStore
 import org.assertj.core.api.Assertions.assertThat
 import org.jetbrains.spek.api.Spek
-import rx.schedulers.Schedulers
 
 class CounterListReducerTest : Spek() { init {
     given("an app that's booting up") {
@@ -87,5 +86,5 @@ class CounterListReducerTest : Spek() { init {
 }
 
 fun createTestStore(initialState: ApplicationState = ApplicationState()): Store<ApplicationState, CounterAction> {
-    return createStore(initialState, counterReducer, Schedulers.immediate())
+    return createStore(initialState, counterReducer)
 }

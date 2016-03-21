@@ -4,7 +4,6 @@ import com.brianegan.bansa.Store
 import com.brianegan.bansa.createStore
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
-import rx.schedulers.Schedulers
 
 class CounterReducerTest {
     @Test fun `INIT action should initialize the counter`() {
@@ -29,5 +28,5 @@ class CounterReducerTest {
     }
 
     fun createTestStore(): Store<ApplicationState, CounterAction> =
-            createStore(ApplicationState(), counterReducer, Schedulers.immediate())
+            createStore(ApplicationState(), counterReducer)
 }

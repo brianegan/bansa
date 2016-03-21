@@ -9,8 +9,6 @@ fun <S, A> applyMiddleware(
     }
 }
 
-fun <T> compose(
-        chain: List<((T) -> T) -> (T) -> T>)
-        : ((T) -> T) -> (T) -> T {
-    return { dispatch -> chain.foldRight(dispatch, { f, composed -> f(composed) }) }
+fun <T> compose(functions: List<(T) -> T>): (T) -> T {
+    return { x -> functions.foldRight(x, { f, composed -> f(composed) }) }
 }
