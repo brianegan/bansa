@@ -32,12 +32,15 @@ fun <T> defaultMemoize(func: (Array<out Any>) -> T, equalityCheck: (a: Any, b: A
 }
 
 @Suppress("UNUSED_VARIABLE") //S type parameter  marked as unused
-interface SelectorInput<S, I>
+interface SelectorInput<S, I> {
+    operator fun invoke(state: S): I
+}
 
 /**
  * a selector function is a function that map a state object to the input for the selector compute function
  */
 class SelectInput<S, I>(val fn: S.() -> I) : SelectorInput<S, I> {
+    override operator fun invoke(state: S): I = state.fn()
 }
 
 
@@ -46,7 +49,6 @@ class SelectInput<S, I>(val fn: S.() -> I) : SelectorInput<S, I> {
  * note: [Selector] inherit from [SelectorInput] because of support for composite selectors
  */
 interface Selector<S, O> : SelectorInput<S, O> {
-    operator fun invoke(state: S): O
     val recomputations: Long
     fun resetComputations()
     fun isChanged(): Boolean
@@ -85,12 +87,6 @@ abstract class AbstractSelector<S, O> : Selector<S, O> {
  * type information for the state parameter
  */
 class SelectorFor<S> {
-    private fun<S, I> getInputForComputeFun(s: SelectorInput<S, I>, state: S): I =
-            when (s) {
-                is Selector -> s(state)
-                is SelectInput -> s.fn(state)
-                else -> throw NotImplementedError()
-            }
 
     /**
      * create a a selector with a single input
@@ -104,7 +100,7 @@ class SelectorFor<S> {
 
         override operator fun invoke(state: S): O {
             return memoizer.memoize(
-                    getInputForComputeFun(si, state)
+                    si(state)
             )
         }
     }
@@ -124,8 +120,8 @@ class SelectorFor<S> {
 
         override operator fun invoke(state: S): O {
             return memoizer.memoize(
-                    getInputForComputeFun(si0, state),
-                    getInputForComputeFun(si1, state)
+                    si0(state),
+                    si1(state)
             )
         }
     }
@@ -146,9 +142,9 @@ class SelectorFor<S> {
 
         override operator fun invoke(state: S): O {
             return memoizer.memoize(
-                    getInputForComputeFun(si0, state),
-                    getInputForComputeFun(si1, state),
-                    getInputForComputeFun(si2, state)
+                    si0(state),
+                    si1(state),
+                    si2(state)
             )
         }
     }
@@ -170,10 +166,10 @@ class SelectorFor<S> {
 
         override operator fun invoke(state: S): O {
             return memoizer.memoize(
-                    getInputForComputeFun(si0, state),
-                    getInputForComputeFun(si1, state),
-                    getInputForComputeFun(si2, state),
-                    getInputForComputeFun(si3, state)
+                    si0(state),
+                    si1(state),
+                    si2(state),
+                    si3(state)
             )
         }
     }
@@ -196,11 +192,11 @@ class SelectorFor<S> {
 
         override operator fun invoke(state: S): O {
             return memoizer.memoize(
-                    getInputForComputeFun(si0, state),
-                    getInputForComputeFun(si1, state),
-                    getInputForComputeFun(si2, state),
-                    getInputForComputeFun(si3, state),
-                    getInputForComputeFun(si4, state)
+                    si0(state),
+                    si1(state),
+                    si2(state),
+                    si3(state),
+                    si4(state)
             )
         }
     }
