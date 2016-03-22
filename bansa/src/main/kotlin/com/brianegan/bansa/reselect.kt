@@ -31,7 +31,6 @@ fun <T> defaultMemoize(func: (Array<out Any>) -> T, equalityCheck: (a: Any, b: A
     }
 }
 
-@Suppress("UNUSED_VARIABLE") //S type parameter  marked as unused
 interface SelectorInput<S, I> {
     operator fun invoke(state: S): I
 }
