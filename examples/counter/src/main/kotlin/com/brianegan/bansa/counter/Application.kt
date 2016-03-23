@@ -2,22 +2,19 @@ package com.brianegan.bansa.counter
 
 import com.brianegan.bansa.Store
 import com.brianegan.bansa.createStore
-import uy.kohesive.injekt.Injekt
 import uy.kohesive.injekt.InjektMain
 import uy.kohesive.injekt.api.InjektRegistrar
-import uy.kohesive.injekt.api.fullType
-import uy.kohesive.injekt.api.get
+import uy.kohesive.injekt.api.addSingleton
+import uy.kohesive.injekt.injectLazy
 
 class Application : android.app.Application() {
-    companion object : InjektMain() {
+    val injektMain = object : InjektMain() {
         override fun InjektRegistrar.registerInjectables() {
-            addSingleton(
-                    fullType<Store<ApplicationState, Any>>(),
-                    createStore(ApplicationState(), counterReducer));
+            addSingleton<Store<ApplicationState, Any>>(createStore(ApplicationState(), counterReducer))
         }
     }
 
-    val store = Injekt.get(fullType<Store<ApplicationState, Any>>())
+    val store: Store<ApplicationState, Any> by injectLazy()
 
     override fun onCreate() {
         super.onCreate()
