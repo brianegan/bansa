@@ -3,14 +3,14 @@ package com.brianegan.bansa.counter
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.brianegan.bansa.Store
-import uy.kohesive.injekt.Injekt
-import uy.kohesive.injekt.api.get
+import uy.kohesive.injekt.injectLazy
 
 open class RootActivity : AppCompatActivity() {
-    val store: Store<ApplicationState, Any> = Injekt.get<Store<ApplicationState, Any>>()
+    val store: Store<ApplicationState, Any> by injectLazy()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        store.dispatch(CounterActions.INIT) // Initialize the store
         setContentView(RootView(this, store))
     }
 }
