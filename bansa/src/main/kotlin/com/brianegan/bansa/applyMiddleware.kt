@@ -4,16 +4,26 @@ import rx.Observable
 import rx.Subscriber
 import rx.Subscription
 
+interface Middleware<S, A> {
+    fun intercept(store: Store<S, A>, next: (A) -> A, action: A): A
+}
+
 /**
  * Store API subset exposed to middlewares.
  * The dispatch methods runs through all middlewares.
  */
-private class MiddlewareStoreApi<S, A>(val store: Store<S, A>, val middlewares: Array<out (Store<S, A>) -> ((A) -> A) -> (A) -> A>): Store<S, A> {
+private class MiddlewareStoreApi<S, A>(val store: Store<S, A>, val middlewares: Array<out Middleware<S, A>>): Store<S, A> {
     override val state: S
         get() = store.state
 
     override fun dispatch(action: A): A {
-        return compose(middlewares.map { it(this) })({ store.dispatch(it) })(action)
+        var dispatch = { action: A -> store.dispatch(action) }
+        middlewares.reversed().forEach { middleware ->
+            val next = dispatch
+            dispatch = { action -> middleware.intercept(this, next, action) }
+        }
+
+        return dispatch(action)
     }
 
     override val stateChanges: Observable<S>
@@ -24,8 +34,7 @@ private class MiddlewareStoreApi<S, A>(val store: Store<S, A>, val middlewares: 
     }
 }
 
-fun <S, A> applyMiddleware(
-        vararg middlewares: (Store<S, A>) -> ((A) -> A) -> (A) -> A)
+fun <S, A> applyMiddleware(vararg middlewares: Middleware<S, A>)
         : (Store<S, A>) -> Store<S, A> {
     return { store ->
         val middlewareApi = MiddlewareStoreApi(store, middlewares)
@@ -36,8 +45,4 @@ fun <S, A> applyMiddleware(
             }
         }
     }
-}
-
-fun <T> compose(functions: List<(T) -> T>): (T) -> T {
-    return { x -> functions.foldRight(x, { f, composed -> f(composed) }) }
 }
