@@ -3,10 +3,10 @@ package com.brianegan.bansa.counter
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.brianegan.bansa.Store
-import uy.kohesive.injekt.injectLazy
+import com.brianegan.bansa.createStore
 
 open class RootActivity : AppCompatActivity() {
-    val store: Store<ApplicationState, Any> by injectLazy()
+    val store: Store<ApplicationState, Any> = createStore(ApplicationState(), counterReducer)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
