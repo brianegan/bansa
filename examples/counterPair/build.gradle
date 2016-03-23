@@ -36,7 +36,7 @@ dependencies {
     compile project(':bansa')
 
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    compile 'co.trikita:anvil-sdk15:0.2.0'
+    compile 'co.trikita:anvil-sdk15:0.3.0'
     compile 'io.reactivex:rxandroid:1.0.1'
     compile "uy.kohesive.injekt:injekt-core:1.14.0"
     compile 'com.android.support:design:23.1.1'
