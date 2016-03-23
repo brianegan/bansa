@@ -383,5 +383,38 @@ class ReselectTest {
         )
         val state= State5(1.0,2.0,3.0,4.0,5.0)
         assertThat(selector(state)).isEqualTo(1.0/2.0/3.0/4.0/5.0)
-    }}
+    }
+
+    @Test
+    fun singleFieldSelectorTest() {
+        val sel4state=SelectorFor<State3>()
+        val selp1= sel4state.field { p1 }
+        val selp2= sel4state.field { p2 }
+        val selp3= sel4state.field { p3 }
+
+        val state= State3(1.0,2.0,3.0)
+        assertThat(selp1(state)).isEqualTo(1.0)
+        assertThat(selp2(state)).isEqualTo(2.0)
+        assertThat(selp3(state)).isEqualTo(3.0)
+    }
+    @Test
+    fun onChangeTest() {
+        val sel_a= SelectorFor<StateA>().field { a }
+        val state=StateA(a=0)
+        assertThat(sel_a(state)).isEqualTo(0)
+        val changedState = state.copy(a=1)
+        var firstChangedA:Int?=null
+        sel_a.onChangeIn(changedState) {
+            firstChangedA=it
+        }
+        var secondChangedA:Int?=null
+        sel_a.onChangeIn(changedState) {
+            secondChangedA=it
+        }
+        assertThat(firstChangedA).isEqualTo(1)
+        assertThat(secondChangedA).isNull()
+
+    }
+}
+
 

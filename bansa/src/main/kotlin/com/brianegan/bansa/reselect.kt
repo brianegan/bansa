@@ -16,6 +16,7 @@ inline fun <T : Any> Array<out T>.every(transform: (Int, T) -> Boolean): Boolean
     return true
 }
 
+
 // {a:Any,b:Any -> a===b}
 fun <T> defaultMemoize(func: (Array<out Any>) -> T, equalityCheck: (a: Any, b: Any) -> Boolean = defaultEqualityCheck) = object : memoizer<T> {
     var lastArgs: Array<out Any>? = null
@@ -52,6 +53,17 @@ interface Selector<S, O> : SelectorInput<S, O> {
     fun resetComputations()
     fun isChanged(): Boolean
     fun resetChanged()
+    fun getIfChangedIn(state:S):O? {
+        var res =invoke(state)
+        if(isChanged()) {
+            resetChanged()
+            return res
+        }
+        return null
+    }
+    fun onChangeIn(state:S,blockfn:(O)->Unit) {
+        getIfChangedIn(state)?.let(blockfn)
+    }
 }
 
 
@@ -72,6 +84,7 @@ abstract class AbstractSelector<S, O> : Selector<S, O> {
         _lastchanged_recomputations = _recomputations
     }
 
+
     protected abstract val computeandcount: (i: Array<out Any>) -> O
     /**
      * 'lazy' because computeandcount is abstract. Cannot reference to it before it is initialized in concrete selectors
@@ -86,6 +99,38 @@ abstract class AbstractSelector<S, O> : Selector<S, O> {
  * type information for the state parameter
  */
 class SelectorFor<S> {
+
+    /**
+     * special single input selector that should be used when you just want to retrieve a single field
+     */
+    fun <I : Any> field(fn: S.() -> I) = object : AbstractSelector<S, I>() {
+        override val computeandcount = fun(i: Array<out Any>): I {
+            ++_recomputations
+            @Suppress("UNCHECKED_CAST")
+            return i[0] as I
+        }
+        override operator fun invoke(state: S): I {
+            return memoizer.memoize(
+                    fn(state)
+            )
+        }
+    }
+
+    /**
+     * special single input selector that do not perform any computation, just return the selected input
+     */
+    fun <I : Any> create(si: SelectorInput<S, I>) = object : AbstractSelector<S, I>() {
+        override val computeandcount = fun(i: Array<out Any>): I {
+            ++_recomputations
+            @Suppress("UNCHECKED_CAST")
+            return i[0] as I
+        }
+        override operator fun invoke(state: S): I {
+            return memoizer.memoize(
+                    si(state)
+            )
+        }
+    }
 
     /**
      * create a a selector with a single input
