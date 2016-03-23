@@ -37,9 +37,9 @@ interface SelectorInput<S, I> {
 }
 
 /**
- * a selector function is a function that map a state object to the input for the selector compute function
+ * a selector function is a function that map a field in state object to the input for the selector compute function
  */
-class SelectInput<S, I>(val fn: S.() -> I) : SelectorInput<S, I> {
+class InputField<S, I>(val fn: S.() -> I) : SelectorInput<S, I> {
     override operator fun invoke(state: S): I = state.fn()
 }
 
@@ -112,22 +112,6 @@ class SelectorFor<S> {
         override operator fun invoke(state: S): I {
             return memoizer.memoize(
                     fn(state)
-            )
-        }
-    }
-
-    /**
-     * special single input selector that do not perform any computation, just return the selected input
-     */
-    fun <I : Any> create(si: SelectorInput<S, I>) = object : AbstractSelector<S, I>() {
-        override val computeandcount = fun(i: Array<out Any>): I {
-            ++_recomputations
-            @Suppress("UNCHECKED_CAST")
-            return i[0] as I
-        }
-        override operator fun invoke(state: S): I {
-            return memoizer.memoize(
-                    si(state)
             )
         }
     }

@@ -15,7 +15,7 @@ class ReselectTest {
     @Test
     fun basicSelectorTest(){
         val selector = SelectorFor<StateA>().create(
-                SelectInput { a },
+                InputField { a },
                 {a:Int -> a}
         )
         val state = StateA(0)
@@ -29,8 +29,8 @@ class ReselectTest {
     @Test
     fun basicSelectorWithMultipleKeysTest() {
         val selector= SelectorFor<StateAB>().create(
-                SelectInput {a},
-                SelectInput {b},
+                InputField {a},
+                InputField {b},
                 {a:Int,b:Int -> a+b}
         )
         val state1= StateAB(a=1,b=2)
@@ -47,7 +47,7 @@ class ReselectTest {
     @Test
     fun MemoizedCompositeArgumentsTest() {
         val selector = SelectorFor<StateSubStateA>().create(
-                SelectInput {sub},
+                InputField {sub},
                 {sub:StateA -> sub}
         )
         val state1= StateSubStateA(StateA(1))
@@ -81,9 +81,9 @@ class ReselectTest {
     fun CanAcceptPropsTest() {
 
         val selector = SelectorFor<StateAB>().create(
-                SelectInput {a},
-                SelectInput {b},
-                SelectInput {100},
+                InputField {a},
+                InputField {b},
+                InputField {100},
                 {a:Int,b:Int,c:Int -> a+b+c}
         )
         val state1=StateAB(a=1,b=2)
@@ -107,7 +107,7 @@ class ReselectTest {
     @Test
     fun ChainedSelectorTest() {
         val selector1= SelectorFor<StateSubStateA>().create(
-                SelectInput {sub},
+                InputField {sub},
                 {sub:StateA -> sub}
         )
         val selector2= SelectorFor<StateSubStateA>().create(
@@ -308,7 +308,7 @@ class ReselectTest {
     @Test
     fun resetComputationsTest() {
         val selector = SelectorFor<StateA>().create(
-                SelectInput { a},
+                InputField { a},
                 {a:Int -> a}
         )
         val state1= StateA(a=1)
@@ -331,7 +331,7 @@ class ReselectTest {
     @Test
     fun isChangedTest() {
         val selector = SelectorFor<StateA>().create(
-                SelectInput { a},
+                InputField { a},
                 {a:Int -> a}
         )
         val state1= StateA(a=1)
@@ -349,9 +349,9 @@ class ReselectTest {
     @Test
     fun args3Test() {
         val selector = SelectorFor<State3>().create(
-                SelectInput { p1},
-                SelectInput { p2},
-                SelectInput { p3},
+                InputField { p1},
+                InputField { p2},
+                InputField { p3},
                 {p1:Double,p2:Double,p3:Double -> p1/p2/p3}
         )
         val state= State3(1.0,2.0,3.0)
@@ -361,10 +361,10 @@ class ReselectTest {
     @Test
     fun args4Test() {
         val selector = SelectorFor<State4>().create(
-                SelectInput { p1},
-                SelectInput { p2},
-                SelectInput { p3},
-                SelectInput { p4},
+                InputField { p1},
+                InputField { p2},
+                InputField { p3},
+                InputField { p4},
                 {p1:Double,p2:Double,p3:Double,p4:Double -> p1/p2/p3/p4}
         )
         val state= State4(1.0,2.0,3.0,4.0)
