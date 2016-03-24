@@ -5,7 +5,6 @@ import android.view.View
 import android.widget.LinearLayout
 import com.brianegan.bansa.Store
 import rx.Subscription
-import rx.android.schedulers.AndroidSchedulers
 import rx.subscriptions.Subscriptions
 import trikita.anvil.Anvil
 import trikita.anvil.DSL.*
@@ -62,7 +61,7 @@ class RootView(c: Context, val store: Store<ApplicationState, Any>) : Renderable
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
 
-        subscription = store.stateChanges.observeOn(AndroidSchedulers.mainThread()).subscribe {
+        subscription = store.stateChanges.subscribe {
             Anvil.render()
         }
     }
