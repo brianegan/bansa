@@ -14,10 +14,7 @@ class ReselectTest {
     data class StateA(val a:Int)
     @Test
     fun basicSelectorTest(){
-        val selector = SelectorFor<StateA>().create(
-                InputField { a },
-                {a:Int -> a}
-        )
+        val selector = SelectorFor<StateA>().withSingleField{a}
         val state = StateA(0)
         assertThat(selector(state)).isEqualTo(0)
         assertThat(selector(state)).isEqualTo(0)
@@ -28,11 +25,10 @@ class ReselectTest {
     data class StateAB(val a:Int, val b:Int)
     @Test
     fun basicSelectorWithMultipleKeysTest() {
-        val selector= SelectorFor<StateAB>().create(
-                InputField {a},
-                InputField {b},
-                {a:Int,b:Int -> a+b}
-        )
+        val selector= SelectorFor<StateAB>()
+                .withField{a}
+                .withField{b}
+                .compute{a:Int,b:Int -> a+b}
         val state1= StateAB(a=1,b=2)
         assertThat(selector(state1)).isEqualTo(3)
         assertThat(selector(state1)).isEqualTo(3)
@@ -46,10 +42,9 @@ class ReselectTest {
     data class StateSubStateA (val sub:StateA)
     @Test
     fun MemoizedCompositeArgumentsTest() {
-        val selector = SelectorFor<StateSubStateA>().create(
-                InputField {sub},
-                {sub:StateA -> sub}
-        )
+        val selector = SelectorFor<StateSubStateA>()
+                .withField {sub}
+                .compute {sub:StateA -> sub}
         val state1= StateSubStateA(StateA(1))
         assertThat(selector(state1)).isEqualTo(StateA(1))
         assertThat(selector(state1)).isEqualTo(StateA(1))
@@ -80,12 +75,11 @@ class ReselectTest {
     @Test
     fun CanAcceptPropsTest() {
 
-        val selector = SelectorFor<StateAB>().create(
-                InputField {a},
-                InputField {b},
-                InputField {100},
-                {a:Int,b:Int,c:Int -> a+b+c}
-        )
+        val selector = SelectorFor<StateAB>()
+                .withField {a}
+                .withField {b}
+                .withField {100}
+                .compute{a:Int,b:Int,c:Int -> a+b+c}
         val state1=StateAB(a=1,b=2)
         assertThat(selector(state1)).isEqualTo(103)
 
@@ -106,14 +100,12 @@ class ReselectTest {
 
     @Test
     fun ChainedSelectorTest() {
-        val selector1= SelectorFor<StateSubStateA>().create(
-                InputField {sub},
-                {sub:StateA -> sub}
-        )
-        val selector2= SelectorFor<StateSubStateA>().create(
-                selector1,
-                {sub:StateA -> sub.a }
-        )
+        val selector1= SelectorFor<StateSubStateA>()
+                .withField {sub}
+                .compute{sub:StateA -> sub}
+        val selector2= SelectorFor<StateSubStateA>()
+                .withSelector(selector1)
+                .compute{sub:StateA -> sub.a }
         val state1=StateSubStateA(StateA(1))
         assertThat(selector2(state1)).isEqualTo(1)
         assertThat(selector2(state1)).isEqualTo(1)
@@ -307,10 +299,10 @@ class ReselectTest {
     }
     @Test
     fun resetComputationsTest() {
-        val selector = SelectorFor<StateA>().create(
-                InputField { a},
-                {a:Int -> a}
-        )
+        val selector = SelectorFor<StateA>()
+                .withField{ a}
+                .compute{a:Int -> a}
+
         val state1= StateA(a=1)
         assertThat(selector(state1)).isEqualTo(1)
         assertThat(selector(state1)).isEqualTo(1)
@@ -330,10 +322,9 @@ class ReselectTest {
     }
     @Test
     fun isChangedTest() {
-        val selector = SelectorFor<StateA>().create(
-                InputField { a},
-                {a:Int -> a}
-        )
+        val selector = SelectorFor<StateA>()
+                .withField { a}
+                .compute{a:Int -> a}
         val state1= StateA(a=1)
         assertThat(selector(state1)).isEqualTo(1)
         assertThat(selector.isChanged()).isTrue()
@@ -348,39 +339,37 @@ class ReselectTest {
     data class State3(val p1:Double, val p2:Double, val p3:Double)
     @Test
     fun args3Test() {
-        val selector = SelectorFor<State3>().create(
-                InputField { p1},
-                InputField { p2},
-                InputField { p3},
-                {p1:Double,p2:Double,p3:Double -> p1/p2/p3}
-        )
+        val selector = SelectorFor<State3>()
+                .withField { p1}
+                .withField { p2}
+                .withField { p3}
+                .compute{p1:Double,p2:Double,p3:Double -> p1/p2/p3}
         val state= State3(1.0,2.0,3.0)
         assertThat(selector(state)).isEqualTo(1.0/2.0/3.0)
     }
     data class State4(val p1:Double, val p2:Double, val p3:Double,val p4:Double)
     @Test
     fun args4Test() {
-        val selector = SelectorFor<State4>().create(
-                InputField { p1},
-                InputField { p2},
-                InputField { p3},
-                InputField { p4},
-                {p1:Double,p2:Double,p3:Double,p4:Double -> p1/p2/p3/p4}
-        )
+        val selector = SelectorFor<State4>()
+                .withField { p1}
+                .withField { p2}
+                .withField { p3}
+                .withField { p4}
+                .compute { p1:Double,p2:Double,p3:Double,p4:Double -> p1/p2/p3/p4}
         val state= State4(1.0,2.0,3.0,4.0)
         assertThat(selector(state)).isEqualTo(1.0/2.0/3.0/4.0)
     }
     data class State5(val p1:Double, val p2:Double, val p3:Double,val p4:Double,val p5:Double)
     @Test
     fun args5Test() {
-        val selector = SelectorFor<State5>().create(
-                SelectInput { p1},
-                SelectInput { p2},
-                SelectInput { p3},
-                SelectInput { p4},
-                SelectInput { p5},
-                {p1:Double,p2:Double,p3:Double,p4:Double,p5:Double -> p1/p2/p3/p4/p5}
-        )
+        val selector = SelectorFor<State5>()
+                .withField { p1}
+                .withField  { p2}
+                .withField  { p3}
+                .withField  { p4}
+                .withField  { p5}
+                .compute{p1:Double,p2:Double,p3:Double,p4:Double,p5:Double -> p1/p2/p3/p4/p5}
+
         val state= State5(1.0,2.0,3.0,4.0,5.0)
         assertThat(selector(state)).isEqualTo(1.0/2.0/3.0/4.0/5.0)
     }
@@ -388,9 +377,9 @@ class ReselectTest {
     @Test
     fun singleFieldSelectorTest() {
         val sel4state=SelectorFor<State3>()
-        val selp1= sel4state.field { p1 }
-        val selp2= sel4state.field { p2 }
-        val selp3= sel4state.field { p3 }
+        val selp1= sel4state.withSingleField { p1 }
+        val selp2= sel4state.withSingleField { p2 }
+        val selp3= sel4state.withSingleField { p3 }
 
         val state= State3(1.0,2.0,3.0)
         assertThat(selp1(state)).isEqualTo(1.0)
@@ -399,7 +388,7 @@ class ReselectTest {
     }
     @Test
     fun onChangeTest() {
-        val sel_a= SelectorFor<StateA>().field { a }
+        val sel_a= SelectorFor<StateA>().withSingleField { a }
         val state=StateA(a=0)
         assertThat(sel_a(state)).isEqualTo(0)
         val changedState = state.copy(a=1)
