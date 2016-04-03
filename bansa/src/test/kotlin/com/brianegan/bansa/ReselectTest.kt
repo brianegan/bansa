@@ -46,7 +46,7 @@ class ReselectTest {
     data class StateSubStateA(val sub: StateA)
 
     @Test
-    fun MemoizedCompositeArgumentsTest() {
+    fun memoizedCompositeArgumentsTest() {
         val selector = SelectorFor<StateSubStateA>()
                 .withField { sub }
                 .compute { sub: StateA -> sub }
@@ -64,7 +64,7 @@ class ReselectTest {
 
 
     @Test
-    fun ChainedSelectorTest() {
+    fun chainedSelectorTest() {
         val selector1 = SelectorFor<StateSubStateA>()
                 .withField { sub }
                 .compute { sub: StateA -> sub }
@@ -82,7 +82,7 @@ class ReselectTest {
 
 
     @Test
-    fun resetComputationsTest() {
+    fun recomputationsCountTest() {
         val selector = SelectorFor<StateA>()
                 .withField { a }
                 .compute { a: Int -> a }
@@ -95,14 +95,11 @@ class ReselectTest {
         assertThat(selector(state2)).isEqualTo(2)
         assertThat(selector.recomputations).isEqualTo(2)
 
-        selector.resetComputations()
-        assertThat(selector.recomputations).isEqualTo(0)
-
         assertThat(selector(state1)).isEqualTo(1)
         assertThat(selector(state1)).isEqualTo(1)
-        assertThat(selector.recomputations).isEqualTo(1)
+        assertThat(selector.recomputations).isEqualTo(3)
         assertThat(selector(state2)).isEqualTo(2)
-        assertThat(selector.recomputations).isEqualTo(2)
+        assertThat(selector.recomputations).isEqualTo(4)
     }
 
     @Test

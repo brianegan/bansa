@@ -49,7 +49,6 @@ class InputField<S, I>(val fn: S.() -> I) : SelectorInput<S, I> {
  */
 interface Selector<S, O> : SelectorInput<S, O> {
     val recomputations: Long
-    fun resetComputations()
     fun isChanged(): Boolean
     fun resetChanged()
     fun getIfChangedIn(state: S): O? {
@@ -74,10 +73,7 @@ abstract class AbstractSelector<S, O> : Selector<S, O> {
     protected var recomputationsLastChanged = 0L
     protected var _recomputations = 0L
     override val recomputations: Long get() = _recomputations
-    override fun resetComputations() {
-        _recomputations = 0
-        recomputationsLastChanged = 0
-    }
+
 
     override fun isChanged(): Boolean = _recomputations != recomputationsLastChanged
     override fun resetChanged() {
