@@ -7,7 +7,7 @@ package com.brianegan.bansa
  */
 private val defaultEqualityCheck = { a: Any, b: Any -> a === b }
 
-interface memoizer<T> {
+interface Memoizer<T> {
     fun memoize(vararg inputArgs: Any): T
 }
 
@@ -18,7 +18,7 @@ inline fun <T : Any> Array<out T>.every(transform: (Int, T) -> Boolean): Boolean
 
 
 // {a:Any,b:Any -> a===b}
-fun <T> defaultMemoize(func: (Array<out Any>) -> T, equalityCheck: (a: Any, b: Any) -> Boolean = defaultEqualityCheck) = object : memoizer<T> {
+fun <T> defaultMemoize(func: (Array<out Any>) -> T, equalityCheck: (a: Any, b: Any) -> Boolean = defaultEqualityCheck) = object : Memoizer<T> {
     var lastArgs: Array<out Any>? = null
     var lastResult: T? = null
     override fun memoize(vararg inputArgs: Any): T {
@@ -44,7 +44,6 @@ class InputField<S, I>(val fn: S.() -> I) : SelectorInput<S, I> {
 }
 
 
-
 /**
  * note: [Selector] inherit from [SelectorInput] because of support for composite selectors
  */
@@ -53,15 +52,16 @@ interface Selector<S, O> : SelectorInput<S, O> {
     fun resetComputations()
     fun isChanged(): Boolean
     fun resetChanged()
-    fun getIfChangedIn(state:S):O? {
-        var res =invoke(state)
-        if(isChanged()) {
+    fun getIfChangedIn(state: S): O? {
+        var res = invoke(state)
+        if (isChanged()) {
             resetChanged()
             return res
         }
         return null
     }
-    fun onChangeIn(state:S,blockfn:(O)->Unit) {
+
+    fun onChangeIn(state: S, blockfn: (O) -> Unit) {
         getIfChangedIn(state)?.let(blockfn)
     }
 }
@@ -71,38 +71,37 @@ interface Selector<S, O> : SelectorInput<S, O> {
  * abstract base class for all selectors
  */
 abstract class AbstractSelector<S, O> : Selector<S, O> {
+    protected var recomputationsLastChanged = 0L
     protected var _recomputations = 0L
-    protected var _lastchanged_recomputations = 0L
     override val recomputations: Long get() = _recomputations
     override fun resetComputations() {
         _recomputations = 0
-        _lastchanged_recomputations = 0
+        recomputationsLastChanged = 0
     }
 
-    override fun isChanged(): Boolean = _recomputations != _lastchanged_recomputations
+    override fun isChanged(): Boolean = _recomputations != recomputationsLastChanged
     override fun resetChanged() {
-        _lastchanged_recomputations = _recomputations
+        recomputationsLastChanged = _recomputations
     }
 
 
-    protected abstract val computeandcount: (i: Array<out Any>) -> O
+    protected abstract val computeAndCount: (i: Array<out Any>) -> O
     /**
      * 'lazy' because computeandcount is abstract. Cannot reference to it before it is initialized in concrete selectors
      * 'open' because we can provide a custom memoizer if needed
      */
-    open val memoizer by lazy { defaultMemoize(computeandcount) }  //
+    open val memoizer by lazy { defaultMemoize(computeAndCount) }  //
 
 }
 
-class SelectorForP5<S,I0:Any,I1:Any,I2:Any,I3:Any,I4:Any>(val si0:SelectorInput<S,I0>,
-                                                          val si1:SelectorInput<S,I1>,
-                                                          val si2:SelectorInput<S,I2>,
-                                                          val si3:SelectorInput<S,I3>,
-                                                          val si4:SelectorInput<S,I4>
-)
-{
-    fun<O> compute(computeFun: (I0, I1,I2,I3,I4) -> O)  = object : AbstractSelector<S, O>() {
-        override val computeandcount = fun(i: Array<out Any>): O {
+class SelectorForP5<S, I0 : Any, I1 : Any, I2 : Any, I3 : Any, I4 : Any>(val si0: SelectorInput<S, I0>,
+                                                                         val si1: SelectorInput<S, I1>,
+                                                                         val si2: SelectorInput<S, I2>,
+                                                                         val si3: SelectorInput<S, I3>,
+                                                                         val si4: SelectorInput<S, I4>
+) {
+    fun<O> compute(computeFun: (I0, I1, I2, I3, I4) -> O) = object : AbstractSelector<S, O>() {
+        override val computeAndCount = fun(i: Array<out Any>): O {
             ++_recomputations
             @Suppress("UNCHECKED_CAST")
             return computeFun(i[0] as I0, i[1] as I1, i[2] as I2, i[3] as I3, i[4] as I4)
@@ -121,16 +120,15 @@ class SelectorForP5<S,I0:Any,I1:Any,I2:Any,I3:Any,I4:Any>(val si0:SelectorInput<
 }
 
 
-class SelectorForP4<S,I0:Any,I1:Any,I2:Any,I3:Any>(val si0:SelectorInput<S,I0>,
-                                                   val si1:SelectorInput<S,I1>,
-                                                   val si2:SelectorInput<S,I2>,
-                                                   val si3:SelectorInput<S,I3>
-)
-{
-    fun<I4:Any> withField(fn: S.() -> I4) = SelectorForP5<S,I0,I1,I2,I3,I4>(si0, si1, si2, si3,InputField(fn))
-    fun<I4:Any> withSelector(si:SelectorInput<S,I4>) = SelectorForP5<S,I0,I1,I2,I3,I4>(si0, si1, si2, si3,si)
-    fun<O> compute(computeFun: (I0, I1,I2,I3) -> O)  = object : AbstractSelector<S, O>() {
-        override val computeandcount = fun(i: Array<out Any>): O {
+class SelectorForP4<S, I0 : Any, I1 : Any, I2 : Any, I3 : Any>(val si0: SelectorInput<S, I0>,
+                                                               val si1: SelectorInput<S, I1>,
+                                                               val si2: SelectorInput<S, I2>,
+                                                               val si3: SelectorInput<S, I3>
+) {
+    fun<I4 : Any> withField(fn: S.() -> I4) = SelectorForP5<S, I0, I1, I2, I3, I4>(si0, si1, si2, si3, InputField(fn))
+    fun<I4 : Any> withSelector(si: SelectorInput<S, I4>) = SelectorForP5<S, I0, I1, I2, I3, I4>(si0, si1, si2, si3, si)
+    fun<O> compute(computeFun: (I0, I1, I2, I3) -> O) = object : AbstractSelector<S, O>() {
+        override val computeAndCount = fun(i: Array<out Any>): O {
             ++_recomputations
             @Suppress("UNCHECKED_CAST")
             return computeFun(i[0] as I0, i[1] as I1, i[2] as I2, i[3] as I3)
@@ -144,18 +142,18 @@ class SelectorForP4<S,I0:Any,I1:Any,I2:Any,I3:Any>(val si0:SelectorInput<S,I0>,
                     si3(state)
             )
         }
-    }}
+    }
+}
 
 
-class SelectorForP3<S,I0:Any,I1:Any,I2:Any>(val si0:SelectorInput<S,I0>,
-                                            val si1:SelectorInput<S,I1>,
-                                            val si2:SelectorInput<S,I2>
-)
-{
-    fun<I3:Any> withField(fn: S.() -> I3) = SelectorForP4<S,I0,I1,I2,I3>(si0, si1, si2,InputField(fn))
-    fun<I3:Any> withSelector(si:SelectorInput<S,I3>) = SelectorForP4<S,I0,I1,I2,I3>(si0, si1, si2,si)
-    fun<O> compute(computeFun: (I0, I1,I2) -> O)  = object : AbstractSelector<S, O>() {
-        override val computeandcount = fun(i: Array<out Any>): O {
+class SelectorForP3<S, I0 : Any, I1 : Any, I2 : Any>(val si0: SelectorInput<S, I0>,
+                                                     val si1: SelectorInput<S, I1>,
+                                                     val si2: SelectorInput<S, I2>
+) {
+    fun<I3 : Any> withField(fn: S.() -> I3) = SelectorForP4<S, I0, I1, I2, I3>(si0, si1, si2, InputField(fn))
+    fun<I3 : Any> withSelector(si: SelectorInput<S, I3>) = SelectorForP4<S, I0, I1, I2, I3>(si0, si1, si2, si)
+    fun<O> compute(computeFun: (I0, I1, I2) -> O) = object : AbstractSelector<S, O>() {
+        override val computeAndCount = fun(i: Array<out Any>): O {
             ++_recomputations
             @Suppress("UNCHECKED_CAST")
             return computeFun(i[0] as I0, i[1] as I1, i[2] as I2)
@@ -171,12 +169,12 @@ class SelectorForP3<S,I0:Any,I1:Any,I2:Any>(val si0:SelectorInput<S,I0>,
     }
 }
 
-class SelectorForP2<S,I0:Any,I1:Any>(val si0:SelectorInput<S,I0>,
-                                     val si1:SelectorInput<S,I1>) {
-    fun<I2:Any> withField(fn: S.() -> I2) = SelectorForP3<S,I0,I1,I2>(si0, si1,InputField(fn))
-    fun<I2:Any> withSelector(si:SelectorInput<S,I2>) = SelectorForP3<S,I0,I1,I2>(si0, si1,si)
-    fun<O> compute(computeFun: (I0, I1) -> O)  = object : AbstractSelector<S, O>() {
-        override val computeandcount = fun(i: Array<out Any>): O {
+class SelectorForP2<S, I0 : Any, I1 : Any>(val si0: SelectorInput<S, I0>,
+                                           val si1: SelectorInput<S, I1>) {
+    fun<I2 : Any> withField(fn: S.() -> I2) = SelectorForP3<S, I0, I1, I2>(si0, si1, InputField(fn))
+    fun<I2 : Any> withSelector(si: SelectorInput<S, I2>) = SelectorForP3<S, I0, I1, I2>(si0, si1, si)
+    fun<O> compute(computeFun: (I0, I1) -> O) = object : AbstractSelector<S, O>() {
+        override val computeAndCount = fun(i: Array<out Any>): O {
             ++_recomputations
             @Suppress("UNCHECKED_CAST")
             return computeFun(i[0] as I0, i[1] as I1)
@@ -190,11 +188,12 @@ class SelectorForP2<S,I0:Any,I1:Any>(val si0:SelectorInput<S,I0>,
         }
     }
 }
-class SelectorForP1<S,I0:Any>(val si0:SelectorInput<S,I0>) {
-    fun<I1:Any> withField(fn: S.() -> I1) = SelectorForP2<S,I0,I1>(si0,InputField(fn))
-    fun<I1:Any> withSelector(si:SelectorInput<S,I1>) = SelectorForP2<S,I0,I1>(si0,si)
-    fun<O> compute(computeFun: (I0) -> O)  = object : AbstractSelector<S, O>() {
-        override val computeandcount = fun(i: Array<out Any>): O {
+
+class SelectorForP1<S, I0 : Any>(val si0: SelectorInput<S, I0>) {
+    fun<I1 : Any> withField(fn: S.() -> I1) = SelectorForP2<S, I0, I1>(si0, InputField(fn))
+    fun<I1 : Any> withSelector(si: SelectorInput<S, I1>) = SelectorForP2<S, I0, I1>(si0, si)
+    fun<O> compute(computeFun: (I0) -> O) = object : AbstractSelector<S, O>() {
+        override val computeAndCount = fun(i: Array<out Any>): O {
             ++_recomputations
             @Suppress("UNCHECKED_CAST")
             return computeFun(i[0] as I0)
@@ -207,29 +206,33 @@ class SelectorForP1<S,I0:Any>(val si0:SelectorInput<S,I0>) {
         }
     }
 }
+
 /**
- * wrapper class for Selector factory methods [create], that basically is used only to capture
+ * wrapper class for Selector factory methods , that basically is used only to capture
  * type information for the state parameter
  */
 class SelectorFor<S> {
-    fun<I0:Any> withField(fn: S.() -> I0) = SelectorForP1<S,I0>(InputField(fn))
-    fun<I0:Any> withSelector(si:SelectorInput<S,I0>) = SelectorForP1<S,I0>(si)
+    fun<I0 : Any> withField(fn: S.() -> I0) = SelectorForP1<S, I0>(InputField(fn))
+    fun<I0 : Any> withSelector(si: SelectorInput<S, I0>) = SelectorForP1<S, I0>(si)
 
     /**
      * special single input selector that should be used when you just want to retrieve a single field
      */
     fun <I : Any> withSingleField(fn: S.() -> I) = object : AbstractSelector<S, I>() {
-        override val computeandcount = fun(i: Array<out Any>): I {
+        override val computeAndCount = fun(i: Array<out Any>): I {
             ++_recomputations
             @Suppress("UNCHECKED_CAST")
             return i[0] as I
         }
+
         override operator fun invoke(state: S): I {
             return memoizer.memoize(
                     fn(state)
             )
         }
     }
-
+    operator fun<I:Any> invoke(fn: S.() -> I):AbstractSelector<S, I> {
+        return withSingleField(fn)
+    }
 
 }
