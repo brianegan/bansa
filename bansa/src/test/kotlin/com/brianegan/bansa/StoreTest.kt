@@ -2,10 +2,9 @@ package com.brianegan.bansa
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
-import rx.observers.TestSubscriber
 
 class StoreTest {
-    data class MyState(val state: String = "initial state")
+    data class MyState(val message: String = "initial state")
     data class MyAction(val type: String = "unknown")
 
     @Test
@@ -20,7 +19,7 @@ class StoreTest {
 
         store.dispatch(MyAction(type = "to reduce"))
 
-        assertThat(store.state.state).isEqualTo("reduced")
+        assertThat(store.state.message).isEqualTo("reduced")
     }
 
     @Test
@@ -45,40 +44,40 @@ class StoreTest {
         val store = createStore(MyState(), combineReducers(reducer1, reducer2))
 
         store.dispatch(MyAction(type = helloReducer1))
-        assertThat(store.state.state).isEqualTo("oh hai")
+        assertThat(store.state.message).isEqualTo("oh hai")
         store.dispatch(MyAction(type = helloReducer2))
-        assertThat(store.state.state).isEqualTo("mark")
+        assertThat(store.state.message).isEqualTo("mark")
     }
 
     @Test
     fun `subscribers should be notified when the state changes`() {
         val store = createStore(MyState(), { state: MyState, action: MyAction -> MyState() })
-        val subscriber1 = TestSubscriber.create<MyState>()
-        val subscriber2 = TestSubscriber.create<MyState>()
+        var subscriber1Called = false
+        var subscriber2Called = false
 
-        store.subscribe(subscriber1)
-        store.subscribe(subscriber2)
+        store.subscribe { subscriber1Called = true }
+        store.subscribe { subscriber2Called = true }
 
         store.dispatch(MyAction())
 
-        assertThat(subscriber1.onNextEvents.size).isGreaterThan(0)
-        assertThat(subscriber2.onNextEvents.size).isGreaterThan(0)
+        assertThat(subscriber1Called).isTrue()
+        assertThat(subscriber2Called).isTrue()
     }
 
     @Test
     fun `the store should not notify unsubscribed objects`() {
         val store = createStore(MyState(), { state: MyState, action: MyAction -> MyState() })
-        val subscriber1 = TestSubscriber.create<MyState>()
-        val subscriber2 = TestSubscriber.create<MyState>()
+        var subscriber1Called = false
+        var subscriber2Called = false
 
-        store.subscribe(subscriber1)
-        val subscription = store.subscribe(subscriber2)
+        store.subscribe { subscriber1Called = true }
+        val subscription = store.subscribe { subscriber2Called = true }
         subscription.unsubscribe()
 
         store.dispatch(MyAction())
 
-        assertThat(subscriber1.onNextEvents.size).isGreaterThan(0)
-        assertThat(subscriber2.onNextEvents.size).isEqualTo(0)
+        assertThat(subscriber1Called).isTrue()
+        assertThat(subscriber2Called).isFalse()
     }
 }
 

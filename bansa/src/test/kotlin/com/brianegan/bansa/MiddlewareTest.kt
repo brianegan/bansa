@@ -13,14 +13,9 @@ class MiddlewareTest {
     @Test
     fun `actions should be run through a store's middleware`() {
         var counter = 0
-        val middleWare = { store: Store<MyState, MyAction> ->
-            { next: (MyAction) -> MyAction ->
-                { action: MyAction ->
-                    counter += 1
-                    next(action)
-                    action
-                }
-            }
+        val middleWare = createMiddleware<MyState, MyAction> { store, next, action ->
+            counter += 1
+            next(action)
         }
 
         val reducer = { state: MyState, action: MyAction ->
@@ -40,27 +35,17 @@ class MiddlewareTest {
         var counter = 0
         var order = ArrayList<String>()
 
-        val middleWare1 = { store: Store<MyState, MyAction> ->
-            { next: (MyAction) -> MyAction ->
-                { action: MyAction ->
-                    counter += 1
-                    order.add("first")
-                    val nextAction = next(action)
-                    order.add("third")
-                    nextAction
-                }
-            }
+        val middleWare1 = createMiddleware<MyState, MyAction> { store, next, action ->
+            counter += 1
+            order.add("first")
+            val nextAction = next(action)
+            order.add("third")
         }
 
-        val middleWare2 = { store: Store<MyState, MyAction> ->
-            { next: (MyAction) -> MyAction ->
-                { action: MyAction ->
-                    counter += 1
-                    order.add("second")
-                    val nextAction = next(action)
-                    nextAction
-                }
-            }
+        val middleWare2 = createMiddleware<MyState, MyAction> { store, next, action ->
+            counter += 1
+            order.add("second")
+            next(action)
         }
 
         val reducer = { state: MyState, action: MyAction ->
@@ -85,36 +70,28 @@ class MiddlewareTest {
         var order = ArrayList<String>()
         val testScheduler = rx.schedulers.TestScheduler()
 
-        val fetchMiddleware = { store: Store<MyState, MyAction> ->
-            { next: (MyAction) -> MyAction ->
-                { action: MyAction ->
-                    counter += 1
-                    when (action.type) {
-                        "CALL_API" -> {
-                            next(MyAction("FETCHING"))
-                            Observable
-                                    .just(5)
-                                    .delay(1L, TimeUnit.SECONDS, testScheduler)
-                                    .subscribe({
-                                        next(MyAction("FETCH_COMPLETE"))
-                                    })
+        val fetchMiddleware = createMiddleware<MyState, MyAction> { store, next, action ->
+            counter += 1
+            when (action.type) {
+                "CALL_API" -> {
+                    next(MyAction("FETCHING"))
+                    Observable
+                            .just(5)
+                            .delay(1L, TimeUnit.SECONDS, testScheduler)
+                            .subscribe({
+                                next(MyAction("FETCH_COMPLETE"))
+                            })
 
-                            next(action)
-                        }
-                        else -> next(action)
-                    }
+                    next(action)
                 }
+                else -> next(action)
             }
         }
 
-        val loggerMiddleware = { store: Store<MyState, MyAction> ->
-            { next: (MyAction) -> MyAction ->
-                { action: MyAction ->
-                    counter += 1
-                    order.add(action.type)
-                    next(action)
-                }
-            }
+        val loggerMiddleware = createMiddleware<MyState, MyAction> { store, next, action ->
+            counter += 1
+            order.add(action.type)
+            next(action)
         }
 
         val reducer = { state: MyState, action: MyAction ->
@@ -144,33 +121,23 @@ class MiddlewareTest {
         var counter = 0
         val order = ArrayList<String>()
 
-        val middleWare1 = { store: Store<MyState, MyAction> ->
-            { next: (MyAction) -> MyAction ->
-                { action: MyAction ->
-                    counter += 1
-                    order.add("first")
+        val middleWare1 = createMiddleware<MyState, MyAction> { store, next, action ->
+            counter += 1
+            order.add("first")
 
-                    val nextAction = next(action)
+            val nextAction = next(action)
 
-                    // Redispatch an action that goes through the whole chain
-                    // (useful for async middleware)
-                    if (action.type == "around!") {
-                        store.dispatch(MyAction());
-                    }
-
-                    nextAction
-                }
+            // Redispatch an action that goes through the whole chain
+            // (useful for async middleware)
+            if (action.type == "around!") {
+                store.dispatch(MyAction());
             }
         }
 
-        val middleWare2 = { store: Store<MyState, MyAction> ->
-            { next: (MyAction) -> MyAction ->
-                { action: MyAction ->
-                    counter += 1
-                    order.add("second")
-                    next(action)
-                }
-            }
+        val middleWare2 = createMiddleware<MyState, MyAction> { store, next, action ->
+            counter += 1
+            order.add("second")
+            next(action)
         }
 
         val reducer = { state: MyState, action: MyAction ->
