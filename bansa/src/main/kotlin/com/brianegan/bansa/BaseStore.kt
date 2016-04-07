@@ -11,8 +11,10 @@ class BaseStore<S, A>(override var state: S, val reducer: (S, A) -> S) : Store<S
     override fun subscribe(onStateChange: (S) -> Unit): Subscription {
         onStateChangeCallbacks.add(onStateChange)
 
-        return Subscription {
-            onStateChangeCallbacks.remove(onStateChange)
+        return object : Subscription {
+            override fun unsubscribe() {
+                onStateChangeCallbacks.remove(onStateChange)
+            }
         }
     }
 }

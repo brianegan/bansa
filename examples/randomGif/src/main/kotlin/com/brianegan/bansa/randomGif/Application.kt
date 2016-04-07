@@ -14,7 +14,7 @@ class Application : android.app.Application() {
         override fun InjektRegistrar.registerInjectables() {
             addSingleton(
                     fullType<Store<ApplicationState, Any>>(),
-                    (applyMiddleware(gifMiddleware))(createStore(ApplicationState(), applicationReducer)));
+                    (applyMiddleware(gifMiddleware)(createStore(ApplicationState(), applicationReducer))))
         }
     }
 

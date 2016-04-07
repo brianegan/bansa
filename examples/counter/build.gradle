@@ -35,14 +35,11 @@ buildscript {
 dependencies {
     compile project(':bansa')
 
-    compile "com.android.support:appcompat-v7:23.1.1"
-    compile 'com.android.support:design:23.1.1'
+    compile 'com.android.support:design:23.2.1'
 
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile 'co.trikita:anvil-sdk15:0.3.0'
-    compile 'io.reactivex:rxjava:1.0.16'
     compile "uy.kohesive.injekt:injekt-core:1.14.0"
-    compile 'io.reactivex:rxandroid:1.0.1'
 
     testCompile 'junit:junit:4.12'
     testCompile 'org.assertj:assertj-core:1.7.1'

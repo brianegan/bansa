@@ -37,11 +37,8 @@ dependencies {
 
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile 'co.trikita:anvil-sdk15:0.3.0'
-    compile 'io.reactivex:rxandroid:1.0.1'
     compile "uy.kohesive.injekt:injekt-core:1.14.0"
     compile 'com.android.support:design:23.1.1'
-    compile 'com.jakewharton.rxbinding:rxbinding:0.3.0'
-    compile 'com.jakewharton.rxbinding:rxbinding-support-v4:0.3.0'
 
     testCompile 'junit:junit:4.12'
     testCompile 'org.assertj:assertj-core:1.7.1'

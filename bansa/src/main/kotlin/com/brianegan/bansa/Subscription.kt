@@ -1,3 +1,5 @@
 package com.brianegan.bansa
 
-data class Subscription(val unsubscribe: () -> Unit)
+interface Subscription {
+    fun unsubscribe(): Unit
+}
