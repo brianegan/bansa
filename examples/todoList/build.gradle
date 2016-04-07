@@ -26,6 +26,9 @@ repositories {
   maven {
     url = 'https://jitpack.io/'
   }
+  flatDir {
+    dirs 'libs'
+  }
 }
 
 buildscript {
@@ -37,18 +40,19 @@ buildscript {
   }
   dependencies {
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-
   }
 }
 
 dependencies {
   compile project(':bansa')
 
+  // Todo: Replace local aar once the following PR is merged: https://github.com/zserge/anvil/pull/52
+  compile(name:'anvil-sdk15-tmp', ext:'aar')
+
   compile 'com.android.support:design:23.1.1'
 
   compile "uy.kohesive.injekt:injekt-core:1.14.0"
   compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-  compile 'co.trikita:anvil-sdk15:0.3.0'
   compile 'com.github.brianegan:anvil-recyclerview:1.3'
   compile 'com.squareup.picasso:picasso:2.5.2'
   compile 'com.github.andrewoma.dexx:kollection:0.5'

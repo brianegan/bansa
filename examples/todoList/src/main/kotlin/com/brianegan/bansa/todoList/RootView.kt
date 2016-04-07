@@ -16,7 +16,7 @@ import trikita.anvil.recyclerview.Recycler.*
 class RootView(c: Context, val store: Store<ApplicationState, Any>) : RenderableView(c) {
     val stateChangeSubscription = store.subscribe { Anvil.render() }
     val mapCounterToCounterViewModel = buildMapCounterToCounterViewModel(store)
-    val adapter: BansaRenderableRecyclerViewAdapter<Todo, TodoViewModel> = BansaRenderableRecyclerViewAdapter(
+    val adapter = BansaRenderableRecyclerViewAdapter(
             mapCounterToCounterViewModel,
             ::todoView,
             { models, pos ->
