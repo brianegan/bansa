@@ -12,4 +12,5 @@ data class REFRESH_COMPLETED(val payload: TrendingGifs) : AppAction
 object FETCH_NEXT_PAGE : AppAction
 data class FETCH_NEXT_PAGE_STARTED(val subscription: Subscription) : AppAction
 data class FETCH_NEXT_PAGE_COMPLETED(val payload: TrendingGifs) : AppAction
+data class ORIENTATION_CHANGE(val orientation: Int) : AppAction
 

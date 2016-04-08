@@ -28,7 +28,7 @@ fun todoView(model: TodoViewModel) {
     }
 }
 
-fun buildMapCounterToCounterViewModel(store: Store<ApplicationState, Any>): (Todo) -> TodoViewModel{
+fun buildMapCounterToCounterViewModel(store: Store<ApplicationState, Any>): (Todo) -> TodoViewModel {
     return { todo ->
         val (id) = todo
 

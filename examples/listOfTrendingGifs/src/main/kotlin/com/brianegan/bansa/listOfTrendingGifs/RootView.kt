@@ -30,11 +30,9 @@ class RootView(c: Context, val store: Store<ApplicationState, Any>) : Renderable
         }
     }
 
-    val identity = { it: Gif -> it }
-
     val adapter: BansaAdapter<Gif, Gif> = BansaAdapter(
             store.state.gifs,
-            identity,
+            { it },
             ::gifView
     )
 
