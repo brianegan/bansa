@@ -26,7 +26,7 @@ repositories {
 }
 
 buildscript {
-  ext.kotlin_version = '1.0.0'
+  ext.kotlin_version = '1.0.1-2'
   repositories {
     mavenCentral()
   }
@@ -44,6 +44,8 @@ dependencies {
   compile 'co.trikita:anvil-sdk15:0.3.0'
   compile "uy.kohesive.injekt:injekt-core:1.14.0"
 
+  testCompile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+  testCompile "org.jetbrains.kotlin:kotlin-runtime:$kotlin_version"
   testCompile "org.jetbrains.spek:spek:0.1.195"
   testCompile 'org.assertj:assertj-core:1.7.1'
 }
