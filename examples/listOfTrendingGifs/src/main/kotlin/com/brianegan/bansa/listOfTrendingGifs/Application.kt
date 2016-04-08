@@ -4,8 +4,8 @@ import com.brianegan.bansa.Store
 import com.brianegan.bansa.applyMiddleware
 import com.brianegan.bansa.createStore
 import com.brianegan.bansa.listOfTrendingGifs.actions.INIT
-import com.brianegan.bansa.listOfTrendingGifs.middleware.gifMiddleware
-import com.brianegan.bansa.listOfTrendingGifs.middleware.loggingMiddleware
+import com.brianegan.bansa.listOfTrendingGifs.middleware.GifMiddleware
+import com.brianegan.bansa.listOfTrendingGifs.middleware.LoggingMiddleware
 import com.brianegan.bansa.listOfTrendingGifs.reducers.applicationReducer
 import com.brianegan.bansa.listOfTrendingGifs.state.ApplicationState
 import uy.kohesive.injekt.Injekt
@@ -19,7 +19,7 @@ class Application : android.app.Application() {
         override fun InjektRegistrar.registerInjectables() {
             addSingleton(
                     fullType<Store<ApplicationState, Any>>(),
-                    applyMiddleware(gifMiddleware, loggingMiddleware)(createStore(ApplicationState(), applicationReducer)));
+                    applyMiddleware(GifMiddleware, LoggingMiddleware)(createStore(ApplicationState(), applicationReducer)));
         }
     }
 

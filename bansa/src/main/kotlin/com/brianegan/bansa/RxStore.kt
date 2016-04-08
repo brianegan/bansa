@@ -24,9 +24,9 @@ class RxStore<S, A>(
         stateChanges.subscribe()
     }
 
-    override var dispatch: (action: A) -> A = { action ->
+    override fun dispatch(action: A): A {
         dispatcher.onNext(action)
-        action
+        return action
     }
 
     override fun subscribe(subscriber: Subscriber<S>): Subscription {
