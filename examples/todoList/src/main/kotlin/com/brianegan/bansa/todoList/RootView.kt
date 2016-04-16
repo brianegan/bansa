@@ -6,7 +6,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import android.widget.LinearLayout
-import com.brianegan.bansa.Store
+import com.brianegan.bansaKotlin.Store
 import trikita.anvil.Anvil
 import trikita.anvil.DSL.*
 import trikita.anvil.RenderableView

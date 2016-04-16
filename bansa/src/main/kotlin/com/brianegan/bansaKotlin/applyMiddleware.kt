@@ -1,8 +1,8 @@
-package com.brianegan.bansa
+package com.brianegan.bansaKotlin
 
 fun <S, A> applyMiddleware(
-        vararg middleware: (Store<S, A>) -> ((A) -> Unit) -> (A) -> Unit)
-        : (Store<S, A>) -> Store<S, A> {
+        vararg middleware: (com.brianegan.bansaKotlin.Store<S, A>) -> ((A) -> Unit) -> (A) -> Unit)
+        : (com.brianegan.bansaKotlin.Store<S, A>) -> com.brianegan.bansaKotlin.Store<S, A> {
     return { store ->
         store.dispatch = compose(middleware.map { it(store) })(store.dispatch)
         store

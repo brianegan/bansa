@@ -1,6 +1,6 @@
 package com.brianegan.bansa.counterPair
 
-import com.brianegan.bansa.Store
+import com.brianegan.bansaKotlin.Store
 
 fun <A : Any, S, VM> connect(
         mapStoreToViewModel: (Store<S, A>) -> VM)

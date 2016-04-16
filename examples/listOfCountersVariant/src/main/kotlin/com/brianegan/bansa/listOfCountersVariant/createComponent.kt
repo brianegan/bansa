@@ -1,6 +1,6 @@
 package com.brianegan.bansa.listOfCountersVariant
 
-import com.brianegan.bansa.Store
+import com.brianegan.bansaKotlin.Store
 
 fun <A, S, VM> connect(
         mapStoreToViewModel: (Store<S, A>) -> VM)

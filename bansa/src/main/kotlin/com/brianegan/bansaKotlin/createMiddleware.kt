@@ -1,4 +1,4 @@
-package com.brianegan.bansa
+package com.brianegan.bansaKotlin
 
 fun <S, A> createMiddleware(middleware: (Store<S, A>, (A) -> Unit, A) -> Unit)
         : (Store<S, A>) -> ((A) -> Unit) -> (A) -> Unit {

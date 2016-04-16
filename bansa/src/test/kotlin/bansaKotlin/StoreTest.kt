@@ -1,4 +1,4 @@
-package com.brianegan.bansa
+package com.brianegan.bansaKotlin
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
@@ -9,14 +9,13 @@ class StoreTest {
 
     @Test
     fun `when an action is fired, the corresponding reducer should be called and update the state of the application`() {
-        val reducer = Reducer<MyState, MyAction> { state, action ->
+        val reducer = { state: MyState, action: MyAction ->
             when (action.type) {
                 "to reduce" -> MyState("reduced")
                 else -> state
             }
         }
-
-        val store = BaseStore.create(MyState(), reducer)
+        val store = createStore(MyState(), reducer)
 
         store.dispatch(MyAction(type = "to reduce"))
 
@@ -28,21 +27,21 @@ class StoreTest {
         val helloReducer1 = "helloReducer1"
         val helloReducer2 = "helloReducer2"
 
-        val reducer1 = Reducer<MyState, MyAction> { state, action ->
+        val reducer1 = { state: MyState, action: MyAction ->
             when (action.type) {
                 helloReducer1 -> MyState("oh hai")
                 else -> state
             }
         }
 
-        val reducer2 = Reducer<MyState, MyAction> { state, action ->
+        val reducer2 = { state: MyState, action: MyAction ->
             when (action.type) {
                 helloReducer2 -> MyState("mark")
                 else -> state
             }
         }
 
-        val store = BaseStore.create(MyState(), listOf(reducer1, reducer2))
+        val store = createStore(MyState(), combineReducers(reducer1, reducer2))
 
         store.dispatch(MyAction(type = helloReducer1))
         assertThat(store.state.message).isEqualTo("oh hai")
@@ -52,7 +51,7 @@ class StoreTest {
 
     @Test
     fun `subscribers should be notified when the state changes`() {
-        val store = BaseStore.create(MyState(), Reducer<MyState, MyAction> { state, action -> MyState() })
+        val store = createStore(MyState(), { state: MyState, action: MyAction -> MyState() })
         var subscriber1Called = false
         var subscriber2Called = false
 
@@ -67,7 +66,7 @@ class StoreTest {
 
     @Test
     fun `the store should not notify unsubscribed objects`() {
-        val store = BaseStore.create(MyState(), Reducer<MyState, MyAction> { state, action -> MyState() })
+        val store = createStore(MyState(), { state: MyState, action: MyAction -> MyState() })
         var subscriber1Called = false
         var subscriber2Called = false
 

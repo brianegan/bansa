@@ -1,6 +1,6 @@
-package com.brianegan.bansa
+package com.brianegan.bansaKotlin
 
-class BaseStore<S, A>(override var state: S, val reducer: (S, A) -> S) : Store<S, A> {
+class BaseStore<S, A>(override var state: S, val reducer: (S, A) -> S) : com.brianegan.bansaKotlin.Store<S, A> {
     val onStateChangeCallbacks = mutableListOf<(S) -> Unit>()
 
     override var dispatch: (action: A) -> Unit = { action ->
@@ -8,10 +8,10 @@ class BaseStore<S, A>(override var state: S, val reducer: (S, A) -> S) : Store<S
         onStateChangeCallbacks.forEach { it(state) }
     }
 
-    override fun subscribe(onStateChange: (S) -> Unit): Subscription {
+    override fun subscribe(onStateChange: (S) -> Unit): com.brianegan.bansaKotlin.Subscription {
         onStateChangeCallbacks.add(onStateChange)
 
-        return object : Subscription {
+        return object : com.brianegan.bansaKotlin.Subscription {
             override fun unsubscribe() {
                 onStateChangeCallbacks.remove(onStateChange)
             }

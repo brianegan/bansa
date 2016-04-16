@@ -1,6 +1,6 @@
 package com.brianegan.bansa.listOfCountersVariant
 
-import com.brianegan.bansa.Store
+import com.brianegan.bansaKotlin.Store
 import com.brianegan.bansa.createStore
 import com.github.andrewoma.dexx.kollection.immutableListOf
 import org.assertj.core.api.Assertions.assertThat

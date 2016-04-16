@@ -1,6 +1,6 @@
 package com.brianegan.bansa.listOfCounters
 
-import com.brianegan.bansa.Store
+import com.brianegan.bansaKotlin.Store
 import com.brianegan.bansa.createStore
 import org.assertj.core.api.Assertions.assertThat
 import org.jetbrains.spek.api.Spek

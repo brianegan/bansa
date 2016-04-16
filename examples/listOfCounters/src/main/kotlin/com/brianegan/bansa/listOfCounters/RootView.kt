@@ -3,7 +3,7 @@ package com.brianegan.bansa.listOfCounters
 import android.content.Context
 import android.view.View
 import android.widget.LinearLayout
-import com.brianegan.bansa.Store
+import com.brianegan.bansaKotlin.Store
 import trikita.anvil.Anvil
 import trikita.anvil.DSL.*
 import trikita.anvil.RenderableAdapter

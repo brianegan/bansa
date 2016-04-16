@@ -1,4 +1,4 @@
-package com.brianegan.bansa
+package com.brianegan.bansaKotlin
 
 fun <A, S> combineReducers(vararg reducers: (S, A) -> S): (S, A) -> S =
         { state: S, action: A ->

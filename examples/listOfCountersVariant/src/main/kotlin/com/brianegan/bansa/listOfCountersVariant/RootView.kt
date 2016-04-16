@@ -4,7 +4,7 @@ import android.content.Context
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
-import com.brianegan.bansa.Store
+import com.brianegan.bansaKotlin.Store
 import trikita.anvil.Anvil
 import trikita.anvil.DSL.*
 import trikita.anvil.RenderableView

@@ -1,6 +1,6 @@
 package com.brianegan.bansa.counterPair
 
-import com.brianegan.bansa.Store
+import com.brianegan.bansaKotlin.Store
 import com.brianegan.bansa.createStore
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test

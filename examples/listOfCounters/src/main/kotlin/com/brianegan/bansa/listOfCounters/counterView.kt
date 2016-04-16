@@ -2,7 +2,7 @@ package com.brianegan.bansa.listOfCounters
 
 import android.view.View
 import android.widget.LinearLayout
-import com.brianegan.bansa.Store
+import com.brianegan.bansaKotlin.Store
 import trikita.anvil.DSL.*
 
 fun counterView(model: CounterViewModel) {
