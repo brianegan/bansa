@@ -49,7 +49,6 @@ ext {
   appCompatV7 = "com.android.support:appcompat-v7:23.1.1"
 
   // Libs
-  injekt = "uy.kohesive.injekt:injekt-core:1.14.0"
   rxJava = 'io.reactivex:rxjava:1.0.16'
   rxAndroid = 'io.reactivex:rxandroid:1.0.1'
   okHttp = 'com.squareup.okhttp3:okhttp:3.0.1'

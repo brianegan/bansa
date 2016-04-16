@@ -29,7 +29,6 @@ dependencies {
 
   compile rootProject.ext.supportDesign
 
-  compile rootProject.ext.injekt
   compile rootProject.ext.kotlinStdLib
   compile rootProject.ext.anvil
   compile rootProject.ext.anvilRecyclerView
