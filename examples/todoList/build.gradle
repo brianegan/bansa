@@ -1,0 +1,43 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+
+android {
+  compileSdkVersion 23
+  buildToolsVersion '23.0.2'
+
+  defaultConfig {
+    applicationId "com.brianegan.bansa.todoList"
+    minSdkVersion 15
+    targetSdkVersion 23
+    versionCode 1
+    versionName "1.0"
+  }
+  sourceSets {
+    main.java.srcDirs += 'src/main/kotlin'
+    test.java.srcDirs += 'src/test/kotlin'
+  }
+}
+
+buildscript {
+  dependencies {
+    classpath rootProject.ext.kotlinGradlePlugin
+  }
+}
+
+dependencies {
+  compile project(':bansa')
+
+  compile rootProject.ext.supportDesign
+
+  compile rootProject.ext.kotlinStdLib
+  compile rootProject.ext.anvilRecyclerView
+  compile rootProject.ext.picasso
+  compile rootProject.ext.dexx
+  compile rootProject.ext.anvil
+
+  testCompile rootProject.ext.kotlinStdLib
+  testCompile rootProject.ext.kotlinRuntime
+  testCompile rootProject.ext.assertJ
+  testCompile rootProject.ext.spek
+}
+

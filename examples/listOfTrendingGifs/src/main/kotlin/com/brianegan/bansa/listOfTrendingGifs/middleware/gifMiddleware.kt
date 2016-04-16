@@ -1,5 +1,6 @@
 package com.brianegan.bansa.listOfTrendingGifs.middleware
 
+import com.brianegan.bansa.createMiddleware
 import com.brianegan.bansa.listOfTrendingGifs.actions.*
 import com.brianegan.bansa.listOfTrendingGifs.api.fetchTrendingGifs
 import com.brianegan.bansa.listOfTrendingGifs.state.ApplicationState
@@ -30,6 +31,4 @@ val gifMiddleware = createMiddleware<ApplicationState, Any> { store, next, actio
         }
         else -> next(action)
     }
-
-    action
 }

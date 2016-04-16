@@ -2,6 +2,7 @@ package com.brianegan.bansa.listOfTrendingGifs
 
 import android.content.Context
 import com.brianegan.bansa.Store
+import com.brianegan.bansa.Subscription
 import com.brianegan.bansa.listOfTrendingGifs.actions.FETCH_NEXT_PAGE
 import com.brianegan.bansa.listOfTrendingGifs.actions.REFRESH
 import com.brianegan.bansa.listOfTrendingGifs.models.Gif
@@ -10,9 +11,6 @@ import com.brianegan.bansa.listOfTrendingGifs.ui.AnvilSwipeRefreshLayout.*
 import com.brianegan.bansa.listOfTrendingGifs.ui.gifView
 import com.brianegan.bansa.listOfTrendingGifs.ui.utils.BansaAdapter
 import com.brianegan.bansa.listOfTrendingGifs.ui.utils.OnScrolledToEndOfListListener
-import rx.Subscription
-import rx.android.schedulers.AndroidSchedulers
-import rx.subscriptions.Subscriptions
 import trikita.anvil.Anvil
 import trikita.anvil.DSL.*
 import trikita.anvil.RenderableView
@@ -32,11 +30,9 @@ class RootView(c: Context, val store: Store<ApplicationState, Any>) : Renderable
         }
     }
 
-    val identity = { it: Gif -> it }
-
     val adapter: BansaAdapter<Gif, Gif> = BansaAdapter(
             store.state.gifs,
-            identity,
+            { it },
             ::gifView
     )
 
@@ -44,20 +40,20 @@ class RootView(c: Context, val store: Store<ApplicationState, Any>) : Renderable
             { store.state.isFetching.not() },
             { store.dispatch(FETCH_NEXT_PAGE) })
 
-    var subscription: Subscription = Subscriptions.empty()
+    var subscription: Subscription? = null
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
 
         store.dispatch(REFRESH)
 
-        subscription = store.stateChanges.observeOn(AndroidSchedulers.mainThread()).subscribe {
+        subscription = store.subscribe {
             Anvil.render()
         }
     }
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        subscription.unsubscribe()
+        subscription?.unsubscribe()
     }
 }

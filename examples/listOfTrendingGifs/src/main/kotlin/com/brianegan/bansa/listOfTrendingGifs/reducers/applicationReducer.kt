@@ -29,6 +29,10 @@ val applicationReducer = { state: ApplicationState, action: Any ->
                         offset = action.payload.pagination.offset.plus(action.payload.pagination.count)),
                 currentRequest = Subscriptions.empty())
 
+        is ORIENTATION_CHANGE -> state.copy(
+                orientation = action.orientation
+        )
+
         else -> state
     }
 }

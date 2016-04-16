@@ -18,32 +18,23 @@ android {
     }
 }
 
-repositories {
-    mavenCentral()
-}
-
 buildscript {
-    ext.kotlin_version = '1.0.0'
-    repositories {
-        mavenCentral()
-    }
     dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath rootProject.ext.kotlinGradlePlugin
     }
 }
 
 dependencies {
     compile project(':bansa')
 
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    compile 'co.trikita:anvil-sdk15:0.2.0'
-    compile 'io.reactivex:rxandroid:1.0.1'
-    compile "uy.kohesive.injekt:injekt-core:1.14.0"
-    compile 'com.android.support:design:23.1.1'
-    compile 'com.jakewharton.rxbinding:rxbinding:0.3.0'
-    compile 'com.jakewharton.rxbinding:rxbinding-support-v4:0.3.0'
+    compile rootProject.ext.supportDesign
 
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.assertj:assertj-core:1.7.1'
+    compile rootProject.ext.kotlinStdLib
+    compile rootProject.ext.anvil
+
+    testCompile rootProject.ext.kotlinStdLib
+    testCompile rootProject.ext.kotlinRuntime
+    testCompile rootProject.ext.assertJ
+    testCompile rootProject.ext.spek
 }
 

@@ -26,32 +26,29 @@ repositories {
 }
 
 buildscript {
-  ext.kotlin_version = '1.0.0'
-  repositories {
-    mavenCentral()
-  }
   dependencies {
-    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    classpath rootProject.ext.kotlinGradlePlugin
   }
 }
 
 dependencies {
   compile project(':bansa')
 
-  compile "com.android.support:appcompat-v7:23.1.1"
-  compile 'com.android.support:design:23.1.1'
+  compile rootProject.ext.appCompatV7
+  compile rootProject.ext.supportDesign
 
-  compile "uy.kohesive.injekt:injekt-core:1.14.0"
-  compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-  compile 'co.trikita:anvil-sdk15:0.2.0'
-  compile 'io.reactivex:rxjava:1.0.16'
-  compile 'io.reactivex:rxandroid:1.0.1'
+  compile rootProject.ext.kotlinStdLib
+  compile rootProject.ext.anvil
+  compile rootProject.ext.rxJava
+  compile rootProject.ext.rxAndroid
 
-  compile 'com.squareup.picasso:picasso:2.5.2'
-  compile 'com.squareup.okhttp3:okhttp:3.0.1'
-  compile 'com.squareup.moshi:moshi:1.1.0'
+  compile rootProject.ext.picasso
+  compile rootProject.ext.okHttp
+  compile rootProject.ext.moshi
 
-  testCompile "org.jetbrains.spek:spek:0.1.195"
-  testCompile 'org.assertj:assertj-core:1.7.1'
+  testCompile rootProject.ext.kotlinStdLib
+  testCompile rootProject.ext.kotlinRuntime
+  testCompile rootProject.ext.assertJ
+  testCompile rootProject.ext.spek
 }
 

@@ -7,9 +7,7 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.VideoView
 import com.brianegan.bansa.Store
-import rx.Subscription
-import rx.android.schedulers.AndroidSchedulers
-import rx.subscriptions.Subscriptions
+import com.brianegan.bansa.Subscription
 import trikita.anvil.Anvil
 import trikita.anvil.DSL.*
 import trikita.anvil.RenderableView
@@ -84,19 +82,19 @@ class RootView(c: Context, val store: Store<ApplicationState, Any>) : Renderable
         anim(shouldFadeOut, ObjectAnimator.ofFloat(view, "alpha", 1f, 0f))
     }
 
-    var subscription: Subscription = Subscriptions.empty()
+    var subscription: Subscription? = null
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
 
-        subscription = store.stateChanges.observeOn(AndroidSchedulers.mainThread()).subscribe {
+        subscription = store.subscribe {
             Anvil.render()
         }
     }
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        subscription.unsubscribe()
+        subscription?.unsubscribe()
     }
 
     data class ViewModel(val videoUrl: String, val isFetching: Boolean, val fetchRandomGif: View.OnClickListener)

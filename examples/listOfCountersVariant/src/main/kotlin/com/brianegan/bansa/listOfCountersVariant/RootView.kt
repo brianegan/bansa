@@ -5,8 +5,6 @@ import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.brianegan.bansa.Store
-import rx.Subscription
-import rx.android.schedulers.AndroidSchedulers
 import trikita.anvil.Anvil
 import trikita.anvil.DSL.*
 import trikita.anvil.RenderableView
@@ -14,15 +12,7 @@ import trikita.anvil.recyclerview.Recycler
 import trikita.anvil.recyclerview.Recycler.*
 
 class RootView(c: Context, val store: Store<ApplicationState, Any>) : RenderableView(c) {
-    val stateChangeSubscription: Subscription = store
-            .stateChanges
-            // Yay! We can easily schedule when we perform view updates as to not
-            // cause too much churn on the view layer in response to rapid state changes,
-            // which could diminish app performance
-            .observeOn(AndroidSchedulers.mainThread())
-            // This is where the magic happens. The Root view subscribes to state changes,
-            // and triggers the Anvil library to re-render the app with the current state.
-            .subscribe { Anvil.render() }
+    val stateChangeSubscription= store.subscribe { Anvil.render() }
 
     val mapCounterToViewModel = buildMapCounterToCounterViewModel(store)
 
