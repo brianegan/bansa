@@ -18,35 +18,24 @@ android {
   }
 }
 
-repositories {
-  mavenCentral()
-  maven {
-    url "http://repository.jetbrains.com/all"
-  }
-}
-
 buildscript {
-  ext.kotlin_version = '1.0.1-2'
-  repositories {
-    mavenCentral()
-  }
   dependencies {
-    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    classpath rootProject.ext.kotlinGradlePlugin
   }
 }
 
 dependencies {
   compile project(':bansa')
 
-  compile 'com.android.support:design:23.1.1'
+  compile rootProject.ext.supportDesign
 
-  compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-  compile 'co.trikita:anvil-sdk15:0.3.0'
-  compile "uy.kohesive.injekt:injekt-core:1.14.0"
+  compile rootProject.ext.injekt
+  compile rootProject.ext.kotlinStdLib
+  compile rootProject.ext.anvil
 
-  testCompile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-  testCompile "org.jetbrains.kotlin:kotlin-runtime:$kotlin_version"
-  testCompile "org.jetbrains.spek:spek:0.1.195"
-  testCompile 'org.assertj:assertj-core:1.7.1'
+  testCompile rootProject.ext.kotlinStdLib
+  testCompile rootProject.ext.kotlinRuntime
+  testCompile rootProject.ext.assertJ
+  testCompile rootProject.ext.spek
 }
 

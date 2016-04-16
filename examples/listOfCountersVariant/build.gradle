@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 
 android {
   compileSdkVersion 23
-  buildToolsVersion '23.0.2'
+  buildToolsVersion rootProject.ext.buildToolsVersion
 
   defaultConfig {
     applicationId "com.brianegan.bansa.listOfCountersVariant"
@@ -18,43 +18,26 @@ android {
   }
 }
 
-repositories {
-  mavenCentral()
-  maven {
-    url "http://repository.jetbrains.com/all"
-  }
-  maven {
-    url = 'https://jitpack.io/'
-  }
-}
-
 buildscript {
-  ext.kotlin_version = '1.0.1-2'
-  repositories {
-    mavenCentral()
-    maven { url "https://jitpack.io" }
-
-  }
   dependencies {
-    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-
+    classpath rootProject.ext.kotlinGradlePlugin
   }
 }
 
 dependencies {
   compile project(':bansa')
 
-  compile 'com.android.support:design:23.1.1'
+  compile rootProject.ext.supportDesign
 
-  compile "uy.kohesive.injekt:injekt-core:1.14.0"
-  compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-  compile 'co.trikita:anvil-sdk15:0.3.0'
-  compile 'com.github.brianegan:anvil-recyclerview:1.3'
-  compile 'com.github.andrewoma.dexx:kollection:0.5'
+  compile rootProject.ext.injekt
+  compile rootProject.ext.kotlinStdLib
+  compile rootProject.ext.anvil
+  compile rootProject.ext.anvilRecyclerView
+  compile rootProject.ext.dexx
 
-  testCompile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-  testCompile "org.jetbrains.kotlin:kotlin-runtime:$kotlin_version"
-  testCompile 'org.assertj:assertj-core:1.7.1'
-  testCompile "org.jetbrains.spek:spek:0.1.195"
+  testCompile rootProject.ext.kotlinStdLib
+  testCompile rootProject.ext.kotlinRuntime
+  testCompile rootProject.ext.assertJ
+  testCompile rootProject.ext.spek
 }
 
