@@ -1,8 +1,8 @@
 package com.brianegan.bansa.listOfTrendingGifs
 
 import android.content.Context
-import com.brianegan.bansaKotlin.Store
-import com.brianegan.bansaKotlin.Subscription
+import com.brianegan.bansa.Store
+import com.brianegan.bansa.Subscription
 import com.brianegan.bansa.listOfTrendingGifs.actions.FETCH_NEXT_PAGE
 import com.brianegan.bansa.listOfTrendingGifs.actions.REFRESH
 import com.brianegan.bansa.listOfTrendingGifs.models.Gif

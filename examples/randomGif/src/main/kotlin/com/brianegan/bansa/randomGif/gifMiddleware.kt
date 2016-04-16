@@ -1,8 +1,8 @@
 package com.brianegan.bansa.randomGif
 
-import com.brianegan.bansa.createMiddleware
+import com.brianegan.bansa.Middleware
 
-val gifMiddleware = createMiddleware<ApplicationState, Any> { store, next, action ->
+val gifMiddleware = Middleware<ApplicationState, Any> { store, action, next ->
     when (action) {
         is FETCH_RANDOM_GIF -> {
             next(FETCHING)

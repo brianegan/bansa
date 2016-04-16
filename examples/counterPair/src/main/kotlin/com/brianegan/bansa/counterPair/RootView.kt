@@ -3,8 +3,8 @@ package com.brianegan.bansa.counterPair
 import android.content.Context
 import android.view.View
 import android.widget.LinearLayout
-import com.brianegan.bansaKotlin.Store
-import com.brianegan.bansaKotlin.Subscription
+import com.brianegan.bansa.Store
+import com.brianegan.bansa.Subscription
 import trikita.anvil.Anvil
 import trikita.anvil.DSL.*
 import trikita.anvil.RenderableView

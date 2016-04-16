@@ -1,7 +1,7 @@
 package com.brianegan.bansa.counterPair
 
-import com.brianegan.bansaKotlin.Store
-import com.brianegan.bansa.createStore
+import com.brianegan.bansa.BaseStore
+import com.brianegan.bansa.Store
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import java.util.*
@@ -32,7 +32,7 @@ class CounterPairReducerTest {
     }
 
     fun createTestStore(applicationState: ApplicationState = ApplicationState()): Store<ApplicationState, CounterAction> {
-        return createStore(applicationState, counterReducer)
+        return BaseStore.create(applicationState, CounterReducer())
     }
 
     fun createTestState(firstCounter: Pair<UUID, Int> = Pair(UUID.randomUUID(), 0),

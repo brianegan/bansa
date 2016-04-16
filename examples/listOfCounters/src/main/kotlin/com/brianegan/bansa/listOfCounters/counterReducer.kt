@@ -1,32 +1,36 @@
 package com.brianegan.bansa.listOfCounters
 
-val counterReducer = { state: ApplicationState, action: CounterAction ->
-    when (action) {
-        is INIT -> action.state
-        is ADD -> {
-            state.copy(counters = state.counters.plus(action.counter))
+import com.brianegan.bansa.Reducer
+
+class CounterReducer : Reducer<ApplicationState, CounterAction> {
+    override fun invoke(state: ApplicationState, action: CounterAction): ApplicationState {
+        when (action) {
+            is INIT -> return action.state
+            is ADD -> {
+                return state.copy(counters = state.counters.plus(action.counter))
+            }
+            is REMOVE -> {
+                return state.copy(counters = state.counters.dropLast(1))
+            }
+            is INCREMENT -> {
+                return state.copy(counters = state.counters.map({ counter ->
+                    if (counter.id.equals(action.id)) {
+                        counter.copy(value = counter.value + 1)
+                    } else {
+                        counter
+                    }
+                }))
+            }
+            is DECREMENT -> {
+                return state.copy(counters = state.counters.map({ counter ->
+                    if (counter.id.equals(action.id)) {
+                        counter.copy(value = counter.value - 1)
+                    } else {
+                        counter
+                    }
+                }))
+            }
+            else -> return state
         }
-        is REMOVE -> {
-            state.copy(counters = state.counters.dropLast(1))
-        }
-        is INCREMENT -> {
-            state.copy(counters = state.counters.map({ counter ->
-                if (counter.id.equals(action.id)) {
-                    counter.copy(value = counter.value + 1)
-                } else {
-                    counter
-                }
-            }))
-        }
-        is DECREMENT -> {
-            state.copy(counters = state.counters.map({ counter ->
-                if (counter.id.equals(action.id)) {
-                    counter.copy(value = counter.value - 1)
-                } else {
-                    counter
-                }
-            }))
-        }
-        else -> state
     }
 }

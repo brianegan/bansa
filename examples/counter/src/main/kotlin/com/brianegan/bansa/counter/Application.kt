@@ -1,5 +1,7 @@
 package com.brianegan.bansa.counter
 
+import com.brianegan.bansa.BaseStore
+
 class Application : android.app.Application() {
     override fun onCreate() {
         super.onCreate()
@@ -7,3 +9,6 @@ class Application : android.app.Application() {
         store.dispatch(CounterActions.INIT) // Initialize the store
     }
 }
+
+
+val store = BaseStore.create(ApplicationState(), CounterReducer())

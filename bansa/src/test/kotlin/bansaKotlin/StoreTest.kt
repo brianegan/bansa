@@ -11,13 +11,13 @@ class StoreTest {
     fun `when an action is fired, the corresponding reducer should be called and update the state of the application`() {
         val reducer = { state: MyState, action: MyAction ->
             when (action.type) {
-                "to reduce" -> MyState("reduced")
+                "to invoke" -> MyState("reduced")
                 else -> state
             }
         }
         val store = createStore(MyState(), reducer)
 
-        store.dispatch(MyAction(type = "to reduce"))
+        store.dispatch(MyAction(type = "to invoke"))
 
         assertThat(store.state.message).isEqualTo("reduced")
     }

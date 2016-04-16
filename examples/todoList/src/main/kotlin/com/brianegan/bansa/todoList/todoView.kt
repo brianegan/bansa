@@ -1,7 +1,7 @@
 package com.brianegan.bansa.todoList
 
 import android.widget.LinearLayout
-import com.brianegan.bansaKotlin.Store
+import com.brianegan.bansa.Store
 import trikita.anvil.DSL.*
 
 fun todoView(model: TodoViewModel) {

@@ -1,5 +1,5 @@
 package com.brianegan.bansa;
 
-interface Reducer<S, A> {
-    S reduce(S state, A action);
+public interface Reducer<S, A> {
+    S invoke(S state, A action);
 }

@@ -3,13 +3,13 @@ package com.brianegan.bansa.counter
 import android.content.Context
 import android.view.View
 import android.widget.LinearLayout
-import com.brianegan.bansaKotlin.Store
-import com.brianegan.bansaKotlin.Subscription
+import com.brianegan.bansa.Store
+import com.brianegan.bansa.Subscription
 import trikita.anvil.Anvil
 import trikita.anvil.DSL.*
 import trikita.anvil.RenderableView
 
-class RootView(c: Context, val store: Store<ApplicationState, Any>) : RenderableView(c) {
+class RootView(c: Context, val store: Store<ApplicationState, CounterAction>) : RenderableView(c) {
     override fun view() {
         template(buildPresentationModel())
     }

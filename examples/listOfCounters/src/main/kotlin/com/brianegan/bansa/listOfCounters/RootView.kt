@@ -3,13 +3,13 @@ package com.brianegan.bansa.listOfCounters
 import android.content.Context
 import android.view.View
 import android.widget.LinearLayout
-import com.brianegan.bansaKotlin.Store
+import com.brianegan.bansa.Store
 import trikita.anvil.Anvil
 import trikita.anvil.DSL.*
 import trikita.anvil.RenderableAdapter
 import trikita.anvil.RenderableView
 
-class RootView(c: Context, val store: Store<ApplicationState, Any>) : RenderableView(c) {
+class RootView(c: Context, val store: Store<ApplicationState, CounterAction>) : RenderableView(c) {
     val stateChangeSubscription = store.subscribe { Anvil.render() }
 
     val mapCounterToViewModel = buildMapCounterToCounterViewModel(store)

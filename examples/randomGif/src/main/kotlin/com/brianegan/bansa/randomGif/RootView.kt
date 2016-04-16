@@ -6,8 +6,8 @@ import android.net.Uri
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.VideoView
-import com.brianegan.bansaKotlin.Store
-import com.brianegan.bansaKotlin.Subscription
+import com.brianegan.bansa.Store
+import com.brianegan.bansa.Subscription
 import trikita.anvil.Anvil
 import trikita.anvil.DSL.*
 import trikita.anvil.RenderableView

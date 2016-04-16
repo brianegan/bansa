@@ -5,12 +5,6 @@ import java.util.Collections;
 import java.util.List;
 
 public class BaseStore<S, A> implements Store<S, A> {
-    private S currentState;
-    private final List<Reducer<S, A>> reducers;
-    private final List<Subscriber> subscribers = new ArrayList<>();
-    private final List<NextDispatcher<A>> dispatchers = new ArrayList<>();
-    final Store<S, A> store;
-
     public static <S, A> Store<S, A> create(S initialState, List<Reducer<S, A>> reducers, List<Middleware<S, A>> middlewares) {
         return new BaseStore<>(initialState, reducers, middlewares);
     }
@@ -28,21 +22,39 @@ public class BaseStore<S, A> implements Store<S, A> {
     }
 
     public static <S, A> Store<S, A> create(S initialState, Reducer<S, A> reducer) {
-        return new BaseStore<>(initialState, Collections.singletonList(reducer), Collections.<Middleware<S,A>>emptyList());
+        return new BaseStore<>(initialState, Collections.singletonList(reducer), Collections.<Middleware<S, A>>emptyList());
     }
 
     public static <S, A> Store<S, A> create(S initialState, List<Reducer<S, A>> reducers) {
-        return new BaseStore<>(initialState, reducers, Collections.<Middleware<S,A>>emptyList());
+        return new BaseStore<>(initialState, reducers, Collections.<Middleware<S, A>>emptyList());
     }
+
+    private S currentState;
+    private final List<Reducer<S, A>> reducers;
+    private final List<Subscriber> subscribers = new ArrayList<>();
+    private final List<NextDispatcher<A>> dispatchers = new ArrayList<>();
+    private final Middleware<S, A> dispatcher = new Middleware<S, A>() {
+        @Override
+        public void invoke(Store<S, A> store, A action, NextDispatcher<A> next) {
+            synchronized (this) {
+                for (Reducer<S, A> reducer : reducers) {
+                    currentState = reducer.invoke(store.getState(), action);
+                }
+            }
+            for (int i = 0; i < subscribers.size(); i++) {
+                subscribers.get(i).invoke();
+            }
+        }
+    };
 
     private BaseStore(S initialState, List<Reducer<S, A>> reducers, List<Middleware<S, A>> middlewares) {
         this.reducers = reducers;
         this.currentState = initialState;
-        this.store = this;
+        final Store<S, A> store = this;
 
         dispatchers.add(new NextDispatcher<A>() {
             public void invoke(A action) {
-                dispatcher.dispatch(store, action, null);
+                dispatcher.invoke(store, action, null);
             }
         });
 
@@ -52,7 +64,7 @@ public class BaseStore<S, A> implements Store<S, A> {
             dispatchers.add(0, new NextDispatcher<A>() {
                 @Override
                 public void invoke(A action) {
-                    middleware.dispatch(store, action, next);
+                    middleware.invoke(store, action, next);
                 }
             });
         };
@@ -79,18 +91,4 @@ public class BaseStore<S, A> implements Store<S, A> {
             }
         };
     }
-
-    private final Middleware<S, A> dispatcher = new Middleware<S, A>() {
-        @Override
-        public void dispatch(Store<S, A> store, A action, NextDispatcher<A> next) {
-            synchronized (this) {
-                for (Reducer<S, A> reducer : reducers) {
-                    currentState = reducer.reduce(store.getState(), action);
-                }
-            }
-            for (int i = 0; i < subscribers.size(); i++) {
-                subscribers.get(i).onStateChanged();
-            }
-        }
-    };
 }

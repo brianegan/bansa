@@ -4,15 +4,15 @@ import android.content.Context
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
-import com.brianegan.bansaKotlin.Store
+import com.brianegan.bansa.Store
 import trikita.anvil.Anvil
 import trikita.anvil.DSL.*
 import trikita.anvil.RenderableView
 import trikita.anvil.recyclerview.Recycler
 import trikita.anvil.recyclerview.Recycler.*
 
-class RootView(c: Context, val store: Store<ApplicationState, Any>) : RenderableView(c) {
-    val stateChangeSubscription= store.subscribe { Anvil.render() }
+class RootView(c: Context, val store: Store<ApplicationState, CounterAction>) : RenderableView(c) {
+    val stateChangeSubscription = store.subscribe { Anvil.render() }
 
     val mapCounterToViewModel = buildMapCounterToCounterViewModel(store)
 
