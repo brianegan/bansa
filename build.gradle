@@ -12,17 +12,13 @@ allprojects {
     jcenter()
     mavenCentral()
     maven { url "https://jitpack.io" }
-    maven {
-      url "http://repository.jetbrains.com/all"
-    }
+    maven { url "http://repository.jetbrains.com/all" }
   }
   buildscript {
     repositories {
       jcenter()
       mavenCentral()
-      maven {
-        url "http://repository.jetbrains.com/all"
-      }
+      maven { url "http://repository.jetbrains.com/all" }
     }
   }
 }
@@ -36,26 +32,27 @@ ext {
 
   // Kotlin
   kotlinVersion = '1.0.1-2'
-  kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
-  kotlinRuntime = "org.jetbrains.kotlin:kotlin-runtime:$kotlinVersion"
   kotlinGradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+  kotlinRuntime = "org.jetbrains.kotlin:kotlin-runtime:$kotlinVersion"
+  kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
 
   // UI
-  anvil = 'co.trikita:anvil-sdk15:0.3.5'
+  appCompatV7 = "com.android.support:appcompat-v7:23.1.1"
+  anvilVersion = '0.3.5'
+  anvil = "co.trikita:anvil-sdk15:$anvilVersion"
   anvilRecyclerView = 'com.github.brianegan:anvil-recyclerview:1.3'
   picasso = 'com.squareup.picasso:picasso:2.5.2'
-  dexx = 'com.github.andrewoma.dexx:kollection:0.5'
   supportDesign = 'com.android.support:design:23.3.0'
-  appCompatV7 = "com.android.support:appcompat-v7:23.1.1"
 
   // Libs
+  dexx = 'com.github.andrewoma.dexx:kollection:0.5'
+  moshi = 'com.squareup.moshi:moshi:1.1.0'
+  okHttp = 'com.squareup.okhttp3:okhttp:3.0.1'
   rxJava = 'io.reactivex:rxjava:1.0.16'
   rxAndroid = 'io.reactivex:rxandroid:1.0.1'
-  okHttp = 'com.squareup.okhttp3:okhttp:3.0.1'
-  moshi = 'com.squareup.moshi:moshi:1.1.0'
-  junit = 'junit:junit:4.12'
 
   // Testing
   assertJ = 'org.assertj:assertj-core:1.7.1'
+  junit = 'junit:junit:4.12'
   spek = 'org.jetbrains.spek:spek:0.1.195'
 }

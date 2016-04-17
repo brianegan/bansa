@@ -42,7 +42,7 @@ public class BaseStore<S, A> implements Store<S, A> {
                 }
             }
             for (int i = 0; i < subscribers.size(); i++) {
-                subscribers.get(i).invoke();
+                subscribers.get(i).onStateChange();
             }
         }
     };
