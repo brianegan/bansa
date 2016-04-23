@@ -4,7 +4,7 @@ import com.brianegan.bansa.Reducer
 import com.github.andrewoma.dexx.kollection.toImmutableList
 
 class CounterReducer : Reducer<ApplicationState, CounterAction> {
-    override fun invoke(state: ApplicationState, action: CounterAction): ApplicationState {
+    override fun reduce(state: ApplicationState, action: CounterAction): ApplicationState {
         when (action) {
             is INIT -> return action.state
             is ADD -> {

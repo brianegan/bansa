@@ -7,7 +7,7 @@ import com.brianegan.bansa.listOfTrendingGifs.state.ApplicationState
 import rx.subscriptions.Subscriptions
 
 class ApplicationReducer : Reducer<ApplicationState, Any> {
-    override fun invoke(state: ApplicationState, action: Any): ApplicationState {
+    override fun reduce(state: ApplicationState, action: Any): ApplicationState {
         when (action) {
             is INIT -> return ApplicationState()
 

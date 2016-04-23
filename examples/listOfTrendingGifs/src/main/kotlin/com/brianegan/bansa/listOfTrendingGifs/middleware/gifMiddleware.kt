@@ -6,9 +6,10 @@ import com.brianegan.bansa.Store
 import com.brianegan.bansa.listOfTrendingGifs.actions.*
 import com.brianegan.bansa.listOfTrendingGifs.api.fetchTrendingGifs
 import com.brianegan.bansa.listOfTrendingGifs.state.ApplicationState
+import com.brianegan.bansaKotlin.invoke
 
 class GifMiddleware : Middleware<ApplicationState, Any> {
-    override fun invoke(store: Store<ApplicationState, Any>, action: Any, next: NextDispatcher<Any>) {
+    override fun dispatch(store: Store<ApplicationState, Any>, action: Any, next: NextDispatcher<Any>) {
         when (action) {
             is FETCH_NEXT_PAGE -> {
                 val subscription = fetchTrendingGifs(

@@ -1,6 +1,6 @@
 package com.brianegan.bansa.todoList
 
-import com.brianegan.bansa.BaseStore
+import com.brianegan.bansa.BansaStore
 
 class Application : android.app.Application() {
     override fun onCreate() {
@@ -10,4 +10,4 @@ class Application : android.app.Application() {
     }
 }
 
-val store = BaseStore.create(ApplicationState(), applicationReducer)
+val store = BansaStore(ApplicationState(), applicationReducer)

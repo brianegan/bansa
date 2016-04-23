@@ -11,8 +11,9 @@ buildscript {
 }
 
 dependencies {
-  testCompile rootProject.ext.kotlinStdLib
-  testCompile rootProject.ext.rxJava
+  compile project(':bansa')
+  compile rootProject.ext.kotlinStdLib
+
   testCompile rootProject.ext.junit
   testCompile rootProject.ext.assertJ
 }
@@ -24,4 +25,8 @@ task sourcesJar(type: Jar, dependsOn: classes) {
 
 artifacts {
   archives sourcesJar
+}
+
+sourceSets {
+  main.java.srcDirs += 'src/main/kotlin'
 }

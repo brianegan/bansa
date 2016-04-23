@@ -1,6 +1,6 @@
 package com.brianegan.bansa.counterPair
 
-import com.brianegan.bansa.BaseStore
+import com.brianegan.bansa.BansaStore
 
 class Application : android.app.Application() {
     override fun onCreate() {
@@ -9,4 +9,4 @@ class Application : android.app.Application() {
     }
 }
 
-val store = BaseStore.create(ApplicationState(), ApplicationReducer())
+val store = BansaStore(ApplicationState(), ApplicationReducer())
