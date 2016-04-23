@@ -6,7 +6,7 @@ import java.util.List;
 public class BansaStore<S, A> implements Store<S, A> {
     private S currentState;
     private final Reducer<S, A> reducer;
-    private final List<Subscriber> subscribers = new ArrayList<>();
+    private final List<Subscriber<S>> subscribers = new ArrayList<>();
     private final List<NextDispatcher<A>> dispatchers = new ArrayList<>();
     private final Middleware<S, A> dispatcher = new Middleware<S, A>() {
         @Override
@@ -15,7 +15,7 @@ public class BansaStore<S, A> implements Store<S, A> {
                 currentState = reducer.reduce(store.getState(), action);
             }
             for (int i = 0; i < subscribers.size(); i++) {
-                subscribers.get(i).onStateChange();
+                subscribers.get(i).onStateChange(currentState);
             }
         }
     };
@@ -45,7 +45,7 @@ public class BansaStore<S, A> implements Store<S, A> {
     }
 
     @Override
-    public S getState() {
+    public synchronized S getState() {
         return currentState;
     }
 
@@ -56,7 +56,7 @@ public class BansaStore<S, A> implements Store<S, A> {
     }
 
     @Override
-    public Subscription subscribe(final Subscriber subscriber) {
+    public Subscription subscribe(final Subscriber<S> subscriber) {
         this.subscribers.add(subscriber);
         return new Subscription() {
             @Override

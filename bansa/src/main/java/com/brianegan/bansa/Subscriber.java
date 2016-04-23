@@ -1,5 +1,5 @@
 package com.brianegan.bansa;
 
-public interface Subscriber {
-    void onStateChange();
+public interface Subscriber<S> {
+    void onStateChange(S state);
 }

@@ -83,5 +83,23 @@ class StoreTest {
         assertThat(subscriber1Called).isTrue()
         assertThat(subscriber2Called).isFalse()
     }
+
+    @Test
+    fun `store should pass the current state to subscribers`() {
+        val reducer = Reducer<MyState, MyAction> { state, action ->
+            when (action.type) {
+                "to invoke" -> MyState("reduced")
+                else -> state
+            }
+        }
+
+        var actual: MyState = MyState()
+        val store = BansaStore(MyState(), reducer)
+
+        store.subscribe { actual = it }
+        store.dispatch(MyAction(type = "to invoke"))
+
+        assertThat(actual).isEqualTo(store.state)
+    }
 }
 
