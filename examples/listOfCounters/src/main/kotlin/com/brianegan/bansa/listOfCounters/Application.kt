@@ -1,6 +1,6 @@
 package com.brianegan.bansa.listOfCounters
 
-import com.brianegan.bansa.BansaStore
+import com.brianegan.bansa.BaseStore
 
 class Application : android.app.Application() {
     override fun onCreate() {
@@ -9,4 +9,4 @@ class Application : android.app.Application() {
     }
 }
 
-val store = BansaStore(ApplicationState(), CounterReducer())
+val store = BaseStore(ApplicationState(), CounterReducer())

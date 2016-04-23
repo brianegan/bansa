@@ -1,6 +1,6 @@
 package com.brianegan.bansaDevTools
 
-import com.brianegan.bansa.BansaStore
+import com.brianegan.bansa.BaseStore
 import com.brianegan.bansa.BansaUtils.combineReducers
 import com.brianegan.bansa.Reducer
 import org.assertj.core.api.Assertions.assertThat
@@ -19,7 +19,7 @@ class StoreTest {
             }
         }
 
-        val store = BansaStore(MyState(), reducer)
+        val store = BaseStore(MyState(), reducer)
 
         store.dispatch(MyAction(type = "to invoke"))
 
@@ -45,7 +45,7 @@ class StoreTest {
             }
         }
 
-        val store = BansaStore(MyState(), combineReducers(reducer1, reducer2))
+        val store = BaseStore(MyState(), combineReducers(reducer1, reducer2))
 
         store.dispatch(MyAction(type = helloReducer1))
         assertThat(store.state.message).isEqualTo("oh hai")
@@ -55,7 +55,7 @@ class StoreTest {
 
     @Test
     fun `subscribers should be notified when the state changes`() {
-        val store = BansaStore(MyState(), Reducer<MyState, MyAction> { state, action -> MyState() })
+        val store = BaseStore(MyState(), Reducer<MyState, MyAction> { state, action -> MyState() })
         var subscriber1Called = false
         var subscriber2Called = false
 
@@ -70,7 +70,7 @@ class StoreTest {
 
     @Test
     fun `the store should not notify unsubscribed objects`() {
-        val store = BansaStore(MyState(), Reducer<MyState, MyAction> { state, action -> MyState() })
+        val store = BaseStore(MyState(), Reducer<MyState, MyAction> { state, action -> MyState() })
         var subscriber1Called = false
         var subscriber2Called = false
 
@@ -94,7 +94,7 @@ class StoreTest {
         }
 
         var actual: MyState = MyState()
-        val store = BansaStore(MyState(), reducer)
+        val store = BaseStore(MyState(), reducer)
 
         store.subscribe { actual = it }
         store.dispatch(MyAction(type = "to invoke"))

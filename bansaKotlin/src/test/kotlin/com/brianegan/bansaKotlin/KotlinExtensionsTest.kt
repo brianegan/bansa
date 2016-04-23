@@ -1,6 +1,6 @@
 package com.brianegan.bansaKotlin
 
-import com.brianegan.bansa.BansaStore
+import com.brianegan.bansa.BaseStore
 import com.brianegan.bansa.Middleware
 import com.brianegan.bansa.NextDispatcher
 import com.brianegan.bansa.Reducer
@@ -36,7 +36,7 @@ class KotlinExtensionsTest {
             called = true;
         }
 
-        val store = BansaStore<MyState, MyAction>(MyState(), reducer);
+        val store = BaseStore<MyState, MyAction>(MyState(), reducer);
 
         middleware(store, MyAction(), next)
 

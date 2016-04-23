@@ -1,6 +1,6 @@
 package com.brianegan.bansaDevTools
 
-import com.brianegan.bansa.BansaStore
+import com.brianegan.bansa.BaseStore
 import com.brianegan.bansa.Middleware
 import com.brianegan.bansa.Reducer
 import org.assertj.core.api.Assertions.assertThat
@@ -26,7 +26,7 @@ class MiddlewareTest {
             next.dispatch(action)
         }
 
-        val store = BansaStore(MyState(), reducer, middleWare)
+        val store = BaseStore(MyState(), reducer, middleWare)
 
         store.dispatch(MyAction(type = "hey hey!"))
 
@@ -59,7 +59,7 @@ class MiddlewareTest {
             }
         }
 
-        val store = BansaStore(MyState(), reducer, middleWare1, middleWare2)
+        val store = BaseStore(MyState(), reducer, middleWare1, middleWare2)
 
         store.dispatch(MyAction(type = "hey hey!"))
 
@@ -106,7 +106,7 @@ class MiddlewareTest {
             }
         }
 
-        val store = BansaStore(MyState(), reducer, fetchMiddleware, loggerMiddleware)
+        val store = BaseStore(MyState(), reducer, fetchMiddleware, loggerMiddleware)
 
         store.dispatch(MyAction(type = "CALL_API"))
 
@@ -148,7 +148,7 @@ class MiddlewareTest {
             state
         }
 
-        val store = BansaStore(MyState(), reducer, middleWare1, middleWare2)
+        val store = BaseStore(MyState(), reducer, middleWare1, middleWare2)
 
         store.dispatch(MyAction(type = "around!"))
 

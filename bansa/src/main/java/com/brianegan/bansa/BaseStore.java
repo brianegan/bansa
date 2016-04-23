@@ -3,7 +3,7 @@ package com.brianegan.bansa;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BansaStore<S, A> implements Store<S, A> {
+public class BaseStore<S, A> implements Store<S, A> {
     private S currentState;
     private final Reducer<S, A> reducer;
     private final List<Subscriber<S>> subscribers = new ArrayList<>();
@@ -21,7 +21,7 @@ public class BansaStore<S, A> implements Store<S, A> {
     };
 
     @SafeVarargs
-    public BansaStore(S initialState, Reducer<S, A> reducer, Middleware<S, A>... middlewares) {
+    public BaseStore(S initialState, Reducer<S, A> reducer, Middleware<S, A>... middlewares) {
         this.reducer = reducer;
         this.currentState = initialState;
         final Store<S, A> store = this;

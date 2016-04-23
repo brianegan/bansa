@@ -1,6 +1,6 @@
 package com.brianegan.bansa.randomGif
 
-import com.brianegan.bansa.BansaStore
+import com.brianegan.bansa.BaseStore
 
 class Application : android.app.Application() {
     override fun onCreate() {
@@ -12,4 +12,4 @@ class Application : android.app.Application() {
     }
 }
 
-val store = BansaStore(ApplicationState(), applicationReducer, gifMiddleware)
+val store = BaseStore(ApplicationState(), applicationReducer, gifMiddleware)

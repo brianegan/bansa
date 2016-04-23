@@ -1,6 +1,6 @@
 package com.brianegan.bansa.counter
 
-import com.brianegan.bansa.BansaStore
+import com.brianegan.bansa.BaseStore
 import com.brianegan.bansa.Store
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
@@ -29,5 +29,5 @@ class CounterReducerTest {
     }
 
     fun createTestStore(): Store<ApplicationState, CounterAction> =
-            BansaStore(ApplicationState(), CounterReducer())
+            BaseStore(ApplicationState(), CounterReducer())
 }
