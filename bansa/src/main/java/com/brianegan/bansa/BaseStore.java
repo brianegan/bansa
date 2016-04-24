@@ -1,13 +1,14 @@
 package com.brianegan.bansa;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class BaseStore<S, A> implements Store<S, A> {
     private S currentState;
     private final Reducer<S, A> reducer;
     private final List<Subscriber<S>> subscribers = new ArrayList<>();
-    private final List<NextDispatcher<A>> dispatchers = new ArrayList<>();
+    private final List<NextDispatcher<A>> dispatchers = new LinkedList<>();
     private final Middleware<S, A> dispatcher = new Middleware<S, A>() {
         @Override
         public void dispatch(Store<S, A> store, A action, NextDispatcher<A> next) {
