@@ -38,9 +38,13 @@ ext {
 
   // UI
   appCompatV7 = "com.android.support:appcompat-v7:23.1.1"
-  anvilVersion = '0.3.5'
+  anvilVersion = '0.3.6'
   anvil = "co.trikita:anvil-sdk15:$anvilVersion"
-  anvilRecyclerView = 'com.github.brianegan:anvil-recyclerview:1.3'
+  anvilRecyclerView = "co.trikita:anvil-recyclerview-v7:$anvilVersion"
+  anvilCardView = "co.trikita:anvil-cardview-v7:$anvilVersion"
+  anvilAppCompatV7 = "co.trikita:anvil-appcompat-v7:$anvilVersion"
+  anvilSupportV4 = "co.trikita:anvil-support-v4:$anvilVersion"
+  anvilDesignSupport = "co.trikita:anvil-design:$anvilVersion"
   picasso = 'com.squareup.picasso:picasso:2.5.2'
   supportDesign = 'com.android.support:design:23.3.0'
 

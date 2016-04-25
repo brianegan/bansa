@@ -7,13 +7,13 @@ import com.brianegan.bansa.listOfTrendingGifs.actions.FETCH_NEXT_PAGE
 import com.brianegan.bansa.listOfTrendingGifs.actions.REFRESH
 import com.brianegan.bansa.listOfTrendingGifs.models.Gif
 import com.brianegan.bansa.listOfTrendingGifs.state.ApplicationState
-import com.brianegan.bansa.listOfTrendingGifs.ui.AnvilSwipeRefreshLayout.*
 import com.brianegan.bansa.listOfTrendingGifs.ui.gifView
 import com.brianegan.bansa.listOfTrendingGifs.ui.utils.BansaAdapter
 import com.brianegan.bansa.listOfTrendingGifs.ui.utils.OnScrolledToEndOfListListener
 import trikita.anvil.Anvil
 import trikita.anvil.DSL.*
 import trikita.anvil.RenderableView
+import trikita.anvil.support.v4.Supportv4DSL.*
 
 class RootView(c: Context, val store: Store<ApplicationState, Any>) : RenderableView(c) {
     override fun view() {

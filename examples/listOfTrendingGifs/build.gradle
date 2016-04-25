@@ -39,6 +39,7 @@ dependencies {
 
   compile rootProject.ext.kotlinStdLib
   compile rootProject.ext.anvil
+  compile rootProject.ext.anvilSupportV4
   compile rootProject.ext.rxJava
   compile rootProject.ext.rxAndroid
 
