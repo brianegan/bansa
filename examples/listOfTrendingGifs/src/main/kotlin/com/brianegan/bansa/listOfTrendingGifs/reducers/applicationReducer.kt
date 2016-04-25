@@ -4,7 +4,6 @@ import com.brianegan.bansa.Reducer
 import com.brianegan.bansa.listOfTrendingGifs.actions.*
 import com.brianegan.bansa.listOfTrendingGifs.api.NextPage
 import com.brianegan.bansa.listOfTrendingGifs.state.ApplicationState
-import rx.subscriptions.Subscriptions
 
 class ApplicationReducer : Reducer<ApplicationState, Any> {
     override fun reduce(state: ApplicationState, action: Any): ApplicationState {
@@ -12,15 +11,14 @@ class ApplicationReducer : Reducer<ApplicationState, Any> {
             is INIT -> return ApplicationState()
 
             is REFRESH_STARTED -> return state.copy(
-                    isRefreshing = true,
-                    currentRequest = action.subscription)
+                    isRefreshing = true)
 
             is REFRESH_COMPLETED -> return state.copy(
                     isRefreshing = false,
                     gifs = action.payload.gifs,
                     pagination = NextPage(
-                            offset = action.payload.pagination.offset.plus(action.payload.pagination.count)),
-                    currentRequest = Subscriptions.empty())
+                            offset = action.payload.pagination.offset
+                                    .plus(action.payload.pagination.count)))
 
             is FETCH_NEXT_PAGE_STARTED -> return state.copy(isFetching = true)
 
@@ -28,8 +26,7 @@ class ApplicationReducer : Reducer<ApplicationState, Any> {
                     isFetching = false,
                     gifs = state.gifs.plus(action.payload.gifs),
                     pagination = NextPage(
-                            offset = action.payload.pagination.offset.plus(action.payload.pagination.count)),
-                    currentRequest = Subscriptions.empty())
+                            offset = action.payload.pagination.offset.plus(action.payload.pagination.count)))
 
             is ORIENTATION_CHANGE -> return state.copy(
                     orientation = action.orientation

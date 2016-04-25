@@ -7,12 +7,15 @@ import com.brianegan.bansa.listOfTrendingGifs.actions.*
 import com.brianegan.bansa.listOfTrendingGifs.api.fetchTrendingGifs
 import com.brianegan.bansa.listOfTrendingGifs.state.ApplicationState
 import com.brianegan.bansaKotlin.invoke
+import rx.subscriptions.Subscriptions
 
 class GifMiddleware : Middleware<ApplicationState, Any> {
+    private var currentRequest = Subscriptions.empty()
+
     override fun dispatch(store: Store<ApplicationState, Any>, action: Any, next: NextDispatcher<Any>) {
         when (action) {
             is FETCH_NEXT_PAGE -> {
-                val subscription = fetchTrendingGifs(
+                currentRequest = fetchTrendingGifs(
                         store.state.pagination.offset,
                         store.state.pagination.count).subscribe({
                     next(FETCH_NEXT_PAGE_COMPLETED(it))
@@ -20,18 +23,18 @@ class GifMiddleware : Middleware<ApplicationState, Any> {
                     throw it
                 })
 
-                next(FETCH_NEXT_PAGE_STARTED(subscription))
+                next(FETCH_NEXT_PAGE_STARTED)
             }
             is REFRESH -> {
-                store.state.currentRequest.unsubscribe()
+                currentRequest.unsubscribe()
 
-                val subscription = fetchTrendingGifs().subscribe({
+                currentRequest = fetchTrendingGifs().subscribe({
                     next(REFRESH_COMPLETED(it))
                 }, {
                     throw it
                 })
 
-                next(REFRESH_STARTED(subscription))
+                next(REFRESH_STARTED)
             }
             else -> next(action)
         }
