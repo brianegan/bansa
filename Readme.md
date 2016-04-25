@@ -58,7 +58,7 @@ Actions describe the fact that something happened, but don’t specify how the a
 Let's see some code and we'll chat about it afterwards:
 
 ```kotlin
-val reducer = { state: ApplicationState, action: CounterAction ->
+val reducer = Reducer<ApplicationState, CounterAction> { state, action ->
     when (action) {
         is CounterActions.INIT -> ApplicationState()
         is CounterActions.INCREMENT -> state.copy(counter = state.counter.plus(1))
@@ -83,7 +83,7 @@ And that's all there is to it: We're simply describing how the state should chan
 Now that we've gotten everything setup, we can create our state container!
 
 ```kotlin
-val counterStore = createStore(ApplicationState(), reducer);
+val counterStore = BaseStore(ApplicationState(), reducer);
 ```
 
 And that's it! Now you've got a store. Woohoo! So what now?
@@ -197,8 +197,8 @@ If you like Buzzwords, then boy howdy, have you found yourself the right repo.
 The examples use:
 
   * Kotlin (yay! it's so lovely.)
-  * RxJava for Observables
   * Anvil for UI
+  * RxJava for Observables
   * OkHttp for, uh, http
   * Moshi for Json parsing
   * Picasso for image loading
