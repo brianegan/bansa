@@ -1,11 +1,10 @@
 package com.brianegan.bansa.listOfTrendingGifs
 
-import com.brianegan.bansa.applyMiddleware
-import com.brianegan.bansa.createStore
+import com.brianegan.bansa.BaseStore
 import com.brianegan.bansa.listOfTrendingGifs.actions.INIT
-import com.brianegan.bansa.listOfTrendingGifs.middleware.gifMiddleware
-import com.brianegan.bansa.listOfTrendingGifs.middleware.loggingMiddleware
-import com.brianegan.bansa.listOfTrendingGifs.reducers.applicationReducer
+import com.brianegan.bansa.listOfTrendingGifs.middleware.GifMiddleware
+import com.brianegan.bansa.listOfTrendingGifs.middleware.LoggingMiddleware
+import com.brianegan.bansa.listOfTrendingGifs.reducers.ApplicationReducer
 import com.brianegan.bansa.listOfTrendingGifs.state.ApplicationState
 
 class Application : android.app.Application() {
@@ -16,4 +15,4 @@ class Application : android.app.Application() {
     }
 }
 
-val store = applyMiddleware(gifMiddleware, loggingMiddleware)(createStore(ApplicationState(), applicationReducer))
+val store = BaseStore(ApplicationState(), ApplicationReducer(), GifMiddleware(), LoggingMiddleware())

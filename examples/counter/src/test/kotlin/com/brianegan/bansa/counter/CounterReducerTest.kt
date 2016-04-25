@@ -1,13 +1,14 @@
 package com.brianegan.bansa.counter
 
+import com.brianegan.bansa.BaseStore
 import com.brianegan.bansa.Store
-import com.brianegan.bansa.createStore
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
 class CounterReducerTest {
     @Test fun `INIT action should initialize the counter`() {
         val store = createTestStore()
+        store.dispatch(CounterActions.INCREMENT)
         store.dispatch(CounterActions.INIT)
 
         assertThat(store.state).isEqualTo(ApplicationState())
@@ -28,5 +29,5 @@ class CounterReducerTest {
     }
 
     fun createTestStore(): Store<ApplicationState, CounterAction> =
-            createStore(ApplicationState(), counterReducer)
+            BaseStore(ApplicationState(), CounterReducer())
 }

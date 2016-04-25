@@ -8,11 +8,10 @@ import com.brianegan.bansa.Store
 import trikita.anvil.Anvil
 import trikita.anvil.DSL.*
 import trikita.anvil.RenderableView
-import trikita.anvil.recyclerview.Recycler
-import trikita.anvil.recyclerview.Recycler.*
+import trikita.anvil.recyclerview.v7.RecyclerViewv7DSL.*
 
-class RootView(c: Context, val store: Store<ApplicationState, Any>) : RenderableView(c) {
-    val stateChangeSubscription= store.subscribe { Anvil.render() }
+class RootView(c: Context, val store: Store<ApplicationState, CounterAction>) : RenderableView(c) {
+    val stateChangeSubscription = store.subscribe { Anvil.render() }
 
     val mapCounterToViewModel = buildMapCounterToCounterViewModel(store)
 
@@ -34,7 +33,6 @@ class RootView(c: Context, val store: Store<ApplicationState, Any>) : Renderable
     }
 
     override fun view() {
-
         frameLayout {
             button {
                 init {
@@ -46,7 +44,7 @@ class RootView(c: Context, val store: Store<ApplicationState, Any>) : Renderable
                 onClick(add)
             }
 
-            Recycler.view {
+            recyclerView {
                 init {
                     layoutManager(LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false))
                     itemAnimator(DefaultItemAnimator())
@@ -55,7 +53,7 @@ class RootView(c: Context, val store: Store<ApplicationState, Any>) : Renderable
                     size(FILL, FILL)
                 }
 
-                Recycler.adapter(adapter.update(store.state.counters))
+                adapter(adapter.update(store.state.counters))
             }
         }
     }

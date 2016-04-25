@@ -1,0 +1,32 @@
+apply plugin: 'java'
+apply plugin: 'kotlin'
+apply plugin: 'maven'
+
+group = 'com.github.brianegan'
+
+buildscript {
+  dependencies {
+    classpath rootProject.ext.kotlinGradlePlugin
+  }
+}
+
+dependencies {
+  compile project(':bansa')
+  compile rootProject.ext.kotlinStdLib
+
+  testCompile rootProject.ext.junit
+  testCompile rootProject.ext.assertJ
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+  classifier = 'sources'
+  from sourceSets.main.allSource
+}
+
+artifacts {
+  archives sourcesJar
+}
+
+sourceSets {
+  main.java.srcDirs += 'src/main/kotlin'
+}

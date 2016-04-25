@@ -1,8 +1,13 @@
 package com.brianegan.bansa.counterPair
 
-val applicationReducer = { state: ApplicationState, action: Any ->
-    when (action) {
-        is CounterAction -> counterReducer(state, action)
-        else -> state
+import com.brianegan.bansa.Reducer
+import com.brianegan.bansaKotlin.invoke
+
+class ApplicationReducer(val counterReducer: CounterReducer = CounterReducer()) : Reducer<ApplicationState, Any> {
+    override fun reduce(state: ApplicationState, action: Any): ApplicationState {
+        when (action) {
+            is CounterAction -> return counterReducer(state, action)
+            else -> return state
+        }
     }
 }

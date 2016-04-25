@@ -11,8 +11,7 @@ buildscript {
 }
 
 dependencies {
-  compile rootProject.ext.kotlinStdLib
-
+  testCompile rootProject.ext.kotlinStdLib
   testCompile rootProject.ext.rxJava
   testCompile rootProject.ext.junit
   testCompile rootProject.ext.assertJ

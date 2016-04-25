@@ -1,9 +1,12 @@
-package com.brianegan.bansa
+package com.brianegan.bansaDevTools
 
+import com.brianegan.bansa.BaseStore
+import com.brianegan.bansa.Middleware
+import com.brianegan.bansa.Reducer
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import rx.Observable
-import java.util.*
+import rx.schedulers.TestScheduler
 import java.util.concurrent.TimeUnit
 
 class MiddlewareTest {
@@ -13,16 +16,17 @@ class MiddlewareTest {
     @Test
     fun `actions should be run through a store's middleware`() {
         var counter = 0
-        val middleWare = createMiddleware<MyState, MyAction> { store, next, action ->
-            counter += 1
-            next(action)
-        }
 
-        val reducer = { state: MyState, action: MyAction ->
+        val reducer = Reducer<MyState, MyAction> { state, action ->
             state
         }
 
-        val store = applyMiddleware(middleWare)(createStore(MyState(), reducer))
+        val middleWare = Middleware<MyState, MyAction> { store, action, next ->
+            counter += 1
+            next.dispatch(action)
+        }
+
+        val store = BaseStore(MyState(), reducer, middleWare)
 
         store.dispatch(MyAction(type = "hey hey!"))
 
@@ -33,68 +37,68 @@ class MiddlewareTest {
     @Test
     fun `actions should pass through the middleware chain in the correct order`() {
         var counter = 0
-        var order = ArrayList<String>()
+        var order = mutableListOf<String>()
 
-        val middleWare1 = createMiddleware<MyState, MyAction> { store, next, action ->
+        val middleWare1 = Middleware<MyState, MyAction> { store, action, next ->
             counter += 1
             order.add("first")
-            val nextAction = next(action)
+            val nextAction = next.dispatch(action)
             order.add("third")
         }
 
-        val middleWare2 = createMiddleware<MyState, MyAction> { store, next, action ->
+        val middleWare2 = Middleware<MyState, MyAction> { store, action, next ->
             counter += 1
             order.add("second")
-            next(action)
+            next.dispatch(action)
         }
 
-        val reducer = { state: MyState, action: MyAction ->
+        val reducer = Reducer<MyState, MyAction> { state, action ->
             when (action.type) {
                 "hey hey!" -> MyState(state = "howdy!")
                 else -> state
             }
         }
 
-        val store = applyMiddleware(middleWare1, middleWare2)(createStore(MyState(), reducer))
+        val store = BaseStore(MyState(), reducer, middleWare1, middleWare2)
 
         store.dispatch(MyAction(type = "hey hey!"))
 
         assertThat(store.state).isEqualTo(MyState("howdy!"))
         assertThat(counter).isEqualTo(2)
-        assertThat(order).isEqualTo(arrayListOf("first", "second", "third"))
+        assertThat(order).isEqualTo(listOf("first", "second", "third"))
     }
 
     @Test
     fun `async middleware should be able to dispatch follow-up actions that travel through the remaining middleware`() {
         var counter = 0
-        var order = ArrayList<String>()
-        val testScheduler = rx.schedulers.TestScheduler()
+        var order = mutableListOf<String>()
+        val testScheduler = TestScheduler()
 
-        val fetchMiddleware = createMiddleware<MyState, MyAction> { store, next, action ->
+        val fetchMiddleware = Middleware<MyState, MyAction> { store, action, next ->
             counter += 1
             when (action.type) {
                 "CALL_API" -> {
-                    next(MyAction("FETCHING"))
+                    next.dispatch(MyAction("FETCHING"))
                     Observable
                             .just(5)
                             .delay(1L, TimeUnit.SECONDS, testScheduler)
                             .subscribe({
-                                next(MyAction("FETCH_COMPLETE"))
+                                next.dispatch(MyAction("FETCH_COMPLETE"))
                             })
 
-                    next(action)
+                    next.dispatch(action)
                 }
-                else -> next(action)
+                else -> next.dispatch(action)
             }
         }
 
-        val loggerMiddleware = createMiddleware<MyState, MyAction> { store, next, action ->
+        val loggerMiddleware = Middleware<MyState, MyAction> { store, action, next ->
             counter += 1
             order.add(action.type)
-            next(action)
+            next.dispatch(action)
         }
 
-        val reducer = { state: MyState, action: MyAction ->
+        val reducer = Reducer<MyState, MyAction> { state, action ->
             when (action.type) {
                 "FETCHING" -> MyState(state = "FETCHING")
                 "FETCH_COMPLETE" -> MyState(state = "FETCH_COMPLETE")
@@ -102,30 +106,30 @@ class MiddlewareTest {
             }
         }
 
-        val store = applyMiddleware(fetchMiddleware, loggerMiddleware)(createStore(MyState(), reducer))
+        val store = BaseStore(MyState(), reducer, fetchMiddleware, loggerMiddleware)
 
         store.dispatch(MyAction(type = "CALL_API"))
 
         assertThat(counter).isEqualTo(3)
-        assertThat(order).isEqualTo(arrayListOf("FETCHING", "CALL_API"))
+        assertThat(order).isEqualTo(listOf("FETCHING", "CALL_API"))
         assertThat(store.state).isEqualTo(MyState("FETCHING"))
 
         testScheduler.advanceTimeBy(2L, TimeUnit.SECONDS)
         assertThat(counter).isEqualTo(4)
-        assertThat(order).isEqualTo(arrayListOf("FETCHING", "CALL_API", "FETCH_COMPLETE"))
+        assertThat(order).isEqualTo(listOf("FETCHING", "CALL_API", "FETCH_COMPLETE"))
         assertThat(store.state).isEqualTo(MyState(state = "FETCH_COMPLETE"))
     }
 
     @Test
     fun `async actions should be able to send new actions through the entire chain`() {
         var counter = 0
-        val order = ArrayList<String>()
+        val order = mutableListOf<String>()
 
-        val middleWare1 = createMiddleware<MyState, MyAction> { store, next, action ->
+        val middleWare1 = Middleware<MyState, MyAction> { store, action, next ->
             counter += 1
             order.add("first")
 
-            val nextAction = next(action)
+            val nextAction = next.dispatch(action)
 
             // Redispatch an action that goes through the whole chain
             // (useful for async middleware)
@@ -134,21 +138,21 @@ class MiddlewareTest {
             }
         }
 
-        val middleWare2 = createMiddleware<MyState, MyAction> { store, next, action ->
+        val middleWare2 = Middleware<MyState, MyAction> { store, action, next ->
             counter += 1
             order.add("second")
-            next(action)
+            next.dispatch(action)
         }
 
-        val reducer = { state: MyState, action: MyAction ->
+        val reducer = Reducer<MyState, MyAction> { state, action ->
             state
         }
 
-        val store = applyMiddleware(middleWare1, middleWare2)(createStore(MyState(), reducer))
+        val store = BaseStore(MyState(), reducer, middleWare1, middleWare2)
 
         store.dispatch(MyAction(type = "around!"))
 
         assertThat(counter).isEqualTo(4)
-        assertThat(order).isEqualTo(arrayListOf("first", "second", "first", "second"))
+        assertThat(order).isEqualTo(listOf("first", "second", "first", "second"))
     }
 }
