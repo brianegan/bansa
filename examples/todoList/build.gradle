@@ -35,9 +35,7 @@ dependencies {
   compile rootProject.ext.dexx
   compile rootProject.ext.anvil
 
-  testCompile rootProject.ext.kotlinStdLib
-  testCompile rootProject.ext.kotlinRuntime
   testCompile rootProject.ext.assertJ
-  testCompile rootProject.ext.spek
+  testCompile rootProject.ext.junit
 }
 

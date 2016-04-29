@@ -58,5 +58,4 @@ ext {
   // Testing
   assertJ = 'org.assertj:assertj-core:1.7.1'
   junit = 'junit:junit:4.12'
-  spek = 'org.jetbrains.spek:spek:0.1.195'
 }

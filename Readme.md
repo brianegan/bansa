@@ -202,7 +202,7 @@ The examples use:
   * OkHttp for, uh, http
   * Moshi for Json parsing
   * Picasso for image loading
-  * Spek for Unit Testing
+  * JUnit for Unit Testing
   * AssertJ to make dem assertions all fluent like
 
 ## Inspiration
