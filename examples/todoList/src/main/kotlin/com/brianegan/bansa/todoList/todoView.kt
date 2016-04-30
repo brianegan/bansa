@@ -30,8 +30,6 @@ fun todoView(model: TodoViewModel) {
 
 fun buildMapCounterToCounterViewModel(store: Store<ApplicationState, Any>): (Todo) -> TodoViewModel {
     return { todo ->
-        val (id) = todo
-
         TodoViewModel(
                 todo,
                 { store.dispatch(TOGGLE_TODO(todo.id, !todo.completed)) }

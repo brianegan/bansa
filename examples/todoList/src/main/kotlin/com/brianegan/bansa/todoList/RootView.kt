@@ -10,8 +10,11 @@ import com.brianegan.bansa.Store
 import trikita.anvil.Anvil
 import trikita.anvil.DSL.*
 import trikita.anvil.RenderableView
-import trikita.anvil.recyclerview.Recycler
-import trikita.anvil.recyclerview.Recycler.*
+import trikita.anvil.recyclerview.v7.RecyclerViewv7DSL.recyclerView
+import trikita.anvil.recyclerview.v7.RecyclerViewv7DSL.adapter
+import trikita.anvil.recyclerview.v7.RecyclerViewv7DSL.layoutManager
+import trikita.anvil.recyclerview.v7.RecyclerViewv7DSL.itemAnimator
+import trikita.anvil.recyclerview.v7.RecyclerViewv7DSL.hasFixedSize
 
 class RootView(c: Context, val store: Store<ApplicationState, Any>) : RenderableView(c) {
     val stateChangeSubscription = store.subscribe { Anvil.render() }
@@ -74,7 +77,7 @@ class RootView(c: Context, val store: Store<ApplicationState, Any>) : Renderable
                 }
             }
 
-            Recycler.view {
+            recyclerView {
                 init {
                     layoutManager(LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false))
                     itemAnimator(DefaultItemAnimator())
@@ -83,7 +86,7 @@ class RootView(c: Context, val store: Store<ApplicationState, Any>) : Renderable
                     size(FILL, FILL)
                 }
 
-                Recycler.adapter(adapter.update(store.state.todos))
+                adapter(adapter.update(store.state.todos))
             }
         }
     }
