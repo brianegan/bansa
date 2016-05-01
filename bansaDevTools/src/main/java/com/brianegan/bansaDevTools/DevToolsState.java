@@ -47,4 +47,8 @@ public class DevToolsState<S> {
     public S getCurrentAppState() {
         return getComputedStates().get(getCurrentStateIndex());
     }
+
+    public Action getCurrentAction() {
+        return getStagedActions().get(getCurrentStateIndex());
+    }
 }

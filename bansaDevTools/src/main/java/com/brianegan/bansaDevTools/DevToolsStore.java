@@ -25,13 +25,14 @@ public class DevToolsStore<S> implements Store<S> {
                 Collections.<Integer>emptySet());
 
         final DevToolsReducer<S> devToolsReducer =
-                new DevToolsReducer<S>(initialState, reducer);
+                new DevToolsReducer<S>(reducer);
 
         devToolsStore = new BaseStore<>(devToolsState, devToolsReducer, toDevToolsMiddlewares(middlewares));
+        dispatch(DevToolsAction.createInitAction());
     }
 
     private List<Middleware<DevToolsState<S>>> toDevToolsMiddlewares(Middleware<S>[] middlewares) {
-        List<Middleware<DevToolsState<S>>> devToolsMiddlewares = new LinkedList<Middleware<DevToolsState<S>>>();
+        List<Middleware<DevToolsState<S>>> devToolsMiddlewares = new LinkedList<>();
 
         for (final Middleware<S> middleware : middlewares) {
             devToolsMiddlewares.add(new DevToolsMiddleware<S>(this, middleware));

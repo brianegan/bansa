@@ -3,6 +3,7 @@ package com.brianegan.bansaDevTools;
 import com.brianegan.bansa.Action;
 
 public class DevToolsAction implements Action {
+    static final String INIT = "INIT";
     public static final String PERFORM_ACTION = "PERFORM_ACTION";
     public static final String JUMP_TO_STATE = "JUMP_TO_STATE";
     public static final String SWEEP = "SWEEP";
@@ -48,6 +49,10 @@ public class DevToolsAction implements Action {
 
     public static DevToolsAction createRollbackAction() {
         return new DevToolsAction(ROLLBACK, null, null, null);
+    }
+
+    static DevToolsAction createInitAction() {
+        return new DevToolsAction(INIT, null, null, null);
     }
 
     public static DevToolsAction createToggleAction(int position, boolean isEnabled) {
