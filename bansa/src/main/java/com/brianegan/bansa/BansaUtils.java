@@ -2,11 +2,11 @@ package com.brianegan.bansa;
 
 public class BansaUtils {
     @SafeVarargs
-    public static <S, A> Reducer<S, A> combineReducers(final Reducer<S, A>... reducers) {
-        return new Reducer<S, A>() {
+    public static <S> Reducer<S> combineReducers(final Reducer<S>... reducers) {
+        return new Reducer<S>() {
             @Override
-            public S reduce(S state, A action) {
-                for (Reducer<S, A> reducer : reducers) {
+            public S reduce(S state, Action action) {
+                for (Reducer<S> reducer : reducers) {
                     state = reducer.reduce(state, action);
                 }
 

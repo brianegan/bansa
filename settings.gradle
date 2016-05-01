@@ -1,5 +1,6 @@
 include 'bansa'
 include 'bansaKotlin'
+include 'bansaDevTools'
 include ':examples:counter'
 include ':examples:counterPair'
 include ':examples:listOfCounters'

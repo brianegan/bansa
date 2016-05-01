@@ -1,21 +1,28 @@
-package com.brianegan.bansa
+package com.brianegan.bansaDevTools
 
+import com.brianegan.bansa.Action
+import com.brianegan.bansa.Middleware
+import com.brianegan.bansa.Reducer
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import rx.Observable
 import rx.schedulers.TestScheduler
 import java.util.concurrent.TimeUnit
 
-class MiddlewareTest {
+class DevToolsMiddlewareTest {
     data class TestState(val message: String = "initial state")
     data class TestAction(val type: String = "unknown") : Action
+    object HeyHey : Action
+    object CallApi : Action
+    object Fetching : Action
+    object FetchComplete : Action
+    object Around : Action
 
-    @Test
-    fun `actions should be run through a store's middleware`() {
+    @Test fun `unwrapped actions should be run through a store's middleware`() {
         var counter = 0
 
         val reducer = Reducer<TestState> { state, action ->
-            state
+            state.copy("Reduced?")
         }
 
         val middleWare = Middleware<TestState> { store, action, next ->
@@ -23,16 +30,16 @@ class MiddlewareTest {
             next.dispatch(action)
         }
 
-        val store = BaseStore(TestState(), reducer, middleWare)
+        val store = DevToolsStore(TestState(), reducer, middleWare)
 
-        store.dispatch(TestAction(type = "hey hey!"))
+        store.dispatch(TestAction())
 
-        assertThat(store.state).isEqualTo(TestState())
         assertThat(counter).isEqualTo(1)
+        assertThat(store.state.message).isEqualTo("Reduced?")
     }
 
     @Test
-    fun `actions should pass through the middleware chain in the correct order`() {
+    fun `unwrapped actions should pass through the middleware chain in the correct order`() {
         var counter = 0
         var order = mutableListOf<String>()
 
@@ -51,17 +58,14 @@ class MiddlewareTest {
 
         val reducer = Reducer<TestState> { state, action ->
             when (action) {
-                is TestAction -> when (action.type) {
-                    "hey hey!" -> TestState(message = "howdy!")
-                    else -> state
-                }
+                is HeyHey -> TestState(message = "howdy!")
                 else -> state
             }
         }
 
-        val store = BaseStore(TestState(), reducer, middleWare1, middleWare2)
+        val store = DevToolsStore(TestState(), reducer, middleWare1, middleWare2)
 
-        store.dispatch(TestAction(type = "hey hey!"))
+        store.dispatch(HeyHey)
 
         assertThat(store.state).isEqualTo(TestState("howdy!"))
         assertThat(counter).isEqualTo(2)
@@ -69,7 +73,7 @@ class MiddlewareTest {
     }
 
     @Test
-    fun `async middleware should be able to dispatch follow-up actions that travel through the remaining middleware`() {
+    fun `async middleware should be able to dispatch follow-up unwrapped actions that travel through the remaining middleware`() {
         var counter = 0
         var order = mutableListOf<String>()
         val testScheduler = TestScheduler()
@@ -77,19 +81,16 @@ class MiddlewareTest {
         val fetchMiddleware = Middleware<TestState> { store, action, next ->
             counter += 1
             when (action) {
-                is TestAction -> when (action.type) {
-                    "CALL_API" -> {
-                        next.dispatch(TestAction("FETCHING"))
-                        Observable
-                                .just(5)
-                                .delay(1L, TimeUnit.SECONDS, testScheduler)
-                                .subscribe({
-                                               next.dispatch(TestAction("FETCH_COMPLETE"))
-                                           })
+                is CallApi -> {
+                    next.dispatch(Fetching)
+                    Observable
+                            .just(5)
+                            .delay(1L, TimeUnit.SECONDS, testScheduler)
+                            .subscribe({
+                                next.dispatch(FetchComplete)
+                            })
 
-                        next.dispatch(action)
-                    }
-                    else -> next.dispatch(action)
+                    next.dispatch(action)
                 }
                 else -> next.dispatch(action)
             }
@@ -97,24 +98,26 @@ class MiddlewareTest {
 
         val loggerMiddleware = Middleware<TestState> { store, action, next ->
             counter += 1
-            order.add((action as TestAction).type)
+            when (action) {
+                is CallApi -> order.add("CALL_API")
+                is Fetching -> order.add("FETCHING")
+                is FetchComplete -> order.add("FETCH_COMPLETE")
+            }
+
             next.dispatch(action)
         }
 
         val reducer = Reducer<TestState> { state, action ->
             when (action) {
-                is TestAction -> when (action.type) {
-                    "FETCHING" -> TestState(message = "FETCHING")
-                    "FETCH_COMPLETE" -> TestState(message = "FETCH_COMPLETE")
-                    else -> state
-                }
+                Fetching -> TestState(message = "FETCHING")
+                FetchComplete -> TestState(message = "FETCH_COMPLETE")
                 else -> state
             }
         }
 
-        val store = BaseStore(TestState(), reducer, fetchMiddleware, loggerMiddleware)
+        val store = DevToolsStore(TestState(), reducer, fetchMiddleware, loggerMiddleware)
 
-        store.dispatch(TestAction(type = "CALL_API"))
+        store.dispatch(CallApi)
 
         assertThat(counter).isEqualTo(3)
         assertThat(order).isEqualTo(listOf("FETCHING", "CALL_API"))
@@ -127,7 +130,7 @@ class MiddlewareTest {
     }
 
     @Test
-    fun `async actions should be able to send new actions through the entire chain`() {
+    fun `async actions should be able to send new unwrapped actions through the entire chain`() {
         var counter = 0
         val order = mutableListOf<String>()
 
@@ -139,7 +142,7 @@ class MiddlewareTest {
 
             // Redispatch an action that goes through the whole chain
             // (useful for async middleware)
-            if ((action as TestAction).type == "around!") {
+            if (action is Around) {
                 store.dispatch(TestAction());
             }
         }
@@ -154,9 +157,9 @@ class MiddlewareTest {
             state
         }
 
-        val store = BaseStore(TestState(), reducer, middleWare1, middleWare2)
+        val store = DevToolsStore(TestState(), reducer, middleWare1, middleWare2)
 
-        store.dispatch(TestAction(type = "around!"))
+        store.dispatch(Around)
 
         assertThat(counter).isEqualTo(4)
         assertThat(order).isEqualTo(listOf("first", "second", "first", "second"))

@@ -1,5 +1,5 @@
 package com.brianegan.bansa;
 
-public interface Middleware<S, A> {
-    void dispatch(Store<S, A> store, A action, NextDispatcher<A> next);
+public interface Middleware<S> {
+    void dispatch(Store<S> store, Action action, NextDispatcher next);
 }

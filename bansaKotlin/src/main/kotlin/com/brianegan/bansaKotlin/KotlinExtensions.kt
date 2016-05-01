@@ -1,18 +1,15 @@
 package com.brianegan.bansaKotlin
 
-import com.brianegan.bansa.Middleware
-import com.brianegan.bansa.NextDispatcher
-import com.brianegan.bansa.Reducer
-import com.brianegan.bansa.Store
+import com.brianegan.bansa.*
 
-operator fun <S, A> Reducer<S, A>.invoke(state: S, action: A): S {
+operator fun <S> Reducer<S>.invoke(state: S, action: Action): S {
     return reduce(state, action)
 }
 
-operator fun <S, A> Middleware<S, A>.invoke(store: Store<S, A>, action: A, next: NextDispatcher<A>) {
+operator fun <S> Middleware<S>.invoke(store: Store<S>, action: Action, next: NextDispatcher) {
     dispatch(store, action, next);
 }
 
-operator fun <A> NextDispatcher<A>.invoke(action: A) {
+operator fun NextDispatcher.invoke(action: Action) {
     dispatch(action)
 }

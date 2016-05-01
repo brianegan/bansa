@@ -26,6 +26,7 @@ buildscript {
 
 dependencies {
   compile project(':bansaKotlin')
+  compile project(':bansaDevTools')
 
   compile rootProject.ext.supportDesign
 
