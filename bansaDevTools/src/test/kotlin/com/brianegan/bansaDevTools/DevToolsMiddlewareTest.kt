@@ -34,7 +34,7 @@ class DevToolsMiddlewareTest {
 
         store.dispatch(TestAction())
 
-        assertThat(counter).isEqualTo(1)
+        assertThat(counter).isEqualTo(2)
         assertThat(store.state.message).isEqualTo("Reduced?")
     }
 
@@ -68,8 +68,8 @@ class DevToolsMiddlewareTest {
         store.dispatch(HeyHey)
 
         assertThat(store.state).isEqualTo(TestState("howdy!"))
-        assertThat(counter).isEqualTo(2)
-        assertThat(order).isEqualTo(listOf("first", "second", "third"))
+        assertThat(counter).isEqualTo(4)
+        assertThat(order).isEqualTo(listOf("first", "second", "third", "first", "second", "third"))
     }
 
     @Test
@@ -119,12 +119,12 @@ class DevToolsMiddlewareTest {
 
         store.dispatch(CallApi)
 
-        assertThat(counter).isEqualTo(3)
+        assertThat(counter).isEqualTo(5)
         assertThat(order).isEqualTo(listOf("FETCHING", "CALL_API"))
         assertThat(store.state).isEqualTo(TestState("FETCHING"))
 
         testScheduler.advanceTimeBy(2L, TimeUnit.SECONDS)
-        assertThat(counter).isEqualTo(4)
+        assertThat(counter).isEqualTo(6)
         assertThat(order).isEqualTo(listOf("FETCHING", "CALL_API", "FETCH_COMPLETE"))
         assertThat(store.state).isEqualTo(TestState(message = "FETCH_COMPLETE"))
     }
@@ -161,7 +161,7 @@ class DevToolsMiddlewareTest {
 
         store.dispatch(Around)
 
-        assertThat(counter).isEqualTo(4)
-        assertThat(order).isEqualTo(listOf("first", "second", "first", "second"))
+        assertThat(counter).isEqualTo(6)
+        assertThat(order).isEqualTo(listOf("first", "second", "first", "second", "first", "second"))
     }
 }

@@ -10,7 +10,7 @@ import trikita.anvil.DSL.*
 import trikita.anvil.RenderableView
 import java.util.*
 
-class RootView(c: Context, val store: Store<ApplicationState, Any>) : RenderableView(c) {
+class RootView(c: Context, val store: Store<ApplicationState>) : RenderableView(c) {
     override fun view() {
         linearLayout {
             orientation(LinearLayout.VERTICAL)

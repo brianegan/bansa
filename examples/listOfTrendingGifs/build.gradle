@@ -12,8 +12,21 @@ android {
     versionCode 1
     versionName "1.0"
   }
+
+  productFlavors {
+    dev {
+      applicationId 'com.brianegan.bansa.listOfTrendingGifs.dev'
+    }
+
+    production {
+      applicationId 'com.brianegan.bansa.listOfTrendingGifs'
+    }
+  }
+
   sourceSets {
     main.java.srcDirs += 'src/main/kotlin'
+    dev.java.srcDirs += 'src/dev/kotlin'
+    production.java.srcDirs += 'src/production/kotlin'
     test.java.srcDirs += 'src/test/kotlin'
   }
 }
@@ -33,6 +46,8 @@ buildscript {
 
 dependencies {
   compile project(':bansaKotlin')
+  compile project(':bansaDevTools')
+  compile project(':bansaDevToolsUi')
 
   compile rootProject.ext.appCompatV7
   compile rootProject.ext.supportDesign

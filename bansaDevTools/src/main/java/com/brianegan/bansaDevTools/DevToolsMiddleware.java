@@ -21,7 +21,7 @@ public class DevToolsMiddleware<S> implements Middleware<DevToolsState<S>> {
         // out of the DevToolsAction container.
         Action actionToDispatch = action;
 
-        if (action instanceof DevToolsAction) {
+        if (action instanceof DevToolsAction && ((DevToolsAction) action).getAppAction() != null) {
             actionToDispatch = ((DevToolsAction) action).getAppAction();
         }
 

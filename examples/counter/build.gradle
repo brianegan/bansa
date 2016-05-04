@@ -6,15 +6,29 @@ android {
     buildToolsVersion '23.0.2'
 
     defaultConfig {
-        applicationId "com.brianegan.bansa.counter"
+        applicationId 'com.brianegan.bansa.counter'
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
     }
+
+    productFlavors {
+        dev {
+            applicationId 'com.brianegan.bansa.counter.dev'
+        }
+
+        production {
+            applicationId 'com.brianegan.bansa.counter'
+        }
+    }
+
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
+        dev.java.srcDirs += 'src/dev/kotlin'
+        production.java.srcDirs += 'src/production/kotlin'
         test.java.srcDirs += 'src/test/kotlin'
+
     }
 }
 

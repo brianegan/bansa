@@ -28,6 +28,6 @@ class CounterReducerTest {
         assertThat(store.state).isEqualTo(ApplicationState(-1))
     }
 
-    fun createTestStore(): Store<ApplicationState, CounterAction> =
+    fun createTestStore(): Store<ApplicationState> =
             BaseStore(ApplicationState(), CounterReducer())
 }

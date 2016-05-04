@@ -3,6 +3,7 @@ package com.brianegan.bansa.listOfTrendingGifs
 import android.content.Context
 import com.brianegan.bansa.Store
 import com.brianegan.bansa.Subscription
+import com.brianegan.bansa.listOfTrendingDGifs.ui.listOfGifsScreen
 import com.brianegan.bansa.listOfTrendingGifs.actions.FETCH_NEXT_PAGE
 import com.brianegan.bansa.listOfTrendingGifs.actions.REFRESH
 import com.brianegan.bansa.listOfTrendingGifs.models.Gif
@@ -11,23 +12,14 @@ import com.brianegan.bansa.listOfTrendingGifs.ui.gifView
 import com.brianegan.bansa.listOfTrendingGifs.ui.utils.BansaAdapter
 import com.brianegan.bansa.listOfTrendingGifs.ui.utils.OnScrolledToEndOfListListener
 import trikita.anvil.Anvil
-import trikita.anvil.DSL.*
 import trikita.anvil.RenderableView
-import trikita.anvil.support.v4.Supportv4DSL.*
 
-class RootView(c: Context, val store: Store<ApplicationState, Any>) : RenderableView(c) {
+class RootView(
+        c: Context,
+        val store: Store<ApplicationState>) : RenderableView(c) {
+
     override fun view() {
-        swipeRefreshLayout {
-            onRefresh { store.dispatch(REFRESH) }
-            refreshing(store.state.isRefreshing)
-
-            listView {
-                size(FILL, FILL)
-                dividerHeight(0)
-                adapter(adapter.update(store.state.gifs))
-                onScroll(fetchMoreGifsAtEndOfListListener)
-            }
-        }
+        listOfGifsScreen(adapter, fetchMoreGifsAtEndOfListListener)
     }
 
     val adapter: BansaAdapter<Gif, Gif> = BansaAdapter(

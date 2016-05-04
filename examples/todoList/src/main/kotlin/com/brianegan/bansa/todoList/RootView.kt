@@ -10,13 +10,9 @@ import com.brianegan.bansa.Store
 import trikita.anvil.Anvil
 import trikita.anvil.DSL.*
 import trikita.anvil.RenderableView
-import trikita.anvil.recyclerview.v7.RecyclerViewv7DSL.recyclerView
-import trikita.anvil.recyclerview.v7.RecyclerViewv7DSL.adapter
-import trikita.anvil.recyclerview.v7.RecyclerViewv7DSL.layoutManager
-import trikita.anvil.recyclerview.v7.RecyclerViewv7DSL.itemAnimator
-import trikita.anvil.recyclerview.v7.RecyclerViewv7DSL.hasFixedSize
+import trikita.anvil.recyclerview.v7.RecyclerViewv7DSL.*
 
-class RootView(c: Context, val store: Store<ApplicationState, Any>) : RenderableView(c) {
+class RootView(c: Context, val store: Store<ApplicationState>) : RenderableView(c) {
     val stateChangeSubscription = store.subscribe { Anvil.render() }
     val mapCounterToCounterViewModel = buildMapCounterToCounterViewModel(store)
     val adapter = BansaRenderableRecyclerViewAdapter(

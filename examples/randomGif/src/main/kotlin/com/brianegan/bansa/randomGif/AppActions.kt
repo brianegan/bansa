@@ -1,8 +1,8 @@
 package com.brianegan.bansa.randomGif
 
-interface AppAction
+import com.brianegan.bansa.Action
 
-object INIT : AppAction
-object FETCHING : AppAction
-object FETCH_RANDOM_GIF : AppAction
-data class NEW_RANDOM_GIF(val videoUrl: String) : AppAction
+object INIT : Action
+object FETCHING : Action
+object FETCH_RANDOM_GIF : Action
+data class NEW_RANDOM_GIF(val videoUrl: String) : Action

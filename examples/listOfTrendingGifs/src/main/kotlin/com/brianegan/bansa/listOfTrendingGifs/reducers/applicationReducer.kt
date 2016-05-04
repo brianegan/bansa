@@ -1,12 +1,13 @@
 package com.brianegan.bansa.listOfTrendingGifs.reducers
 
+import com.brianegan.bansa.Action
 import com.brianegan.bansa.Reducer
 import com.brianegan.bansa.listOfTrendingGifs.actions.*
 import com.brianegan.bansa.listOfTrendingGifs.api.NextPage
 import com.brianegan.bansa.listOfTrendingGifs.state.ApplicationState
 
-class ApplicationReducer : Reducer<ApplicationState, Any> {
-    override fun reduce(state: ApplicationState, action: Any): ApplicationState {
+class ApplicationReducer : Reducer<ApplicationState> {
+    override fun reduce(state: ApplicationState, action: Action): ApplicationState {
         when (action) {
             is INIT -> return ApplicationState()
 

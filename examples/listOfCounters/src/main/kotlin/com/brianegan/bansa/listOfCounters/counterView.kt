@@ -35,7 +35,7 @@ fun counterView(model: CounterViewModel) {
     }
 }
 
-fun buildMapCounterToCounterViewModel(store: Store<ApplicationState, CounterAction>): (Counter) -> CounterViewModel {
+fun buildMapCounterToCounterViewModel(store: Store<ApplicationState>): (Counter) -> CounterViewModel {
     return { counter ->
         val (id, value) = counter
         val increment = View.OnClickListener {

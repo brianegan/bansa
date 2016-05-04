@@ -1,6 +1,6 @@
 package com.brianegan.bansa.counter
 
-import com.brianegan.bansaDevTools.DevToolsStore
+import store
 
 class Application : android.app.Application() {
     override fun onCreate() {
@@ -9,6 +9,3 @@ class Application : android.app.Application() {
         store.dispatch(CounterActions.INIT) // Initialize the store
     }
 }
-
-
-val store = DevToolsStore(ApplicationState(), CounterReducer())

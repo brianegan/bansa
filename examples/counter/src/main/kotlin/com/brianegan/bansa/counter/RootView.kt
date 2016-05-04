@@ -2,17 +2,16 @@ package com.brianegan.bansa.counter
 
 import android.content.Context
 import android.view.View
-import android.widget.LinearLayout
 import com.brianegan.bansa.Store
 import com.brianegan.bansa.Subscription
 import com.brianegan.bansaDevToolsUi.BansaDevToolsPresenter
 import trikita.anvil.Anvil
-import trikita.anvil.DSL.*
-import trikita.anvil.RenderableView
 
-class RootView(c: Context, val store: Store<ApplicationState>) : RenderableView(c) {
+class RootView(c: Context, val store: Store<ApplicationState>) : RenderableDrawerLayout(c) {
+    private var presenter: BansaDevToolsPresenter<ApplicationState> = BansaDevToolsPresenter<ApplicationState>(store);
+
     override fun view() {
-        template(buildPresentationModel())
+        counterScreen(buildPresentationModel())
     }
 
     val increment = View.OnClickListener {
@@ -23,52 +22,10 @@ class RootView(c: Context, val store: Store<ApplicationState>) : RenderableView(
         store.dispatch(CounterActions.DECREMENT)
     }
 
-    private fun buildPresentationModel(): ViewModel {
+    private fun buildPresentationModel(): CounterViewModel {
         val counter = store.state.counter
 
-        return ViewModel(counter, increment, decrement)
-    }
-
-    private fun template(model: ViewModel) {
-        val (counter, increment, decrement) = model
-
-        scrollView {
-            linearLayout {
-                size(FILL, WRAP)
-                orientation(LinearLayout.VERTICAL)
-
-                textView {
-                    text(counter.toString())
-                    gravity(CENTER_HORIZONTAL)
-                    textSize(sip(100F));
-                    padding(0, dip(40))
-
-                }
-
-                button {
-                    size(FILL, WRAP)
-                    padding(dip(10))
-                    text("+")
-                    onClick(increment)
-                    margin(dip(12), 0)
-                }
-
-                button {
-                    size(FILL, WRAP)
-                    padding(dip(5))
-                    text("-")
-                    onClick(decrement)
-                    margin(dip(12), 0)
-                }
-
-                xml(R.layout.bansa_dev_tools) {
-                    init {
-                        val presenter = BansaDevToolsPresenter<ApplicationState>(store)
-                        presenter.bind(Anvil.currentView())
-                    }
-                }
-            }
-        }
+        return CounterViewModel(counter, increment, decrement)
     }
 
     var subscription: Subscription? = null
@@ -86,5 +43,5 @@ class RootView(c: Context, val store: Store<ApplicationState>) : RenderableView(
         subscription?.unsubscribe()
     }
 
-    data class ViewModel(val counter: Int, val increment: OnClickListener, val decrement: OnClickListener)
+    data class CounterViewModel(val counter: Int, val increment: OnClickListener, val decrement: OnClickListener)
 }

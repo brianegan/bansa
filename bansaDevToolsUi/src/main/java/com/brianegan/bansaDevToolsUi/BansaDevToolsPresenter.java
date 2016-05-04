@@ -1,5 +1,7 @@
 package com.brianegan.bansaDevToolsUi;
 
+import android.os.Handler;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
@@ -15,10 +17,17 @@ public class BansaDevToolsPresenter<S> {
     private final Store<S> devToolsStore;
     private TextView action;
     private SeekBar seekBar;
-    private Button save;
-    private Button reset;
     private Subscription subscription;
     private boolean jumpActionFired;
+    private boolean isBound;
+
+    private View.OnTouchListener onSeekTouchListener = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            seekBar.getParent().requestDisallowInterceptTouchEvent(true);
+            return false;
+        }
+    };
 
     private final SeekBar.OnSeekBarChangeListener onSeekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
         @Override
@@ -44,7 +53,6 @@ public class BansaDevToolsPresenter<S> {
             devToolsStore.dispatch(DevToolsAction.createCommitAction());
         }
     };
-
     private View.OnClickListener onResetClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -56,12 +64,12 @@ public class BansaDevToolsPresenter<S> {
         this.devToolsStore = devToolsStore;
     }
 
-    public void bind(View view) {
+    public void bind(final View view) {
         final DevToolsStore devToolsStore = (DevToolsStore) this.devToolsStore;
 
         seekBar = (SeekBar) view.findViewById(R.id.time_travel_seek_bar);
-        save = (Button) view.findViewById(R.id.time_travel_save);
-        reset = (Button) view.findViewById(R.id.time_travel_reset);
+        Button save = (Button) view.findViewById(R.id.time_travel_save);
+        Button reset = (Button) view.findViewById(R.id.time_travel_reset);
         action = (TextView) view.findViewById(R.id.time_travel_action);
 
         seekBar.setOnSeekBarChangeListener(onSeekBarChangeListener);
@@ -70,25 +78,40 @@ public class BansaDevToolsPresenter<S> {
 
         save.setOnClickListener(onSaveClickListener);
         reset.setOnClickListener(onResetClickListener);
+        seekBar.setOnTouchListener(onSeekTouchListener);
 
 
         action.setText(devToolsStore.getDevToolsState().getCurrentAction().toString());
         subscription = this.devToolsStore.subscribe(new Subscriber<S>() {
             @Override
             public void onStateChange(S state) {
-                action.setText(devToolsStore.getDevToolsState().getCurrentAction().toString());
+                Handler mainHandler = new Handler(view.getContext().getMainLooper());
 
-                if (!jumpActionFired) {
-                    seekBar.setMax(devToolsStore.getDevToolsState().getComputedStates().size() - 1);
-                    seekBar.setProgress(devToolsStore.getDevToolsState().getComputedStates().size() - 1);
-                } else {
-                    jumpActionFired = false;
-                }
+                Runnable myRunnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        action.setText(devToolsStore.getDevToolsState().getCurrentAction().toString());
+
+                        if (!jumpActionFired) {
+                            seekBar.setMax(devToolsStore.getDevToolsState().getComputedStates().size() - 1);
+                            seekBar.setProgress(devToolsStore.getDevToolsState().getComputedStates().size() - 1);
+                        } else {
+                            jumpActionFired = false;
+                        }
+                    }
+                };
+
+                mainHandler.post(myRunnable);
             }
         });
+        isBound = true;
     }
 
     public void unbind() {
-        subscription.unsubscribe();
+        if (isBound) {
+            subscription.unsubscribe();
+            seekBar.setOnTouchListener(null);
+            isBound = false;
+        }
     }
 }
