@@ -2,7 +2,7 @@ package com.brianegan.bansa.randomGif
 
 import com.brianegan.bansa.Reducer
 
-val applicationReducer = Reducer<ApplicationState, Any> { state, action ->
+val applicationReducer = Reducer<ApplicationState> { state, action ->
     when (action) {
         is INIT -> ApplicationState()
         is FETCHING -> state.copy(isFetching = true)

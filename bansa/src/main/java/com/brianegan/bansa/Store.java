@@ -1,7 +1,7 @@
 package com.brianegan.bansa;
 
-public interface Store<S, A> {
+public interface Store<S> {
     S getState();
-    S dispatch(A action);
+    S dispatch(Action action);
     Subscription subscribe(Subscriber<S> subscriber);
 }

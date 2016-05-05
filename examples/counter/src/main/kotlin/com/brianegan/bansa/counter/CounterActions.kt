@@ -1,11 +1,11 @@
 package com.brianegan.bansa.counter
 
-interface CounterAction {}
+import com.brianegan.bansa.Action
 
 sealed class CounterActions {
-    object INIT : CounterAction
+    object INIT : Action
 
-    object INCREMENT : CounterAction
+    object INCREMENT : Action
 
-    object DECREMENT : CounterAction
+    object DECREMENT : Action
 }

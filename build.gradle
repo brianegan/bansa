@@ -56,6 +56,9 @@ ext {
   rxAndroid = 'io.reactivex:rxandroid:1.0.1'
 
   // Testing
-  assertJ = 'org.assertj:assertj-core:1.7.1'
   junit = 'junit:junit:4.12'
+  robolectric = "org.robolectric:robolectric:3.0"
+  assertJ = 'org.assertj:assertj-core:1.7.1'
+  assertJAndroid = 'com.squareup.assertj:assertj-android:1.1.1'
+  equalsVerifier = 'nl.jqno.equalsverifier:equalsverifier:2.0.2'
 }

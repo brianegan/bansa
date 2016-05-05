@@ -1,15 +1,12 @@
 package com.brianegan.bansaKotlin
 
-import com.brianegan.bansa.BaseStore
-import com.brianegan.bansa.Middleware
-import com.brianegan.bansa.NextDispatcher
-import com.brianegan.bansa.Reducer
+import com.brianegan.bansa.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
 class KotlinExtensionsTest {
     data class MyState(val state: String = "initial state")
-    data class MyAction(val type: String = "unknown")
+    data class MyAction(val type: String = "unknown") : Action
 
     val EXPECTED_STATE = "modified state"
 
@@ -17,7 +14,7 @@ class KotlinExtensionsTest {
     fun `reducers should be callable as a function`() {
         val initialState = MyState();
         val expectedState = initialState.copy(EXPECTED_STATE)
-        val reducer = Reducer<MyState, MyAction> { state, action ->
+        val reducer = Reducer<MyState> { state, action ->
             state.copy(EXPECTED_STATE)
         }
 
@@ -27,16 +24,16 @@ class KotlinExtensionsTest {
     @Test
     fun `middleware should be callable as a function`() {
         var called = false;
-        val next = NextDispatcher<MyAction> { }
-        val reducer = Reducer<MyState, MyAction> { state, action ->
+        val next = NextDispatcher { }
+        val reducer = Reducer<MyState> { state, action ->
             state.copy(EXPECTED_STATE)
         }
 
-        val middleware = Middleware<MyState, MyAction> { store, action, next ->
+        val middleware = Middleware<MyState> { store, action, next ->
             called = true;
         }
 
-        val store = BaseStore<MyState, MyAction>(MyState(), reducer);
+        val store = BaseStore<MyState>(MyState(), reducer);
 
         middleware(store, MyAction(), next)
 
@@ -46,7 +43,7 @@ class KotlinExtensionsTest {
     @Test
     fun `next dispatchers should be callable as a function`() {
         var called = false;
-        val next = NextDispatcher<MyAction> { called = true }
+        val next = NextDispatcher { called = true }
 
         next(MyAction())
 

@@ -31,8 +31,8 @@ class CounterPairReducerTest {
         assertThat(store.state.counters[firstCounter.first]).isEqualTo(4)
     }
 
-    fun createTestStore(applicationState: ApplicationState = ApplicationState()): Store<ApplicationState, CounterAction> {
-        return BaseStore(applicationState, CounterReducer())
+    fun createTestStore(applicationState: ApplicationState = ApplicationState()): Store<ApplicationState> {
+        return BaseStore(applicationState, ApplicationReducer())
     }
 
     fun createTestState(firstCounter: Pair<UUID, Int> = Pair(UUID.randomUUID(), 0),

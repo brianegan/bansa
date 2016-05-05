@@ -1,27 +1,28 @@
-package com.brianegan.bansaDevTools
+package com.brianegan.bansa
 
-import com.brianegan.bansa.BaseStore
 import com.brianegan.bansa.BansaUtils.combineReducers
-import com.brianegan.bansa.Reducer
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
 class StoreTest {
-    data class MyState(val message: String = "initial state")
-    data class MyAction(val type: String = "unknown")
+    data class TestState(val message: String = "initial state")
+    data class TestAction(val type: String = "unknown") : Action
 
     @Test
     fun `when an action is fired, the corresponding reducer should be called and update the state of the application`() {
-        val reducer = Reducer<MyState, MyAction> { state, action ->
-            when (action.type) {
-                "to invoke" -> MyState("reduced")
+        val reducer = Reducer<TestState> { state, action ->
+            when (action) {
+                is TestAction -> when (action.type) {
+                    "to invoke" -> TestState("reduced")
+                    else -> state
+                }
                 else -> state
             }
         }
 
-        val store = BaseStore(MyState(), reducer)
+        val store = BaseStore(TestState(), reducer)
 
-        store.dispatch(MyAction(type = "to invoke"))
+        store.dispatch(TestAction(type = "to invoke"))
 
         assertThat(store.state.message).isEqualTo("reduced")
     }
@@ -31,38 +32,44 @@ class StoreTest {
         val helloReducer1 = "helloReducer1"
         val helloReducer2 = "helloReducer2"
 
-        val reducer1 = Reducer<MyState, MyAction> { state, action ->
-            when (action.type) {
-                helloReducer1 -> MyState("oh hai")
+        val reducer1 = Reducer<TestState> { state, action ->
+            when (action) {
+                is TestAction -> when (action.type) {
+                    helloReducer1 -> TestState("oh hai")
+                    else -> state
+                }
                 else -> state
             }
         }
 
-        val reducer2 = Reducer<MyState, MyAction> { state, action ->
-            when (action.type) {
-                helloReducer2 -> MyState("mark")
+        val reducer2 = Reducer<TestState> { state, action ->
+            when (action) {
+                is TestAction -> when (action.type) {
+                    helloReducer2 -> TestState("mark")
+                    else -> state
+                }
                 else -> state
             }
         }
 
-        val store = BaseStore(MyState(), combineReducers(reducer1, reducer2))
+        val store = BaseStore(TestState(), combineReducers(reducer1, reducer2))
 
-        store.dispatch(MyAction(type = helloReducer1))
+        store.dispatch(TestAction(type = helloReducer1))
         assertThat(store.state.message).isEqualTo("oh hai")
-        store.dispatch(MyAction(type = helloReducer2))
+        store.dispatch(TestAction(type = helloReducer2))
         assertThat(store.state.message).isEqualTo("mark")
     }
 
     @Test
     fun `subscribers should be notified when the state changes`() {
-        val store = BaseStore(MyState(), Reducer<MyState, MyAction> { state, action -> MyState() })
+        val store = BaseStore(TestState(), Reducer<TestState> { state, action -> TestState() })
         var subscriber1Called = false
         var subscriber2Called = false
 
         store.subscribe { subscriber1Called = true }
         store.subscribe { subscriber2Called = true }
 
-        store.dispatch(MyAction())
+        store.dispatch(TestAction())
 
         assertThat(subscriber1Called).isTrue()
         assertThat(subscriber2Called).isTrue()
@@ -70,7 +77,7 @@ class StoreTest {
 
     @Test
     fun `the store should not notify unsubscribed objects`() {
-        val store = BaseStore(MyState(), Reducer<MyState, MyAction> { state, action -> MyState() })
+        val store = BaseStore(TestState(), Reducer<TestState> { state, action -> TestState() })
         var subscriber1Called = false
         var subscriber2Called = false
 
@@ -78,7 +85,7 @@ class StoreTest {
         val subscription = store.subscribe { subscriber2Called = true }
         subscription.unsubscribe()
 
-        store.dispatch(MyAction())
+        store.dispatch(TestAction())
 
         assertThat(subscriber1Called).isTrue()
         assertThat(subscriber2Called).isFalse()
@@ -86,18 +93,21 @@ class StoreTest {
 
     @Test
     fun `store should pass the current state to subscribers`() {
-        val reducer = Reducer<MyState, MyAction> { state, action ->
-            when (action.type) {
-                "to invoke" -> MyState("reduced")
+        val reducer = Reducer<TestState> { state, action ->
+            when (action) {
+                is TestAction -> when (action.type) {
+                    "to invoke" -> TestState("oh hai")
+                    else -> state
+                }
                 else -> state
             }
         }
 
-        var actual: MyState = MyState()
-        val store = BaseStore(MyState(), reducer)
+        var actual: TestState = TestState()
+        val store = BaseStore(TestState(), reducer)
 
         store.subscribe { actual = it }
-        store.dispatch(MyAction(type = "to invoke"))
+        store.dispatch(TestAction(type = "to invoke"))
 
         assertThat(actual).isEqualTo(store.state)
     }

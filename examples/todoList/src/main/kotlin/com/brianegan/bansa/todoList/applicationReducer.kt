@@ -3,7 +3,7 @@ package com.brianegan.bansa.todoList
 import com.brianegan.bansa.Reducer
 import com.github.andrewoma.dexx.kollection.toImmutableList
 
-val applicationReducer = Reducer <ApplicationState, Any>{ state, action ->
+val applicationReducer = Reducer <ApplicationState>{ state, action ->
     when (action) {
         is INIT -> ApplicationState()
         is ADD ->

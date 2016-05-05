@@ -1,5 +1,5 @@
 package com.brianegan.bansa;
 
-public interface NextDispatcher<A> {
-    void dispatch(A action);
+public interface NextDispatcher {
+    void dispatch(Action action);
 }

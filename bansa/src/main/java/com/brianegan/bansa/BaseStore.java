@@ -1,17 +1,18 @@
 package com.brianegan.bansa;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-public class BaseStore<S, A> implements Store<S, A> {
+public class BaseStore<S> implements Store<S> {
     private S currentState;
-    private final Reducer<S, A> reducer;
+    public final Reducer<S> reducer;
     private final List<Subscriber<S>> subscribers = new ArrayList<>();
-    private final List<NextDispatcher<A>> dispatchers = new LinkedList<>();
-    private final Middleware<S, A> dispatcher = new Middleware<S, A>() {
+    public List<NextDispatcher> dispatchers;
+    private final Middleware<S> dispatcher = new Middleware<S>() {
         @Override
-        public void dispatch(Store<S, A> store, A action, NextDispatcher<A> next) {
+        public void dispatch(Store<S> store, Action action, NextDispatcher next) {
             synchronized (this) {
                 currentState = reducer.reduce(store.getState(), action);
             }
@@ -22,27 +23,14 @@ public class BaseStore<S, A> implements Store<S, A> {
     };
 
     @SafeVarargs
-    public BaseStore(S initialState, Reducer<S, A> reducer, Middleware<S, A>... middlewares) {
+    public BaseStore(S initialState, Reducer<S> reducer, Middleware<S>... middlewares) {
+        this(initialState, reducer, Arrays.asList(middlewares));
+    }
+
+    public BaseStore(S initialState, Reducer<S> reducer, List<Middleware<S>> middlewares) {
         this.reducer = reducer;
         this.currentState = initialState;
-        final Store<S, A> store = this;
-
-        dispatchers.add(new NextDispatcher<A>() {
-            public void dispatch(A action) {
-                dispatcher.dispatch(store, action, null);
-            }
-        });
-
-        for (int i = middlewares.length - 1; i >= 0; i--) {
-            final Middleware<S, A> middleware = middlewares[i];
-            final NextDispatcher<A> next = dispatchers.get(0);
-            dispatchers.add(0, new NextDispatcher<A>() {
-                @Override
-                public void dispatch(A action) {
-                    middleware.dispatch(store, action, next);
-                }
-            });
-        };
+        this.dispatchers = populateDispatchers(middlewares);
     }
 
     @Override
@@ -51,7 +39,7 @@ public class BaseStore<S, A> implements Store<S, A> {
     }
 
     @Override
-    public S dispatch(A action) {
+    public S dispatch(Action action) {
         this.dispatchers.get(0).dispatch(action);
         return currentState;
     }
@@ -65,5 +53,29 @@ public class BaseStore<S, A> implements Store<S, A> {
                 subscribers.remove(subscriber);
             }
         };
+    }
+
+    private List<NextDispatcher> populateDispatchers(List<Middleware<S>> middlewares) {
+        final Store<S> store = this;
+        LinkedList<NextDispatcher> dispatchers = new LinkedList<>();
+
+        dispatchers.add(new NextDispatcher() {
+            public void dispatch(Action action) {
+                dispatcher.dispatch(store, action, null);
+            }
+        });
+
+        for (int i = middlewares.size() - 1; i >= 0; i--) {
+            final Middleware<S> middleware = middlewares.get(i);
+            final NextDispatcher next = dispatchers.get(0);
+            dispatchers.add(0, new NextDispatcher() {
+                @Override
+                public void dispatch(Action action) {
+                    middleware.dispatch(store, action, next);
+                }
+            });
+        };
+
+        return dispatchers;
     }
 }

@@ -10,7 +10,7 @@ import trikita.anvil.DSL.*
 import trikita.anvil.RenderableView
 import trikita.anvil.recyclerview.v7.RecyclerViewv7DSL.*
 
-class RootView(c: Context, val store: Store<ApplicationState, CounterAction>) : RenderableView(c) {
+class RootView(c: Context, val store: Store<ApplicationState>) : RenderableView(c) {
     val stateChangeSubscription = store.subscribe { Anvil.render() }
 
     val mapCounterToViewModel = buildMapCounterToCounterViewModel(store)
