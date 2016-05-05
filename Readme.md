@@ -157,6 +157,12 @@ counterStore.subscribe({
 
 That's right: When a user clicks "+", the increment action will be fired, the reducer will update the state, and our UI will auto-render with the new info. WHAAAAAAAAAAT.
 
+## Ðev Tools
+
+Maybe one of the cooler things about this pattern is that it happens to lend itself well to time-travel style Dev tools! What are time travel dev tools you say? What if, for every action you take in an application, you could replay what happened? Then you could step forward and backward through that series of actions to see the steps along the way. You can totally do that with Bansa!
+
+-- Note, fill this in more completely with an example.
+
 ## Examples
 
 There are a progression of examples that can be found in the "Examples" folder. If you're interested in progressing through them, the suggested order is:
