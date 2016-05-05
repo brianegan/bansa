@@ -18,22 +18,15 @@ public class BansaDevToolsPresenter<S> {
     private TextView action;
     private SeekBar seekBar;
     private Subscription subscription;
-    private boolean jumpActionFired;
+    private boolean jumpActionFired = false;
     private boolean isBound;
-
-    private View.OnTouchListener onSeekTouchListener = new View.OnTouchListener() {
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
-            seekBar.getParent().requestDisallowInterceptTouchEvent(true);
-            return false;
-        }
-    };
-
     private final SeekBar.OnSeekBarChangeListener onSeekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-            jumpActionFired = true;
-            devToolsStore.dispatch(DevToolsAction.createJumpToStateAction(progress));
+            if (isBound) {
+                jumpActionFired = true;
+                devToolsStore.dispatch(DevToolsAction.createJumpToStateAction(progress));
+            }
         }
 
         @Override
@@ -46,7 +39,13 @@ public class BansaDevToolsPresenter<S> {
 
         }
     };
-
+    private View.OnTouchListener onSeekTouchListener = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            seekBar.getParent().requestDisallowInterceptTouchEvent(true);
+            return false;
+        }
+    };
     private View.OnClickListener onSaveClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -80,7 +79,6 @@ public class BansaDevToolsPresenter<S> {
         reset.setOnClickListener(onResetClickListener);
         seekBar.setOnTouchListener(onSeekTouchListener);
 
-
         action.setText(devToolsStore.getDevToolsState().getCurrentAction().toString());
         subscription = this.devToolsStore.subscribe(new Subscriber<S>() {
             @Override
@@ -92,11 +90,11 @@ public class BansaDevToolsPresenter<S> {
                     public void run() {
                         action.setText(devToolsStore.getDevToolsState().getCurrentAction().toString());
 
-                        if (!jumpActionFired) {
+                        if (jumpActionFired) {
+                            jumpActionFired = false;
+                        } else {
                             seekBar.setMax(devToolsStore.getDevToolsState().getComputedStates().size() - 1);
                             seekBar.setProgress(devToolsStore.getDevToolsState().getComputedStates().size() - 1);
-                        } else {
-                            jumpActionFired = false;
                         }
                     }
                 };

@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:id="@+id/left"
-              android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
     <TextView
+        android:id="@+id/time_travel_heading"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/time_travel_dev_tools"
         android:gravity="center"
-        android:padding="20dp" />
+        android:padding="20dp"
+        android:text="@string/time_travel_dev_tools"
+        android:textStyle="bold"/>
 
     <SeekBar
         android:id="@+id/time_travel_seek_bar"
