@@ -3,29 +3,22 @@ package com.brianegan.bansaDevTools;
 import com.brianegan.bansa.Action;
 
 import java.util.List;
-import java.util.Set;
 
 public class DevToolsState<S> {
-    private final S committedState; // The last known committed state.
     private final List<S> computedStates; // List of computed states after committed.
     private final List<Action> stagedActions; // List of all currently staged actions.
-    private final Integer currentStateIndex; // Current state index in the computedStates List.
-    private final Set<Integer> skippedActionIndexes; // Set of action indexes that should be skipped.
+    private final Integer currentPosition; // Current state index in the computedStates List.
 
-    public DevToolsState(S committedState,
-                         List<S> computedStates,
+    public DevToolsState(List<S> computedStates,
                          List<Action> stagedActions,
-                         Integer currentStateIndex,
-                         Set<Integer> skippedActionIndexes) {
-        this.committedState = committedState;
+                         Integer currentPosition) {
         this.computedStates = computedStates;
         this.stagedActions = stagedActions;
-        this.currentStateIndex = currentStateIndex;
-        this.skippedActionIndexes = skippedActionIndexes;
+        this.currentPosition = currentPosition;
     }
 
     public S getCommittedState() {
-        return committedState;
+        return getComputedStates().get(0);
     }
 
     public List<S> getComputedStates() {
@@ -36,19 +29,15 @@ public class DevToolsState<S> {
         return stagedActions;
     }
 
-    public Integer getCurrentStateIndex() {
-        return currentStateIndex;
-    }
-
-    public Set<Integer> getSkippedActionIndexes() {
-        return skippedActionIndexes;
+    public Integer getCurrentPosition() {
+        return currentPosition;
     }
 
     public S getCurrentAppState() {
-        return getComputedStates().get(getCurrentStateIndex());
+        return getComputedStates().get(getCurrentPosition());
     }
 
     public Action getCurrentAction() {
-        return getStagedActions().get(getCurrentStateIndex());
+        return getStagedActions().get(getCurrentPosition());
     }
 }

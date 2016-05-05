@@ -18,14 +18,13 @@ public class DevToolsStore<S> implements Store<S> {
     @SafeVarargs
     public DevToolsStore(S initialState, Reducer<S> reducer, final Middleware<S>... middlewares) {
         final DevToolsState<S> devToolsState = new DevToolsState<>(
-                initialState,
-                Collections.<S>singletonList(initialState),
+                Collections.singletonList(initialState),
                 Collections.<Action>emptyList(),
-                0,
-                Collections.<Integer>emptySet());
+                0
+        );
 
         final DevToolsReducer<S> devToolsReducer =
-                new DevToolsReducer<S>(reducer);
+                new DevToolsReducer<>(reducer);
 
         devToolsStore = new BaseStore<>(devToolsState, devToolsReducer, toDevToolsMiddlewares(middlewares));
         dispatch(DevToolsAction.createInitAction());
@@ -35,7 +34,7 @@ public class DevToolsStore<S> implements Store<S> {
         List<Middleware<DevToolsState<S>>> devToolsMiddlewares = new LinkedList<>();
 
         for (final Middleware<S> middleware : middlewares) {
-            devToolsMiddlewares.add(new DevToolsMiddleware<S>(this, middleware));
+            devToolsMiddlewares.add(new DevToolsMiddleware<>(this, middleware));
         }
 
         return devToolsMiddlewares;

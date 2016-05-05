@@ -27,59 +27,75 @@ public class DevToolsReducer<S> implements Reducer<DevToolsState<S>> {
                 final S initialState = appReducer.reduce(state.getCurrentAppState(), action);
 
                 return new DevToolsState<>(
-                        initialState,
-                        Collections.<S>singletonList(initialState),
+                        Collections.singletonList(initialState),
                         Collections.singletonList(action),
-                        0,
-                        Collections.<Integer>emptySet());
+                        0
+                );
 
             case DevToolsAction.PERFORM_ACTION:
-                final boolean isAddingToEnd = state.getCurrentStateIndex() == state.getComputedStates().size() - 1;
-                final List<Action> actions = isAddingToEnd ? state.getStagedActions() : state.getStagedActions().subList(0, state.getCurrentStateIndex());
-                final List<S> states = isAddingToEnd ? state.getComputedStates() : state.getComputedStates().subList(0, state.getCurrentStateIndex());
-                List<Action> stagedActions = new ArrayList<>(actions);
-                List<S> computedStates = new ArrayList<>(states);
-                if (!isAddingToEnd) {
-                    computedStates.add(state.getCurrentAppState());
-                    stagedActions.add(devToolsAction.getAppAction());
-                }
+                final boolean addToEnd = state.getCurrentPosition() == state.getComputedStates().size() - 1;
 
-                computedStates.add(appReducer.reduce(state.getCurrentAppState(), devToolsAction.getAppAction()));
-                stagedActions.add(devToolsAction.getAppAction());
+                return performAction(
+                        state,
+                        devToolsAction,
+                        addToEnd ? state.getComputedStates() : state.getComputedStates().subList(0, state.getCurrentPosition() + 1),
+                        addToEnd ? state.getStagedActions() : state.getStagedActions().subList(0, state.getCurrentPosition() + 1));
 
+            case DevToolsAction.RESET:
                 return new DevToolsState<>(
-                        state.getCommittedState(),
-                        computedStates,
-                        stagedActions,
-                        computedStates.size() - 1,
-                        Collections.<Integer>emptySet());
-
-            case DevToolsAction.ROLLBACK:
-                return new DevToolsState<>(
-                        state.getCommittedState(),
-                        Collections.<S>singletonList(state.getCommittedState()),
+                        Collections.singletonList(state.getCommittedState()),
                         Collections.<Action>singletonList(devToolsAction),
-                        0,
-                        Collections.<Integer>emptySet());
+                        0);
 
-            case DevToolsAction.COMMIT:
+            case DevToolsAction.SAVE:
                 return new DevToolsState<>(
-                        state.getCurrentAppState(),
-                        Collections.<S>singletonList(state.getCurrentAppState()),
+                        Collections.singletonList(state.getCurrentAppState()),
                         Collections.singletonList(action),
-                        0,
-                        Collections.<Integer>emptySet());
+                        0);
 
             case DevToolsAction.JUMP_TO_STATE:
                 return new DevToolsState<>(
-                        state.getCommittedState(),
                         state.getComputedStates(),
                         state.getStagedActions(),
-                        devToolsAction.getIndex(),
-                        Collections.<Integer>emptySet());
+                        devToolsAction.getPosition());
+
+            case DevToolsAction.RECOMPUTE:
+                return new DevToolsState<>(
+                        recomputeStates(state.getComputedStates(), state.getStagedActions()),
+                        state.getStagedActions(),
+                        state.getStagedActions().size() - 1);
 
             default:
                 return state;
         }
+    }
+
+    private DevToolsState<S> performAction(DevToolsState<S> state,
+                                           DevToolsAction devToolsAction,
+                                           List<S> computedStates,
+                                           List<Action> stagedActions) {
+        List<S> newStates = new ArrayList<>(computedStates);
+        List<Action> newActions = new ArrayList<>(stagedActions);
+
+        newStates.add(appReducer.reduce(state.getCurrentAppState(), devToolsAction.getAppAction()));
+        newActions.add(devToolsAction.getAppAction());
+
+        return new DevToolsState<>(
+                newStates,
+                newActions,
+                newStates.size() - 1);
+    }
+
+    private List<S> recomputeStates(List<S> computedStates, List<Action> stagedActions) {
+        List<S> recomputedStates = new ArrayList<>(computedStates.size());
+        S currentState = computedStates.get(0);
+
+        for (int i = 0; i < computedStates.size(); i++) {
+            Action currentAction = stagedActions.get(i);
+            currentState = appReducer.reduce(currentState, currentAction);
+            recomputedStates.add(currentState);
+        }
+
+        return recomputedStates;
     }
 }

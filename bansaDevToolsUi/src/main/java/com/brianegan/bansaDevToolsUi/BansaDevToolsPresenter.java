@@ -49,13 +49,13 @@ public class BansaDevToolsPresenter<S> {
     private View.OnClickListener onSaveClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            devToolsStore.dispatch(DevToolsAction.createCommitAction());
+            devToolsStore.dispatch(DevToolsAction.createSaveAction());
         }
     };
     private View.OnClickListener onResetClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            devToolsStore.dispatch(DevToolsAction.createRollbackAction());
+            devToolsStore.dispatch(DevToolsAction.createResetAction());
         }
     };
 

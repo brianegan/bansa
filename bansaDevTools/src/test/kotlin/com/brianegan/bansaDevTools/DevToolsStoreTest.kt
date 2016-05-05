@@ -131,7 +131,7 @@ class DevToolsStoreTest {
         store.dispatch(TestAction(type = "to invoke"))
         assertThat(store.state.message).isEqualTo("oh hai")
 
-        store.dispatch(DevToolsAction.createRollbackAction())
+        store.dispatch(DevToolsAction.createResetAction())
         assertThat(store.state.message).isEqualTo(TestState().message)
     }
 }
