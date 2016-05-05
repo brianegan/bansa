@@ -1,12 +1,12 @@
 apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-apply plugin: 'maven'
+apply plugin: 'com.github.dcendents.android-maven'
 
 group = 'com.github.brianegan'
 
 buildscript {
     dependencies {
         classpath rootProject.ext.kotlinGradlePlugin
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.3'
     }
 }
 
