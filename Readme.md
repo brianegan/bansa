@@ -1,13 +1,13 @@
 Bansa
 =======
 
-This is my take on Redux, the state container for JavaScript apps. It's oriented toward developers who like RxJava and Kotlin!
+This is my take on Redux, the state container for JavaScript apps. It's oriented toward developers who like building React-style apps and Kotlin!
 
 Why the name Bansa? Because it means "Nation" in Filipino. And a nations are "state containers." Get it!? Oh ho ho ho. Continue on for more, dear reader.
 
 ## Get it!
 
-From [JitPack](https://jitpack.io/#brianegan/bansa/0.1.0)
+From [JitPack](https://jitpack.io/#brianegan/bansa)
  
 ## What's the goal?
 
@@ -19,7 +19,7 @@ That's what I'm going for with this project: I want a simple way to declare the 
 
 So where does Bansa fit into that picture, one might ask? It doesn't say anything on the box about making my life easier as a UI developer!?
 
-Bansa doesn't handle the UI magic. That's left to other tools, namely Anvil. Bansa is responsible for holding or "containing" the state of your application, and informing the UI layer (or database layer, or logging layer, etc) about updates to the state of the application.
+Bansa doesn't handle the UI magic. That's left to other tools, namely Anvil. Bansa is responsible for holding, or "containing," the state of your application, and informing the UI layer (or database layer, or logging layer, etc) about updates to the state of the application.
 
 The examples in this project simply show one person's vision for how we could think about Android App development, and whether we could make it easier and more fun.
  
@@ -42,14 +42,10 @@ Actions are payloads of information that send data from your application to your
 So here are the three actions we need for our counter app:
 
 ```kotlin
-sealed class CounterActions {
-    object INIT : CounterAction
-    object INCREMENT : CounterAction
-    object DECREMENT : CounterAction
-}
+object INIT : Action
+object INCREMENT : Action
+object DECREMENT : Action
 ```
-
-If you're unfamiliar with Kotlin, a `sealed class` is roughly the same as an `ENUM`
 
 ### Update the state with Reducers
 
@@ -58,11 +54,11 @@ Actions describe the fact that something happened, but don’t specify how the a
 Let's see some code and we'll chat about it afterwards:
 
 ```kotlin
-val reducer = Reducer<ApplicationState, CounterAction> { state, action ->
+val reducer = Reducer<ApplicationState> { state, action ->
     when (action) {
-        is CounterActions.INIT -> ApplicationState()
-        is CounterActions.INCREMENT -> state.copy(counter = state.counter.plus(1))
-        is CounterActions.DECREMENT -> state.copy(counter = state.counter.minus(1))
+        is INIT -> ApplicationState()
+        is INCREMENT -> state.copy(counter = state.counter.plus(1))
+        is DECREMENT -> state.copy(counter = state.counter.minus(1))
         else -> state
     }
 }
@@ -70,7 +66,7 @@ val reducer = Reducer<ApplicationState, CounterAction> { state, action ->
 
 So what's happening here? A reducer is a function that takes two arguments: the current state of the application, and the action that was fired. It returns an updated version of the state.
 
-In this example, when the "INIT" action is fired, we want to initialize the state of our application. Therefore, we return a new instance.
+In this example, when the `INIT` action is fired, we want to initialize the state of our application. Therefore, we return a new instance.
 
 When the `INCREMENT` action is fired, we want to simply increase the counter by 1.
 
@@ -116,11 +112,11 @@ ZOMG MY TEXT JUST UPDATED DUE TO A STATE CHANGE!!!
 
 ### Stay with me!
 
-I know what you're saying: "Bri, I've seen all this before. It's called an EVENT BUS." And you know what? You're pretty much right. This isn't anything radical, it's just gluing some pieces together in a different way. But just think about how we can use this simple pattern to simplify our UIs.
+I know what you're saying: "Bri, I've seen all this before. It's called an EVENT BUS." And you know what? You're pretty much right. This isn't anything radical, it's just gluing some pieces together in a different way. But just think about how we can use this pattern to simplify our UIs.
 
 ### Hooking it up to Anvil
 
-Ok, so now we have to chat about Anvil. It's a simple way to write UIs in Java & Kotlin, and it's magic. You simply describe your UI in Java / Kotlin code (not XML -- give it a few minutes, I think you'll fall in love), update the state, and call `Anvil.render()`. Then everything just updates! We've done it! We've achieved the goal set out in the opening paragraphs!!!
+Ok, so now we have to chat about Anvil. It's a simple way to write UIs in Java & Kotlin, and it might be a bit different than what you're used to. With Anvil, you simply describe your UI in Java / Kotlin code (not XML -- give it a few minutes, I think you'll fall in love), update the state, and call `Anvil.render()`. Then everything just updates! We've done it! We've achieved the goal set out in the opening paragraphs!!!
 
 So here's an example view. It's job is to create a linearLayout with three child views: A text view to display the current count, an plus button, and a minus button.
 
@@ -132,7 +128,7 @@ linearLayout {
     orientation(LinearLayout.VERTICAL)
 
     textView {
-        text("Counts: ${counter.toString()}") // The counter from our state model!
+        text("Counts: ${store.state.counter.toString()}") // The counter from our state model!
     }
 
     button {
@@ -171,6 +167,7 @@ There are a progression of examples that can be found in the "Examples" folder. 
   4. [List of counters variant](https://github.com/brianegan/bansa/tree/master/examples/listOfCountersVariant)
   5. [Random gif](https://github.com/brianegan/bansa/tree/master/examples/randomGif)
   6. [List of trending gifs](https://github.com/brianegan/bansa/tree/master/examples/listOfTrendingGifs)
+  7. [Todo List](https://github.com/brianegan/bansa/tree/master/examples/todoList)
 
 ## More docs -- public shameful note for Brian
 
@@ -181,11 +178,10 @@ Write sections for:
   * Combining reducers
   * Breaking down apps into smaller parts
   
-## Big problems to solve
+## Things to think about
 
-  * Memory usage: Is this a problem? Haven't used this in a large app yet. What's the memory profile, how can it be kept to a minimum?
   * How views should asynchronously request / remove data from the store upon instantiation and disposal if it's safe.
-  * What is the role of the database? First go to memory, then database, then internet fallback pattern?
+  * What is the role of the database? Store actions? Store models?
   * Could views describe their data requirements as queries, similar to Falcor or GraphQL?
 
 ## The tech setup
