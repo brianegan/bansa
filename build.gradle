@@ -28,7 +28,7 @@ task clean(type: Delete) {
 }
 
 ext {
-  buildToolsVersion = '23.0.2'
+  buildToolsVersion = '23.0.3'
 
   // Kotlin
   kotlinVersion = '1.0.1-2'

@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion '23.0.2'
+    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
         applicationId 'com.brianegan.bansa.counter'
@@ -40,8 +40,9 @@ buildscript {
 
 dependencies {
     compile project(':bansaKotlin')
-    compile project(':bansaDevTools')
-    compile project(':bansaDevToolsUi')
+
+    debugCompile project(':bansaDevTools')
+    debugCompile project(':bansaDevToolsUi')
 
     compile rootProject.ext.supportDesign
 
