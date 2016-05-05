@@ -50,19 +50,43 @@ class BansaDevToolsUiTest {
     }
 
     @Test
-    fun `ui should have a reset button`() {
+    fun `ui should have a button that resets the dev tools state`() {
         val parent = createDevToolsView();
-        val view = parent.findViewById(R.id.time_travel_reset)
+        val reset = parent.findViewById(R.id.time_travel_reset)
+        val seekBar = parent.findViewById(R.id.time_travel_seek_bar) as SeekBar
+        val store = createDevToolsStore() as DevToolsStore<TestState>
+        val testAction = TestAction("test")
+        val presenter = BansaDevToolsPresenter<TestState>(store)
+        presenter.bind(parent)
 
-        assertThat(view).isVisible;
+        store.dispatch(testAction)
+
+        assertThat(reset).isVisible;
+        Assertions.assertThat(seekBar.max).isEqualTo(1);
+
+        reset.performClick();
+        Assertions.assertThat(seekBar.max).isEqualTo(0);
+        Assertions.assertThat(store.state.msg).isEqualTo("default");
     }
 
     @Test
     fun `ui should have a save button`() {
         val parent = createDevToolsView();
-        val view = parent.findViewById(R.id.time_travel_save)
+        val save = parent.findViewById(R.id.time_travel_save)
+        val seekBar = parent.findViewById(R.id.time_travel_seek_bar) as SeekBar
+        val store = createDevToolsStore() as DevToolsStore<TestState>
+        val testAction = TestAction("test")
+        val presenter = BansaDevToolsPresenter<TestState>(store)
+        presenter.bind(parent)
 
-        assertThat(view).isVisible;
+        store.dispatch(testAction)
+
+        assertThat(save).isVisible;
+        Assertions.assertThat(seekBar.max).isEqualTo(1);
+
+        save.performClick();
+        Assertions.assertThat(seekBar.max).isEqualTo(0);
+        Assertions.assertThat(store.state.msg).isEqualTo("test");
     }
 
     @Test
@@ -84,6 +108,32 @@ class BansaDevToolsUiTest {
         assertThat(view).hasText(testAction2.toString())
     }
 
+    @Test
+    fun `should be able to unbind the presenter`() {
+        val parent = createDevToolsView();
+        val view = parent.findViewById(R.id.time_travel_action) as TextView
+        val seekBar = parent.findViewById(R.id.time_travel_seek_bar) as SeekBar
+        val store = createDevToolsStore()
+        val testAction1 = TestAction("test")
+        val testAction2 = TestAction("test2")
+        val testAction3 = TestAction("test3")
+        val presenter = BansaDevToolsPresenter<TestState>(store)
+        presenter.bind(parent)
+
+        store.dispatch(testAction1)
+
+        assertThat(view).isVisible;
+        assertThat(view).hasText(testAction1.toString())
+
+        store.dispatch(testAction2)
+        assertThat(view).hasText(testAction2.toString())
+
+        presenter.unbind()
+        store.dispatch(testAction3)
+        assertThat(view).hasText(testAction2.toString())
+        Assertions.assertThat(seekBar.max).isEqualTo(2)
+    }
+
     private fun createActivity(): Activity {
         return Robolectric.setupActivity(Activity::class.java);
     }
@@ -97,12 +147,15 @@ class BansaDevToolsUiTest {
         return DevToolsStore(TestState(), TestReducer())
     }
 
-    data class TestState(val msg: String = "Default");
+    data class TestState(val msg: String = "default");
     data class TestAction(val msg: String) : Action
 
     private class TestReducer : Reducer<TestState> {
         override fun reduce(state: TestState, action: Action): TestState {
-            return state;
+            when (action) {
+                is TestAction -> return state.copy(action.msg)
+                else -> return state
+            }
         }
     }
 }

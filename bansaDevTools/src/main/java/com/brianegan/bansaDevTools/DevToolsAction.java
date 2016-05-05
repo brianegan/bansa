@@ -2,7 +2,7 @@ package com.brianegan.bansaDevTools;
 
 import com.brianegan.bansa.Action;
 
-public class DevToolsAction implements Action {
+final public class DevToolsAction implements Action {
     public static final String PERFORM_ACTION = "PERFORM_ACTION";
     public static final String JUMP_TO_STATE = "JUMP_TO_STATE";
     public static final String SAVE = "SAVE";
@@ -10,47 +10,41 @@ public class DevToolsAction implements Action {
     public static final String RECOMPUTE = "RECOMPUTE";
     public static final String TOGGLE_ACTION = "TOGGLE_ACTION";
     static final String INIT = "INIT";
+
     private final String type;
     private final Action appAction;
     private final Integer position;
-    private final Boolean isEnabled;
 
     private DevToolsAction(String type,
                            Action appAction,
-                           Integer position,
-                           Boolean isEnabled) {
+                           Integer position) {
         this.type = type;
         this.appAction = appAction;
         this.position = position;
-        this.isEnabled = isEnabled;
     }
 
     public static DevToolsAction createPerformAction(Action appAction) {
-        return new DevToolsAction(PERFORM_ACTION, appAction, null, null);
+        return new DevToolsAction(PERFORM_ACTION, appAction, null);
     }
 
     public static DevToolsAction createJumpToStateAction(int index) {
-        return new DevToolsAction(JUMP_TO_STATE, null, index, null);
+        return new DevToolsAction(JUMP_TO_STATE, null, index);
     }
 
     public static DevToolsAction createSaveAction() {
-        return new DevToolsAction(SAVE, null, null, null);
+        return new DevToolsAction(SAVE, null, null);
     }
 
     public static DevToolsAction createResetAction() {
-        return new DevToolsAction(RESET, null, null, null);
+        return new DevToolsAction(RESET, null, null);
     }
 
     public static DevToolsAction createRecomputeAction() {
-        return new DevToolsAction(RECOMPUTE, null, null, null);
+        return new DevToolsAction(RECOMPUTE, null, null);
     }
 
     static DevToolsAction createInitAction() {
-        return new DevToolsAction(INIT, null, null, null);
-    }
-
-    public static DevToolsAction createToggleAction(int position, boolean isEnabled) {
-        return new DevToolsAction(TOGGLE_ACTION, null, position, isEnabled);
+        return new DevToolsAction(INIT, null, null);
     }
 
     public String getType() {
@@ -65,10 +59,6 @@ public class DevToolsAction implements Action {
         return position;
     }
 
-    public boolean isEnabled() {
-        return isEnabled;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -76,21 +66,21 @@ public class DevToolsAction implements Action {
 
         DevToolsAction that = (DevToolsAction) o;
 
-        return type.equals(that.type)
-                && (appAction != null ? appAction.equals(that.appAction)
+        return type != null
+                ? type.equals(that.type)
+                : that.type == null && (appAction != null
+                ? appAction.equals(that.appAction)
                 : that.appAction == null && (position != null
                 ? position.equals(that.position)
-                : that.position == null && (isEnabled != null
-                ? isEnabled.equals(that.isEnabled)
-                : that.isEnabled == null)));
+                : that.position == null));
+
     }
 
     @Override
     public int hashCode() {
-        int result = type.hashCode();
+        int result = type != null ? type.hashCode() : 0;
         result = 31 * result + (appAction != null ? appAction.hashCode() : 0);
         result = 31 * result + (position != null ? position.hashCode() : 0);
-        result = 31 * result + (isEnabled != null ? isEnabled.hashCode() : 0);
         return result;
     }
 }
