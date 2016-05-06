@@ -7,7 +7,19 @@ Why the name Bansa? Because it means "Nation" in Filipino. And a nations are "st
 
 ## Get it!
 
-From [JitPack](https://jitpack.io/#brianegan/bansa)
+```groovy
+// Base package. Everything else is built upon it!
+compile 'com.github.brianegan.bansa:bansa:1.0.0-beta'
+
+// If you'd like a more functional interface in Kotlin, go ahead and use the Kotlin Extensions.
+compile = 'com.github.brianegan.bansa:bansaKotlin:1.0.0-beta'
+
+// Time Travel Dev Tools! Highly recommended you only use them
+// for development, as the store takes up more memory! Note: You can use
+// the provided UI, or write your own!
+debugCompile = 'com.github.brianegan.bansa:bansaDevTools:1.0.0-beta'
+debugCompile = 'com.github.brianegan.bansa:bansaDevToolsUi:1.0.0-beta'
+```
  
 ## What's the goal?
 
