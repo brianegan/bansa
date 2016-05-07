@@ -46,9 +46,11 @@ buildscript {
 
 dependencies {
   compile project(':bansaKotlin')
-
-  debugCompile project(':bansaDevTools')
   debugCompile project(':bansaDevToolsUi')
+
+  // Sample gradle import for use in a third-party app
+  // compile 'com.github.brianegan.bansa:bansaKotlin:1.0.0-beta'
+  // debugCompile 'com.github.brianegan.bansa:bansaDevToolsUi:1.0.0-beta'
 
   compile rootProject.ext.appCompatV7
   compile rootProject.ext.supportDesign
