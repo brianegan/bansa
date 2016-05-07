@@ -169,11 +169,13 @@ counterStore.subscribe({
 
 That's right: When a user clicks "+", the increment action will be fired, the reducer will update the state, and our UI will auto-render with the new info. WHAAAAAAAAAAT.
 
-## Ðev Tools
+## Dev Tools
 
-Maybe one of the cooler things about this pattern is that it happens to lend itself well to time-travel style Dev tools! What are time travel dev tools you say? What if, for every action you take in an application, you could replay what happened? Then you could step forward and backward through that series of actions to see the steps along the way. You can totally do that with Bansa!
+Maybe one of the cooler bonuses about this pattern is that it happens to lend itself well to time-travel style Dev tools! What are time travel dev tools you say? What if, for every action you take in an application, you could replay what happened? Then you could step forward and backward through that series of actions to see the steps along the way. You can totally do that with Bansa!
 
--- Note, fill this in more completely with an example.
+More documentation needs to be written about implementing the Time Travel Dev tools, but for now, please see the [Counter](https://github.com/brianegan/bansa/tree/master/examples/counter) example as a reference implementation! It should be possible to get the Dev Tools up and running with only a small amount of code.
+
+
 
 ## Examples
 
@@ -201,6 +203,19 @@ Write sections for:
   * How views should asynchronously request / remove data from the store upon instantiation and disposal if it's safe.
   * What is the role of the database? Store actions? Store models?
   * Could views describe their data requirements as queries, similar to Falcor or GraphQL?
+
+
+## Technical Goals
+
+If you're thinking of writing your own version of Redux in Java: I'd say, go for it! This libray has benefitted tremendously from the various versions that have been written thus far, and the current version is an attempt to synthesize the best parts of each implementation. When evaluating the various libs, I came up with a bucket list for what this library should accomplish for a 1.0 release:
+
+  * Idiomatic Java and Kotlin usage.
+  * Low method count
+  * Easy to pick up, even if you come from a less functional background.
+  * Support for all basic Redux concepts in the smallest possible package. This includes the Store, Middleware, Reducers, and Subscribers/Subscriptions, and combining Reducers.
+  * Dev Tools that allow for Time Travel debugging
+  * Interface that allows for sharable middleware & reducers (such as Logging middelware, or Undo/Redo reducer helpers)
+  * Well tested
 
 ## The tech setup
 
