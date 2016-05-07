@@ -175,7 +175,9 @@ Maybe one of the cooler bonuses about this pattern is that it happens to lend it
 
 More documentation needs to be written about implementing the Time Travel Dev tools, but for now, please see the [Counter](https://github.com/brianegan/bansa/tree/master/examples/counter) example as a reference implementation! It should be possible to get the Dev Tools up and running with only a small amount of code.
 
+### Dev Tools Screenshot
 
+![Screenshot of the Dev Tools in action](https://cloud.githubusercontent.com/assets/126604/15054510/299c7d82-1308-11e6-9e49-5db7cda8d9c9.gif)
 
 ## Examples
 
