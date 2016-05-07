@@ -44,7 +44,7 @@ We'll demonstrate using a simple counter example!
 All we need for a simple counter example is the value of one counter. In one delicate line with Kotlin:
 
 ```kotlin
-data class ApplicationState(val counter: Int = 0) : State
+data class ApplicationState(val counter: Int = 0)
 ```
 
 ### Define the types of actions of your application
