@@ -35,6 +35,9 @@ ext {
   kotlinGradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
   kotlinRuntime = "org.jetbrains.kotlin:kotlin-runtime:$kotlinVersion"
   kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+  kovenantVersion ='3.2.2'
+  kovenantMain = "nl.komponents.kovenant:kovenant:$kovenantVersion"
+  kovenantAndroid = "nl.komponents.kovenant:kovenant-android:$kovenantVersion"
 
   // UI
   appCompatV7 = "com.android.support:appcompat-v7:23.1.1"

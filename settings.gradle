@@ -1,5 +1,6 @@
 include 'bansa'
 include 'bansaKotlin'
+include 'bansaKotlinAsyncAction'
 include 'bansaDevTools'
 include 'bansaDevToolsUi'
 include ':examples:counter'
