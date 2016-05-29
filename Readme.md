@@ -8,6 +8,12 @@ Why the name Bansa? Because it means "Nation" in Filipino. And a nations are "st
 ## Get it!
 
 ```groovy
+// First, add JitPack to your repositories
+repositories {
+	...
+	maven { url "https://jitpack.io" }
+}
+
 // Base package. Everything else is built upon it!
 compile 'com.github.brianegan.bansa:bansa:1.0.0-beta'
 
