@@ -4,11 +4,9 @@ import android.content.Context
 import android.view.View
 import com.brianegan.bansa.Store
 import com.brianegan.bansa.Subscription
-import com.brianegan.bansaDevToolsUi.BansaDevToolsPresenter
 import trikita.anvil.Anvil
 
 class RootView(c: Context, val store: Store<ApplicationState>) : RenderableDrawerLayout(c) {
-    private var presenter: BansaDevToolsPresenter<ApplicationState> = BansaDevToolsPresenter<ApplicationState>(store);
 
     override fun view() {
         counterScreen(buildPresentationModel())
