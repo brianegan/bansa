@@ -3,7 +3,7 @@ Bansa
 
 This is my take on Redux, the state container for JavaScript apps. It's oriented toward developers who like building React-style apps and Kotlin!
 
-Why the name Bansa? Because it means "Nation" in Filipino. And a nations are "state containers." Get it!? Oh ho ho ho. Continue on for more, dear reader.
+Why the name Bansa? Because it means "Nation" in Filipino. And nations are "state containers." Get it!? Oh ho ho ho. Continue on for more, dear reader.
 
 ## Get it!
 
