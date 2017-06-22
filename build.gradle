@@ -31,7 +31,7 @@ ext {
   buildToolsVersion = '23.0.3'
 
   // Kotlin
-  kotlinVersion = '1.0.1-2'
+  kotlinVersion = '1.1.2'
   kotlinGradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
   kotlinRuntime = "org.jetbrains.kotlin:kotlin-runtime:$kotlinVersion"
   kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
