@@ -1,9 +1,12 @@
 buildscript {
   repositories {
     jcenter()
+    maven {
+      url "https://maven.google.com"
+    }
   }
   dependencies {
-    classpath 'com.android.tools.build:gradle:1.5.0'
+    classpath 'com.android.tools.build:gradle:2.3.3'
   }
 }
 
@@ -13,6 +16,9 @@ allprojects {
     mavenCentral()
     maven { url "https://jitpack.io" }
     maven { url "http://repository.jetbrains.com/all" }
+    maven {
+      url "https://maven.google.com"
+    }
   }
   buildscript {
     repositories {
@@ -28,7 +34,7 @@ task clean(type: Delete) {
 }
 
 ext {
-  buildToolsVersion = '23.0.3'
+  buildToolsVersion = '25.0.2'
 
   // Kotlin
   kotlinVersion = '1.1.2'
@@ -37,7 +43,7 @@ ext {
   kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
 
   // UI
-  appCompatV7 = "com.android.support:appcompat-v7:23.1.1"
+  appCompatV7 = "com.android.support:appcompat-v7:25.4.0"
   anvilVersion = '0.3.6'
   anvil = "co.trikita:anvil-sdk15:$anvilVersion"
   anvilRecyclerView = "co.trikita:anvil-recyclerview-v7:$anvilVersion"
@@ -46,7 +52,7 @@ ext {
   anvilSupportV4 = "co.trikita:anvil-support-v4:$anvilVersion"
   anvilDesignSupport = "co.trikita:anvil-design:$anvilVersion"
   picasso = 'com.squareup.picasso:picasso:2.5.2'
-  supportDesign = 'com.android.support:design:23.3.0'
+  supportDesign = 'com.android.support:design:25.4.0'
 
   // Libs
   dexx = 'com.github.andrewoma.dexx:kollection:0.5'
