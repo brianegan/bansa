@@ -215,14 +215,14 @@ Write sections for:
 
 ## Technical Goals
 
-If you're thinking of writing your own version of Redux in Java: I'd say, go for it! This libray has benefitted tremendously from the various versions that have been written thus far, and the current version is an attempt to synthesize the best parts of each implementation. When evaluating the various libs, I came up with a bucket list for what this library should accomplish for a 1.0 release:
+If you're thinking of writing your own version of Redux in Java: I'd say, go for it! This library has benefitted tremendously from the various versions that have been written thus far, and the current version is an attempt to synthesize the best parts of each implementation. When evaluating the various libs, I came up with a bucket list for what this library should accomplish for a 1.0 release:
 
   * Idiomatic Java and Kotlin usage.
   * Low method count
   * Easy to pick up, even if you come from a less functional background.
   * Support for all basic Redux concepts in the smallest possible package. This includes the Store, Middleware, Reducers, and Subscribers/Subscriptions, and combining Reducers.
   * Dev Tools that allow for Time Travel debugging
-  * Interface that allows for sharable middleware & reducers (such as Logging middelware, or Undo/Redo reducer helpers)
+  * Interface that allows for sharable middleware & reducers (such as Logging middleware, or Undo/Redo reducer helpers)
   * Well tested
 
 ## The tech setup
